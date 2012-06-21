@@ -1,4 +1,4 @@
-package com.loki2302.jsick.model.expressions;
+package com.loki2302.jsick.compiler.model.expressions;
 
 public class SubExpression extends BinaryExpression {
 

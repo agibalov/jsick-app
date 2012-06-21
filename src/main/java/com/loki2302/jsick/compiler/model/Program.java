@@ -1,4 +1,4 @@
-package com.loki2302.jsick.model;
+package com.loki2302.jsick.compiler.model;
 
 import java.util.List;
 

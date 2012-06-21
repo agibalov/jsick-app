@@ -9,10 +9,10 @@ import com.loki2302.jsick.compiler.expressiondetails.BinaryExpressionCompilation
 import com.loki2302.jsick.compiler.expressiondetails.ExpressionCompilationDetails;
 import com.loki2302.jsick.compiler.expressiondetails.ExpressionCompiler;
 import com.loki2302.jsick.compiler.expressiondetails.BinaryExpressionCompilationDetails.CommonnessKind;
-import com.loki2302.jsick.model.expressions.AddExpression;
-import com.loki2302.jsick.model.expressions.Expression;
-import com.loki2302.jsick.model.expressions.LiteralExpression;
-import com.loki2302.jsick.model.expressions.VariableReferenceExpression;
+import com.loki2302.jsick.compiler.model.expressions.AddExpression;
+import com.loki2302.jsick.compiler.model.expressions.Expression;
+import com.loki2302.jsick.compiler.model.expressions.LiteralExpression;
+import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 

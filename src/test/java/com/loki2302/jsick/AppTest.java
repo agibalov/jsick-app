@@ -5,7 +5,7 @@ import org.jmock.Mockery;
 import org.junit.Test;
 
 import com.loki2302.jsick.compiler.VmCompiler;
-import com.loki2302.jsick.model.Program;
+import com.loki2302.jsick.compiler.model.Program;
 import com.loki2302.jsick.parser.ParserService;
 import com.loki2302.jsick.parser.tree.ProgramNode;
 import com.loki2302.jsick.vm.Printer;

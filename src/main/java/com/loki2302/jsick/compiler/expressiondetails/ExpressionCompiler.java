@@ -1,10 +1,10 @@
 package com.loki2302.jsick.compiler.expressiondetails;
 
 import com.loki2302.jsick.compiler.LexicalContext;
-import com.loki2302.jsick.model.expressions.BinaryExpression;
-import com.loki2302.jsick.model.expressions.Expression;
-import com.loki2302.jsick.model.expressions.LiteralExpression;
-import com.loki2302.jsick.model.expressions.VariableReferenceExpression;
+import com.loki2302.jsick.compiler.model.expressions.BinaryExpression;
+import com.loki2302.jsick.compiler.model.expressions.Expression;
+import com.loki2302.jsick.compiler.model.expressions.LiteralExpression;
+import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 import com.loki2302.jsick.types.JType;
