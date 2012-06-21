@@ -2,14 +2,14 @@ package com.loki2302.jsick.model.expressions;
 
 public class LiteralExpression extends Expression {
 	
-	private final int value;
+	private final String value;
 	
-	public LiteralExpression(int value) {
+	public LiteralExpression(String value) {
 		this.value = value;
 	}
 	
-	public int getValue() {
+	public String getValue() {
 		return value;
 	}
-	
+		
 }

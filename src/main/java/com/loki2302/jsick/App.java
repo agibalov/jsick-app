@@ -1,11 +1,11 @@
 package com.loki2302.jsick;
 
+import com.loki2302.jsick.compiler.VmCompiler;
 import com.loki2302.jsick.model.Program;
 import com.loki2302.jsick.parser.ParserService;
 import com.loki2302.jsick.parser.tree.ProgramNode;
 import com.loki2302.jsick.vm.PrintStreamPrinter;
 import com.loki2302.jsick.vm.VirtualMachine;
-import com.loki2302.jsick.vm.VmCompiler;
 import com.loki2302.jsick.vm.VmProgram;
 
 public class App {

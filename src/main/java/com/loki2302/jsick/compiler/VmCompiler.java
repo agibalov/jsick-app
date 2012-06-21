@@ -1,9 +1,7 @@
-package com.loki2302.jsick.vm;
+package com.loki2302.jsick.compiler;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.loki2302.jsick.model.AssignmentExpressionStatement;
 import com.loki2302.jsick.model.PrintStatement;
@@ -16,6 +14,7 @@ import com.loki2302.jsick.model.expressions.LiteralExpression;
 import com.loki2302.jsick.model.expressions.MulExpression;
 import com.loki2302.jsick.model.expressions.SubExpression;
 import com.loki2302.jsick.model.expressions.VariableReferenceExpression;
+import com.loki2302.jsick.vm.VmProgram;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntAddInstruction;
 import com.loki2302.jsick.vm.instructions.IntDivInstruction;
@@ -31,28 +30,27 @@ public class VmCompiler {
 	public static VmProgram compile(Program program) {
 		List<Instruction> instructions = new ArrayList<Instruction>();
 	
-		int currentPosition = 0;
-		Map<String, Integer> positionsByNames = new HashMap<String, Integer>(); 
+		LexicalContext lexicalContext = new LexicalContext(); 
 		
 		for(Statement statement : program.getStatements()) {
 			if(statement instanceof AssignmentExpressionStatement) {
 				AssignmentExpressionStatement assignment = (AssignmentExpressionStatement)statement;
 				String name = assignment.getName();
 				
-				if(!positionsByNames.containsKey(name)) {
-					positionsByNames.put(name, currentPosition++);
+				if(!lexicalContext.hasVariable(name)) {
+					lexicalContext.addVariable(name);
 				}
-				int position = positionsByNames.get(name);
+				int position = lexicalContext.getVariablePosition(name);
 				
 				Expression expression = assignment.getExpression();
-				List<Instruction> expressionCode = compileExpression(expression, positionsByNames);
+				List<Instruction> expressionCode = compileExpression(expression, lexicalContext);
 				instructions.addAll(expressionCode);
 				instructions.add(new SaveLocalInstruction(position));
 			} else if(statement instanceof PrintStatement) {
 				PrintStatement print = (PrintStatement)statement;
 				
 				Expression expression = print.getExpression();
-				List<Instruction> expressionCode = compileExpression(expression, positionsByNames);
+				List<Instruction> expressionCode = compileExpression(expression, lexicalContext);
 				instructions.addAll(expressionCode);
 				instructions.add(new PrintIntInstruction());
 			} else {
@@ -63,49 +61,49 @@ public class VmCompiler {
 		return new VmProgram(instructions);		
 	}
 	
-	private static List<Instruction> compileExpression(Expression expression, Map<String, Integer> positionsByNames) {
-		List<Instruction> instructions = new ArrayList<Instruction>();
-		
+	private static List<Instruction> compileExpression(Expression expression, LexicalContext lexicalContext) {
+		List<Instruction> instructions = new ArrayList<Instruction>();		
+				
 		if(expression instanceof LiteralExpression) {
 			LiteralExpression literalExpression = (LiteralExpression)expression;
-			instructions.add(new PushIntInstruction(literalExpression.getValue()));
+			instructions.add(new PushIntInstruction(Integer.parseInt(literalExpression.getValue())));
 		} else if(expression instanceof AddExpression) {
 			AddExpression addExpression = (AddExpression)expression;
-			List<Instruction> leftInstructions = compileExpression(addExpression.getLeft(), positionsByNames);
-			List<Instruction> rightInstructions = compileExpression(addExpression.getRight(), positionsByNames);
+			List<Instruction> leftInstructions = compileExpression(addExpression.getLeft(), lexicalContext);
+			List<Instruction> rightInstructions = compileExpression(addExpression.getRight(), lexicalContext);
 			instructions.addAll(leftInstructions);
 			instructions.addAll(rightInstructions);
 			instructions.add(new IntAddInstruction());
 		} else if(expression instanceof SubExpression) {
 			SubExpression subExpression = (SubExpression)expression;
-			List<Instruction> leftInstructions = compileExpression(subExpression.getLeft(), positionsByNames);
-			List<Instruction> rightInstructions = compileExpression(subExpression.getRight(), positionsByNames);
+			List<Instruction> leftInstructions = compileExpression(subExpression.getLeft(), lexicalContext);
+			List<Instruction> rightInstructions = compileExpression(subExpression.getRight(), lexicalContext);
 			instructions.addAll(leftInstructions);
 			instructions.addAll(rightInstructions);
 			instructions.add(new IntSubInstruction());
 		} else if(expression instanceof MulExpression) {
 			MulExpression mulExpression = (MulExpression)expression;
-			List<Instruction> leftInstructions = compileExpression(mulExpression.getLeft(), positionsByNames);
-			List<Instruction> rightInstructions = compileExpression(mulExpression.getRight(), positionsByNames);
+			List<Instruction> leftInstructions = compileExpression(mulExpression.getLeft(), lexicalContext);
+			List<Instruction> rightInstructions = compileExpression(mulExpression.getRight(), lexicalContext);
 			instructions.addAll(leftInstructions);
 			instructions.addAll(rightInstructions);
 			instructions.add(new IntMulInstruction());
 		} else if(expression instanceof DivExpression) {
 			DivExpression divExpression = (DivExpression)expression;
-			List<Instruction> leftInstructions = compileExpression(divExpression.getLeft(), positionsByNames);
-			List<Instruction> rightInstructions = compileExpression(divExpression.getRight(), positionsByNames);
+			List<Instruction> leftInstructions = compileExpression(divExpression.getLeft(), lexicalContext);
+			List<Instruction> rightInstructions = compileExpression(divExpression.getRight(), lexicalContext);
 			instructions.addAll(leftInstructions);
 			instructions.addAll(rightInstructions);
 			instructions.add(new IntDivInstruction());
 		} else if(expression instanceof VariableReferenceExpression) {
 			VariableReferenceExpression variableReferenceExpression = (VariableReferenceExpression)expression;
 			String name = variableReferenceExpression.getName();			
-			instructions.add(new LoadLocalInstruction(positionsByNames.get(name)));
+			instructions.add(new LoadLocalInstruction(lexicalContext.getVariablePosition(name)));
 		} else {		
 			throw new RuntimeException();
 		}
 		
 		return instructions;
 	}
-
+	
 }

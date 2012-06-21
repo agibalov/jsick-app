@@ -5,5 +5,5 @@ public class MulExpression extends BinaryExpression {
 	public MulExpression(Expression left, Expression right) {
 		super(left, right);
 	}
-
+	
 }

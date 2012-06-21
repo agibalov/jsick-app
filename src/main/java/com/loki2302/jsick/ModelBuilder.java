@@ -61,8 +61,7 @@ public class ModelBuilder {
 		Expression expression = null;
 		if(expressionNode instanceof LiteralExpressionNode) {
 			LiteralExpressionNode literalExpressionNode = (LiteralExpressionNode)expressionNode;
-			int value = Integer.parseInt(literalExpressionNode.getValue());
-			expression = new LiteralExpression(value);
+			expression = new LiteralExpression(literalExpressionNode.getValue());
 		} else if(expressionNode instanceof VariableReferenceNode) {
 			VariableReferenceNode variableReferenceNode = (VariableReferenceNode)expressionNode;
 			String name = variableReferenceNode.getName();

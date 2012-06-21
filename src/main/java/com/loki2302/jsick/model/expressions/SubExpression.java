@@ -5,5 +5,5 @@ public class SubExpression extends BinaryExpression {
 	public SubExpression(Expression left, Expression right) {
 		super(left, right);
 	}
-	
+
 }
