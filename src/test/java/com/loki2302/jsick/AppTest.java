@@ -20,6 +20,6 @@ public class AppTest {
 		ExecutionContext context = new ExecutionContext();
 		program.execute(context);
 		
-		assertEquals(181, context.getVariableValue("z"));
+		assertEquals(185, context.getVariableValue("z"));
 	}
 }

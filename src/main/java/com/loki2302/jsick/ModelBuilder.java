@@ -3,11 +3,11 @@ package com.loki2302.jsick;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loki2302.jsick.model.AssignmentExpressionStatement;
 import com.loki2302.jsick.model.PrintStatement;
 import com.loki2302.jsick.model.Program;
 import com.loki2302.jsick.model.Statement;
 import com.loki2302.jsick.model.expressions.AddExpression;
+import com.loki2302.jsick.model.expressions.AssignmentExpressionStatement;
 import com.loki2302.jsick.model.expressions.DivExpression;
 import com.loki2302.jsick.model.expressions.Expression;
 import com.loki2302.jsick.model.expressions.LiteralExpression;

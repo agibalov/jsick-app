@@ -1,6 +1,7 @@
-package com.loki2302.jsick.model;
+package com.loki2302.jsick.model.expressions;
 
-import com.loki2302.jsick.model.expressions.Expression;
+import com.loki2302.jsick.model.ExecutionContext;
+import com.loki2302.jsick.model.Statement;
 
 public class AssignmentExpressionStatement extends Statement {
 	
