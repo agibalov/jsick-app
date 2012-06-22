@@ -9,11 +9,7 @@ public class LiteralExpression extends Expression {
 	public LiteralExpression(int value) {
 		this.value = value;
 	}
-	
-	public int getValue() {
-		return value;
-	}
-	
+		
 	@Override
 	public int getValue(ExecutionContext context) {
 		return value;

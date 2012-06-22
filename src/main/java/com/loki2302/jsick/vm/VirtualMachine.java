@@ -82,11 +82,11 @@ public class VirtualMachine {
 	}
 	
 	public void printInt() {
-		printer.printInt((Integer)stack.pop()); // jmock for this
+		printer.printInt((Integer)stack.pop());
 	}
 	
 	public void printDouble() {		
-		printer.printDouble((Double)stack.pop()); // jmock for this
+		printer.printDouble((Double)stack.pop());
 	}
 	
 	Object peek() {
