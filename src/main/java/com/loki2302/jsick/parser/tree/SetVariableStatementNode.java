@@ -1,6 +1,4 @@
-package com.loki2302.jsick.nodes;
-
-import com.loki2302.jsick.ExecutionContext;
+package com.loki2302.jsick.parser.tree;
 
 public class SetVariableStatementNode extends StatementNode {
 	
@@ -19,13 +17,7 @@ public class SetVariableStatementNode extends StatementNode {
 	public ExpressionNode getExpression() {
 		return expression;
 	}
-	
-	@Override
-	void execute(ExecutionContext context) {
-		System.out.printf("SET %s to %s\n", name, expression.getValue(context));
-		context.setVariable(name, expression.getValue(context));
-	}
-	
+		
 	@Override
 	public String toString() {
 		return String.format("Set{%s}", name);

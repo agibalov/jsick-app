@@ -1,4 +1,4 @@
-package com.loki2302.jsick;
+package com.loki2302.jsick.model;
 
 import java.util.HashMap;
 import java.util.Map;

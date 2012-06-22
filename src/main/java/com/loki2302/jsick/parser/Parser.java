@@ -1,22 +1,23 @@
-package com.loki2302.jsick;
+package com.loki2302.jsick.parser;
 
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.support.Var;
 
-import com.loki2302.jsick.nodes.ArithmExpressionNode;
-import com.loki2302.jsick.nodes.ExpressionNode;
-import com.loki2302.jsick.nodes.LiteralExpressionNode;
-import com.loki2302.jsick.nodes.Node;
-import com.loki2302.jsick.nodes.PrintVariableStatementNode;
-import com.loki2302.jsick.nodes.ProgramNode;
-import com.loki2302.jsick.nodes.SetVariableStatementNode;
-import com.loki2302.jsick.nodes.StatementNode;
-import com.loki2302.jsick.nodes.VariableReferenceNode;
+import com.loki2302.jsick.parser.tree.ArithmExpressionNode;
+import com.loki2302.jsick.parser.tree.ExpressionNode;
+import com.loki2302.jsick.parser.tree.LiteralExpressionNode;
+import com.loki2302.jsick.parser.tree.Node;
+import com.loki2302.jsick.parser.tree.PrintStatementNode;
+import com.loki2302.jsick.parser.tree.ProgramNode;
+import com.loki2302.jsick.parser.tree.SetVariableStatementNode;
+import com.loki2302.jsick.parser.tree.StatementNode;
+import com.loki2302.jsick.parser.tree.VariableReferenceNode;
+
 
 public class Parser extends BaseParser<Node> {
 	
-	Rule program() {
+	public Rule program() {
 		ProgramNode programNode = new ProgramNode();
 		return Sequence(				
 				OneOrMore(
@@ -49,7 +50,7 @@ public class Parser extends BaseParser<Node> {
 		return Sequence(
 				"?",
 				expression(),
-				push(new PrintVariableStatementNode((ExpressionNode)pop()))
+				push(new PrintStatementNode((ExpressionNode)pop()))
 				);		
 	}
 		
@@ -67,7 +68,7 @@ public class Parser extends BaseParser<Node> {
 	Rule literalExpression() {
 		return Sequence(
 				OneOrMore(CharRange('0', '9')),
-				push(new LiteralExpressionNode(Integer.parseInt(match()))));
+				push(new LiteralExpressionNode(match())));
 	}
 	
 	Rule variableName() {

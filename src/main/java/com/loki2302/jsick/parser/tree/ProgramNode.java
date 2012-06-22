@@ -1,9 +1,8 @@
-package com.loki2302.jsick.nodes;
+package com.loki2302.jsick.parser.tree;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loki2302.jsick.ExecutionContext;
 
 public class ProgramNode extends Node {
 	
@@ -20,14 +19,7 @@ public class ProgramNode extends Node {
 	public Iterable<StatementNode> getStatements() {
 		return statements;
 	}
-	
-	public void execute() {
-		ExecutionContext context = new ExecutionContext();
-		for(StatementNode statement : statements) {
-			statement.execute(context);
-		}
-	}
-	
+		
 	@Override
 	public String toString() {
 		return String.format("Program{%d}", statements.size());

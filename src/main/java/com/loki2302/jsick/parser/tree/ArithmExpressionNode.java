@@ -1,6 +1,4 @@
-package com.loki2302.jsick.nodes;
-
-import com.loki2302.jsick.ExecutionContext;
+package com.loki2302.jsick.parser.tree;
 
 public class ArithmExpressionNode extends ExpressionNode {
 	
@@ -13,20 +11,17 @@ public class ArithmExpressionNode extends ExpressionNode {
 		this.b = b;
 		this.op = op;
 	}
-
-	@Override
-	public int getValue(ExecutionContext context) {
-		if(op == Operation.Add) {
-			return a.getValue(context) + b.getValue(context);
-		} else if(op == Operation.Sub) {
-			return a.getValue(context) - b.getValue(context);
-		} else if(op == Operation.Mul) {
-			return a.getValue(context) * b.getValue(context);
-		} else if(op == Operation.Div) {
-			return a.getValue(context) / b.getValue(context);
-		}
-		
-		throw new RuntimeException();		
+	
+	public ExpressionNode getA() {
+		return a;
+	}
+	
+	public ExpressionNode getB() {
+		return b;
+	}
+	
+	public Operation getOperation() {
+		return op;
 	}
 	
 	public static Operation operationFromChar(char c) {
