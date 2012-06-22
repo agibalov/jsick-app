@@ -9,11 +9,9 @@ public class Program {
 	public Program(List<Statement> statements) {
 		this.statements = statements;
 	}
-	
-	public void execute(ExecutionContext context) {		
-		for(Statement statement : statements) {
-			statement.execute(context);
-		}		
+		
+	public List<Statement> getStatements() {
+		return statements;
 	}
 
 }

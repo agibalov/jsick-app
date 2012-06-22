@@ -4,6 +4,7 @@ import java.util.Stack;
 
 public class VirtualMachine {
 	
+	private final Object[] locals = new Object[256];
 	private final Stack<Object> stack = new Stack<Object>();
 	private final Printer printer;
 	
@@ -79,6 +80,14 @@ public class VirtualMachine {
 	public void intToDouble() {
 		int a = (Integer)stack.pop();
 		stack.push((double)a);
+	}
+	
+	public void saveLocal(int index) {
+		locals[index] = stack.pop();
+	}
+	
+	public void loadLocal(int index) {
+		stack.push(locals[index]);
 	}
 	
 	public void printInt() {

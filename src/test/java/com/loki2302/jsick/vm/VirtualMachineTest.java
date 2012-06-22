@@ -121,7 +121,18 @@ public class VirtualMachineTest {
 		vm.pushDouble(3.14);
 		vm.doubleToInt();
 		assertEquals(1, vm.size());
-		assertEquals(3, (Integer)vm.peek(), DELTA);
+		assertEquals(3, (int)(Integer)vm.peek());
+	}
+	
+	@Test
+	public void localsTest() {
+		VirtualMachine vm = new VirtualMachine();
+		vm.pushInt(1);
+		vm.saveLocal(0);
+		assertEquals(0, vm.size());
+		vm.loadLocal(0);
+		assertEquals(1, vm.size());
+		assertEquals(1, (int)(Integer)vm.peek());
 	}
 	
 	@Test

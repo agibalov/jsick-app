@@ -1,7 +1,5 @@
 package com.loki2302.jsick.model.expressions;
 
-import com.loki2302.jsick.model.ExecutionContext;
-
 public abstract class BinaryExpression extends Expression {
 
 	private final Expression left;
@@ -12,15 +10,12 @@ public abstract class BinaryExpression extends Expression {
 		this.right = right;
 	}
 	
-	protected Expression getLeft() {
+	public Expression getLeft() {
 		return left;
 	}
 	
-	protected Expression getRight() {
+	public Expression getRight() {
 		return right;
 	}
 	
-	@Override
-	public abstract int getValue(ExecutionContext context);
-
 }

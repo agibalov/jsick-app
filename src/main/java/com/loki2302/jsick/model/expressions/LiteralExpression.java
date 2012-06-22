@@ -1,7 +1,5 @@
 package com.loki2302.jsick.model.expressions;
 
-import com.loki2302.jsick.model.ExecutionContext;
-
 public class LiteralExpression extends Expression {
 	
 	private final int value;
@@ -9,10 +7,9 @@ public class LiteralExpression extends Expression {
 	public LiteralExpression(int value) {
 		this.value = value;
 	}
-		
-	@Override
-	public int getValue(ExecutionContext context) {
+	
+	public int getValue() {
 		return value;
 	}
-
+	
 }
