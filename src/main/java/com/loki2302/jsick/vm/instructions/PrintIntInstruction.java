@@ -8,5 +8,10 @@ public class PrintIntInstruction extends Instruction {
 	public void execute(VirtualMachine vm) {
 		vm.printInt();		
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("print.i");
+	}
 
 }

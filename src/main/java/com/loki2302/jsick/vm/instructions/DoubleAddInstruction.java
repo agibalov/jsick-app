@@ -8,5 +8,10 @@ public class DoubleAddInstruction extends Instruction {
 	public void execute(VirtualMachine vm) {
 		vm.doubleAdd();		
 	}
+	
+	@Override
+	public String toString() {
+		return "add.d";
+	}
 
 }

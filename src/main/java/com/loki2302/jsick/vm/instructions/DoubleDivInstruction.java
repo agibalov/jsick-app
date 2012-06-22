@@ -9,4 +9,9 @@ public class DoubleDivInstruction extends Instruction {
 		vm.doubleDiv();		
 	}
 
+	@Override
+	public String toString() {
+		return "div.d";
+	}
+
 }

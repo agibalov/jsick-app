@@ -9,4 +9,9 @@ public class DoubleToIntInstruction extends Instruction {
 		vm.doubleToInt();		
 	}
 
+	@Override
+	public String toString() {
+		return "cast.d.i";
+	}
+
 }

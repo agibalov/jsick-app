@@ -9,4 +9,9 @@ public class IntSubInstruction extends Instruction {
 		vm.intSub();		
 	}
 
+	@Override
+	public String toString() {
+		return "sub.i";
+	}
+
 }

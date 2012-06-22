@@ -9,4 +9,9 @@ public class IntToDoubleInstruction extends Instruction {
 		vm.intToDouble();		
 	}
 
+	@Override
+	public String toString() {
+		return "cast.i.d";
+	}
+	
 }

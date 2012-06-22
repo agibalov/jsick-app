@@ -15,4 +15,9 @@ public class SaveLocalInstruction extends Instruction {
 		vm.saveLocal(index);		
 	}
 
+	@Override
+	public String toString() {
+		return String.format("save.%d", index);
+	}
+
 }

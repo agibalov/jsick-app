@@ -9,4 +9,9 @@ public class DoubleMulInstruction extends Instruction {
 		vm.doubleMul();		
 	}
 
+	@Override
+	public String toString() {
+		return "mul.d";
+	}
+
 }

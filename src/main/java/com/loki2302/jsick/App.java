@@ -18,6 +18,8 @@ public class App {
 		Program program = ModelBuilder.build(programNode);
 		
 		VmProgram vmProgram = VmCompiler.compile(program);
+		vmProgram.dump();
+		
 		VirtualMachine vm = new VirtualMachine(new PrintStreamPrinter(System.out));
 		vmProgram.execute(vm);
     }

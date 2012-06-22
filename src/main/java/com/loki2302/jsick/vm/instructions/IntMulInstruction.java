@@ -9,4 +9,9 @@ public class IntMulInstruction extends Instruction {
 		vm.intMul();		
 	}
 
+	@Override
+	public String toString() {
+		return "mul.i";
+	}
+	
 }

@@ -17,5 +17,11 @@ public class VmProgram {
 			instruction.execute(vm);
 		}
 	}
+	
+	public void dump() {
+		for(Instruction instruction : instructions) {
+			System.out.println(instruction);
+		}
+	}
 
 }

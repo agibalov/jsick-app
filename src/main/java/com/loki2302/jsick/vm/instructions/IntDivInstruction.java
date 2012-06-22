@@ -9,4 +9,9 @@ public class IntDivInstruction extends Instruction {
 		vm.intDiv();		
 	}
 
+	@Override
+	public String toString() {
+		return "div.i";
+	}
+
 }

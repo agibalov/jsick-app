@@ -15,4 +15,9 @@ public class PushDoubleInstruction extends Instruction {
 		vm.pushDouble(x);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("push.d %f", x);
+	}
+
 }

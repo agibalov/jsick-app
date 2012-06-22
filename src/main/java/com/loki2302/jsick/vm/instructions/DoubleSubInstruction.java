@@ -9,4 +9,9 @@ public class DoubleSubInstruction extends Instruction {
 		vm.doubleSub();		
 	}
 
+	@Override
+	public String toString() {
+		return "sub.d";
+	}
+
 }

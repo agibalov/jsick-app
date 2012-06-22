@@ -9,4 +9,9 @@ public class IntAddInstruction extends Instruction {
 		vm.intAdd();		
 	}
 
+	@Override
+	public String toString() {
+		return "add.i";
+	}
+
 }

@@ -9,4 +9,9 @@ public class PrintDoubleInstruction extends Instruction {
 		vm.printDouble();		
 	}
 
+	@Override
+	public String toString() {
+		return String.format("print.d");
+	}
+
 }

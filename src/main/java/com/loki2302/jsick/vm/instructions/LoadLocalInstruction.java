@@ -15,4 +15,9 @@ public class LoadLocalInstruction extends Instruction {
 		vm.loadLocal(index);		
 	}
 
+	@Override
+	public String toString() {
+		return String.format("load.%d", index);
+	}
+	
 }

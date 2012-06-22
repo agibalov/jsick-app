@@ -15,4 +15,9 @@ public class PushIntInstruction extends Instruction {
 		vm.pushInt(x);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("push.i %d", x);
+	}
+	
 }
