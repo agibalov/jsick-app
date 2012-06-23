@@ -3,7 +3,7 @@ package com.loki2302.jsick;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loki2302.jsick.compiler.model.AssignmentExpressionStatement;
+import com.loki2302.jsick.compiler.model.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.PrintStatement;
 import com.loki2302.jsick.compiler.model.Program;
 import com.loki2302.jsick.compiler.model.Statement;
@@ -51,7 +51,7 @@ public class ModelBuilder {
 			String name = setVariableStatementNode.getName();
 			ExpressionNode expressionNode = setVariableStatementNode.getExpression();
 			Expression expression = makeExpression(expressionNode);
-			statement = new AssignmentExpressionStatement(name, expression);
+			statement = new AssignmentStatement(name, expression);
 		} else {
 			throw new RuntimeException();
 		}

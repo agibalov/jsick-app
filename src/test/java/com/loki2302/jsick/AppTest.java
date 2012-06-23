@@ -4,7 +4,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Test;
 
-import com.loki2302.jsick.compiler.VmCompiler;
+import com.loki2302.jsick.compiler.ProgramCompiler;
 import com.loki2302.jsick.compiler.model.Program;
 import com.loki2302.jsick.parser.ParserService;
 import com.loki2302.jsick.parser.tree.ProgramNode;
@@ -30,7 +30,7 @@ public class AppTest {
 			oneOf(printer).printInt(181);
 		}});
 		
-		VmProgram vmProgram = VmCompiler.compile(program);
+		VmProgram vmProgram = new VmProgram(ProgramCompiler.compile(program).getInstructions());
 		
 		VirtualMachine vm = new VirtualMachine(printer);
 		vmProgram.execute(vm);

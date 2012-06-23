@@ -28,4 +28,8 @@ public class LexicalContext {
 		return positionsByNames.containsKey(name);
 	}
 	
+	public void setVariableType(String name, JType type) {
+		variableTypesByNames.put(name, type);
+	}
+	
 }
