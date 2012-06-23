@@ -35,8 +35,7 @@ public class ModelBuilder {
 			statements.add(statement);
 		}
 		
-		return new Program(statements);
-		
+		return new Program(statements);		
 	}
 	
 	private static Statement makeStatement(StatementNode statementNode) {

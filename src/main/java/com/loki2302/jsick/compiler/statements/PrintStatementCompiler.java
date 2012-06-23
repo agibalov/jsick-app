@@ -42,7 +42,7 @@ public class PrintStatementCompiler extends AbstractStatementCompiler<PrintState
 		} else if(result.getType().equals(doubleType)) {
 			instructions.add(new PrintDoubleInstruction());
 		} else {
-			StatementCompilationResult.error(new PrintNotDefinedForType());
+			StatementCompilationResult.error(new PrintNotDefinedForType(result.getType()));
 		}
 		
 		return StatementCompilationResult.ok(instructions);

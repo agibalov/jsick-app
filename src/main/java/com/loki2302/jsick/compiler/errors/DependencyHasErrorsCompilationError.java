@@ -17,4 +17,18 @@ public class DependencyHasErrorsCompilationError extends CompilationError {
 		this.badResults.add(badResult);
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Dependency has errors [");
+		for(ExpressionCompilationResult badResult : badResults) {
+			for(CompilationError error : badResult.getErrors()) {
+				sb.append(error);
+				sb.append(", ");
+			}
+		}
+		sb.append("]");
+		return sb.toString();
+	}
+	
 }

@@ -49,7 +49,7 @@ public class ExpressionCompiler extends AbstractExpressionCompiler<Expression> {
 			return divExpressionCompiler.compile((DivExpression)expression);
 		}
 		
-		return ExpressionCompilationResult.error(new UnknownExpressionClassCompilationError());
+		return ExpressionCompilationResult.error(new UnknownExpressionClassCompilationError(expression));
 	}
 
 }

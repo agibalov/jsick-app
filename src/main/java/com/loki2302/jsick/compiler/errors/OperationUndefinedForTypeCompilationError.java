@@ -11,6 +11,11 @@ public class OperationUndefinedForTypeCompilationError extends CompilationError 
 		this.operation = operation;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("Operation %s not defined for type %s", operation, type.getName());
+	}
+	
 	public static enum Operation {
 		Add,
 		Sub,

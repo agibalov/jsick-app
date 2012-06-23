@@ -11,6 +11,11 @@ public class CannotDeduceCommonTypeCompilationError extends CompilationError {
 		this.type1 = type1;
 		this.type2 = type2;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("Cannot deduce common type for %s and %s", type1.getName(), type2.getName());
+	}
 
 }
 

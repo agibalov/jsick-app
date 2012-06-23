@@ -27,6 +27,6 @@ public class StatementCompiler extends AbstractStatementCompiler<Statement> {
 			return assignmentCompiler.compile((AssignmentStatement)statement);
 		}
 		
-		return StatementCompilationResult.error(new UnknownStatementClassCompilationError());
+		return StatementCompilationResult.error(new UnknownStatementClassCompilationError(statement));
 	}
 }
