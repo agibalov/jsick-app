@@ -9,14 +9,16 @@ import com.loki2302.jsick.compiler.model.Program;
 import com.loki2302.jsick.compiler.model.Statement;
 import com.loki2302.jsick.compiler.model.expressions.AddExpression;
 import com.loki2302.jsick.compiler.model.expressions.DivExpression;
+import com.loki2302.jsick.compiler.model.expressions.DoubleLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
-import com.loki2302.jsick.compiler.model.expressions.LiteralExpression;
+import com.loki2302.jsick.compiler.model.expressions.IntLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.MulExpression;
 import com.loki2302.jsick.compiler.model.expressions.SubExpression;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.parser.tree.ArithmExpressionNode;
+import com.loki2302.jsick.parser.tree.DoubleLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.ExpressionNode;
-import com.loki2302.jsick.parser.tree.LiteralExpressionNode;
+import com.loki2302.jsick.parser.tree.IntLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.PrintStatementNode;
 import com.loki2302.jsick.parser.tree.ProgramNode;
 import com.loki2302.jsick.parser.tree.SetVariableStatementNode;
@@ -59,9 +61,12 @@ public class ModelBuilder {
 	
 	private static Expression makeExpression(ExpressionNode expressionNode) {
 		Expression expression = null;
-		if(expressionNode instanceof LiteralExpressionNode) {
-			LiteralExpressionNode literalExpressionNode = (LiteralExpressionNode)expressionNode;
-			expression = new LiteralExpression(literalExpressionNode.getValue());
+		if(expressionNode instanceof IntLiteralExpressionNode) {
+			IntLiteralExpressionNode literalExpressionNode = (IntLiteralExpressionNode)expressionNode;
+			expression = new IntLiteralExpression(literalExpressionNode.getValue());
+		} else if(expressionNode instanceof DoubleLiteralExpressionNode) {
+			DoubleLiteralExpressionNode literalExpressionNode = (DoubleLiteralExpressionNode)expressionNode;
+			expression = new DoubleLiteralExpression(literalExpressionNode.getValue());
 		} else if(expressionNode instanceof VariableReferenceNode) {
 			VariableReferenceNode variableReferenceNode = (VariableReferenceNode)expressionNode;
 			String name = variableReferenceNode.getName();

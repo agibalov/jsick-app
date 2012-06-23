@@ -10,8 +10,9 @@ import com.loki2302.jsick.compiler.expressiondetails.ExpressionCompilationDetail
 import com.loki2302.jsick.compiler.expressiondetails.ExpressionCompiler;
 import com.loki2302.jsick.compiler.expressiondetails.BinaryExpressionCompilationDetails.CommonnessKind;
 import com.loki2302.jsick.compiler.model.expressions.AddExpression;
+import com.loki2302.jsick.compiler.model.expressions.DoubleLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
-import com.loki2302.jsick.compiler.model.expressions.LiteralExpression;
+import com.loki2302.jsick.compiler.model.expressions.IntLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
@@ -24,7 +25,7 @@ public class ExpressionCompilerTest {
 	@Test
 	public void goodIntShouldBeTreatedAsInt() {
 		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
-		Expression e = new LiteralExpression("1");
+		Expression e = new IntLiteralExpression("1");
 		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
 		assertFalse(d.hasErrors());
 		assertEquals(intType, d.getType());		
@@ -33,16 +34,24 @@ public class ExpressionCompilerTest {
 	@Test
 	public void goodDoubleShouldBeTreatedAsDouble() {
 		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
-		Expression e = new LiteralExpression("3.14");
+		Expression e = new DoubleLiteralExpression("3.14");
 		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
 		assertFalse(d.hasErrors());
 		assertEquals(doubleType, d.getType());		
 	}
 	
 	@Test
-	public void badLiteralShouldBeTreatedAsError() {
+	public void badIntLiteralShouldBeTreatedAsError() {
 		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
-		Expression e = new LiteralExpression("abc");
+		Expression e = new IntLiteralExpression("abc");
+		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
+		assertTrue(d.hasErrors());
+	}
+	
+	@Test
+	public void badDoubleLiteralShouldBeTreatedAsError() {
+		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
+		Expression e = new DoubleLiteralExpression("abc");
 		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
 		assertTrue(d.hasErrors());
 	}
@@ -50,8 +59,8 @@ public class ExpressionCompilerTest {
 	@Test
 	public void sumOfIntsShouldBeInt() {
 		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
-		Expression left = new LiteralExpression("1");
-		Expression right = new LiteralExpression("2");
+		Expression left = new IntLiteralExpression("1");
+		Expression right = new IntLiteralExpression("2");
 		Expression e = new AddExpression(left, right);
 		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
 		assertFalse(d.hasErrors());
@@ -62,8 +71,8 @@ public class ExpressionCompilerTest {
 	@Test
 	public void sumOfDoublesShouldBeDouble() {
 		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
-		Expression left = new LiteralExpression("1.1");
-		Expression right = new LiteralExpression("2.1");
+		Expression left = new DoubleLiteralExpression("1.1");
+		Expression right = new DoubleLiteralExpression("2.1");
 		Expression e = new AddExpression(left, right);
 		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
 		assertFalse(d.hasErrors());
@@ -74,8 +83,8 @@ public class ExpressionCompilerTest {
 	@Test
 	public void sumOfDoubleAndIntShouldBeDouble() {
 		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
-		Expression left = new LiteralExpression("1.1");
-		Expression right = new LiteralExpression("2");
+		Expression left = new DoubleLiteralExpression("1.1");
+		Expression right = new IntLiteralExpression("2");
 		Expression e = new AddExpression(left, right);
 		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
 		assertFalse(d.hasErrors());
@@ -86,8 +95,8 @@ public class ExpressionCompilerTest {
 	@Test
 	public void sumOfIntAndDoubleShouldBeDouble() {
 		ExpressionCompiler expressionCompiler = makeExpressionCompiler();		
-		Expression left = new LiteralExpression("1");
-		Expression right = new LiteralExpression("2.1");
+		Expression left = new IntLiteralExpression("1");
+		Expression right = new DoubleLiteralExpression("2.1");
 		Expression e = new AddExpression(left, right);
 		ExpressionCompilationDetails d = expressionCompiler.analyze(e);
 		assertFalse(d.hasErrors());

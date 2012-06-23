@@ -3,6 +3,8 @@ package com.loki2302.jsick.compiler.expressiondetails;
 import com.loki2302.jsick.compiler.LexicalContext;
 import com.loki2302.jsick.compiler.model.expressions.BinaryExpression;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
+import com.loki2302.jsick.compiler.model.expressions.IntLiteralExpression;
+import com.loki2302.jsick.compiler.model.expressions.DoubleLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.LiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.DoubleType;
@@ -22,21 +24,26 @@ public class ExpressionCompiler {
 	}
 	
 	public ExpressionCompilationDetails analyze(Expression expression) {
-		if(expression instanceof LiteralExpression) {
+		if(expression instanceof IntLiteralExpression) {
 			LiteralExpression litExpression = (LiteralExpression)expression;
 			String stringValue = litExpression.getValue();
-			
+				
 			try {
 				Integer.parseInt(stringValue);
 				return LiteralExpressionCompilationDetails.ok(intType);
 			} catch(NumberFormatException e) {
-				try {
-					Double.parseDouble(stringValue);
-					return LiteralExpressionCompilationDetails.ok(doubleType);
-				} catch(NumberFormatException e2) {
-					return LiteralExpressionCompilationDetails.cantUnderstandLiteral(); 
-				}
-			} 
+				return LiteralExpressionCompilationDetails.cantUnderstandLiteral();
+			}
+		} else if(expression instanceof DoubleLiteralExpression) {
+			LiteralExpression litExpression = (LiteralExpression)expression;
+			String stringValue = litExpression.getValue();
+				
+			try {
+				Double.parseDouble(stringValue);
+				return LiteralExpressionCompilationDetails.ok(doubleType);
+			} catch(NumberFormatException e) {
+				return LiteralExpressionCompilationDetails.cantUnderstandLiteral();
+			}			
 		} else if(expression instanceof VariableReferenceExpression) {
 			VariableReferenceExpression refExpression = (VariableReferenceExpression)expression;
 			if(lexicalContext.hasVariable(refExpression.getName())) {

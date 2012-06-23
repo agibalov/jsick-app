@@ -1,6 +1,6 @@
 package com.loki2302.jsick.compiler.model.expressions;
 
-public class LiteralExpression extends Expression {
+public abstract class LiteralExpression extends Expression {
 	
 	private final String value;
 	

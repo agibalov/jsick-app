@@ -9,12 +9,7 @@ public class LexicalContext {
 	private int currentPosition;
 	private final Map<String, Integer> positionsByNames = new HashMap<String, Integer>();
 	private final Map<String, JType> variableTypesByNames = new HashMap<String, JType>();
-	
-	public void addVariable(String name) {
-		positionsByNames.put(name, currentPosition);
-		++currentPosition;
-	}
-	
+		
 	public void addVariable(String name, JType type) {
 		positionsByNames.put(name, currentPosition);
 		variableTypesByNames.put(name, type);

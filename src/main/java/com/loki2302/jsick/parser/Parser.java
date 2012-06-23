@@ -5,8 +5,9 @@ import org.parboiled.Rule;
 import org.parboiled.support.Var;
 
 import com.loki2302.jsick.parser.tree.ArithmExpressionNode;
+import com.loki2302.jsick.parser.tree.DoubleLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.ExpressionNode;
-import com.loki2302.jsick.parser.tree.LiteralExpressionNode;
+import com.loki2302.jsick.parser.tree.IntLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.Node;
 import com.loki2302.jsick.parser.tree.PrintStatementNode;
 import com.loki2302.jsick.parser.tree.ProgramNode;
@@ -66,9 +67,24 @@ public class Parser extends BaseParser<Node> {
 	}
 	
 	Rule literalExpression() {
+		return FirstOf(
+				doubleLiteralExpression(), 
+				intLiteralExpression());
+	}
+	
+	Rule intLiteralExpression() {
 		return Sequence(
 				OneOrMore(CharRange('0', '9')),
-				push(new LiteralExpressionNode(match())));
+				push(new IntLiteralExpressionNode(match())));
+	}
+	
+	Rule doubleLiteralExpression() {
+		return Sequence(
+				Sequence(
+					OneOrMore(CharRange('0', '9')),
+					".",
+					OneOrMore(CharRange('0', '9'))),
+				push(new DoubleLiteralExpressionNode(match())));
 	}
 	
 	Rule variableName() {
