@@ -10,8 +10,8 @@ Code:
     z = (x + y) / 2.0; // dividing int by double causes z to be double
     ? x; // print x
     ? y;
-		? z;
-		? z - 4; // print (z - 4)
+    ? z;
+    ? z - 4; // print (z - 4)
 
 Compiled as:
 
