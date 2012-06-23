@@ -7,8 +7,8 @@ import com.loki2302.jsick.compiler.LexicalContext;
 import com.loki2302.jsick.compiler.errors.DependencyHasErrorsCompilationError;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompilationResult;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
-import com.loki2302.jsick.compiler.model.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
+import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.SaveLocalInstruction;
 
@@ -29,7 +29,7 @@ public class AssignmentStatementCompiler extends AbstractStatementCompiler<Assig
 		
 		ExpressionCompilationResult result = expressionCompiler.compile(expression);
 		if(result.hasErrors()) {
-			return StatementCompilationResult.error(new DependencyHasErrorsCompilationError(result));
+			return StatementCompilationResult.error(new DependencyHasErrorsCompilationError(result, statement));
 		}
 				
 		if(lexicalContext.hasVariable(name)) {

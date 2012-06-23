@@ -20,7 +20,7 @@ public class IntLiteralExpressionCompiler extends AbstractExpressionCompiler<Int
 			int value = Integer.parseInt(stringValue);
 			return ExpressionCompilationResult.ok(new PushIntInstruction(value), intType);
 		} catch(NumberFormatException e) {
-			return ExpressionCompilationResult.error(new BadIntLiteralCompilationError());
+			return ExpressionCompilationResult.error(new BadIntLiteralCompilationError(expression));
 		}			
 	}		
 }

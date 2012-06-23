@@ -27,8 +27,8 @@ public class AddExpressionCompiler extends AbstractBinaryArithmeticExpressionCom
 	}
 
 	@Override
-	protected CompilationError makeOperationUndefinedForTypeError(JType type) {
-		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Add, type);
+	protected CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext) {
+		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Add, type, sourceContext);
 	}	
 
 }

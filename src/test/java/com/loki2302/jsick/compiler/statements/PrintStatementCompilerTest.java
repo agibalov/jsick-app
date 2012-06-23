@@ -6,10 +6,10 @@ import org.junit.Test;
 
 import com.loki2302.jsick.compiler.LexicalContext;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
-import com.loki2302.jsick.compiler.model.PrintStatement;
 import com.loki2302.jsick.compiler.model.expressions.DoubleLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.compiler.model.expressions.IntLiteralExpression;
+import com.loki2302.jsick.compiler.model.statements.PrintStatement;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 

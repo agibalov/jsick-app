@@ -6,7 +6,7 @@ import java.util.List;
 import com.loki2302.jsick.compiler.errors.CompilationError;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
 import com.loki2302.jsick.compiler.model.Program;
-import com.loki2302.jsick.compiler.model.Statement;
+import com.loki2302.jsick.compiler.model.statements.Statement;
 import com.loki2302.jsick.compiler.statements.StatementCompilationResult;
 import com.loki2302.jsick.compiler.statements.StatementCompiler;
 import com.loki2302.jsick.types.DoubleType;

@@ -6,7 +6,8 @@ public class PrintNotDefinedForType extends CompilationError {
 	
 	private final JType type;
 	
-	public PrintNotDefinedForType(JType type) {
+	public PrintNotDefinedForType(JType type, Object sourceContext) {
+		super(sourceContext);
 		this.type = type;
 	}
 	

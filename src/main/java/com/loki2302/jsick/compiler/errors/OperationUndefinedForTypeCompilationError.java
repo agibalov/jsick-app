@@ -6,7 +6,8 @@ public class OperationUndefinedForTypeCompilationError extends CompilationError 
 	private final JType type;
 	private final Operation operation;
 	
-	public OperationUndefinedForTypeCompilationError(Operation operation, JType type) {
+	public OperationUndefinedForTypeCompilationError(Operation operation, JType type, Object sourceContext) {
+		super(sourceContext);
 		this.type = type;
 		this.operation = operation;
 	}

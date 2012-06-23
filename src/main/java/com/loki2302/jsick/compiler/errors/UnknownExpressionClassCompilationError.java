@@ -6,7 +6,8 @@ public class UnknownExpressionClassCompilationError extends CompilationError {
 	
 	private final Expression expression;
 	
-	public UnknownExpressionClassCompilationError(Expression expression) {
+	public UnknownExpressionClassCompilationError(Expression expression, Object sourceContext) {
+		super(sourceContext);
 		this.expression = expression;
 	}
 	

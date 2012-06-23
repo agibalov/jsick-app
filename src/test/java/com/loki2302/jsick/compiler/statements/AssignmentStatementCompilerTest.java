@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import com.loki2302.jsick.compiler.LexicalContext;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
-import com.loki2302.jsick.compiler.model.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.expressions.IntLiteralExpression;
+import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 

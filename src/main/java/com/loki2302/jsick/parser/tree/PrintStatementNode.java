@@ -1,10 +1,13 @@
 package com.loki2302.jsick.parser.tree;
 
+import org.parboiled.support.IndexRange;
+
 public class PrintStatementNode extends StatementNode {
 	
 	private final ExpressionNode expression;
 	
-	public PrintStatementNode(ExpressionNode expression) {
+	public PrintStatementNode(ExpressionNode expression, IndexRange indexRange) {
+		super(indexRange);
 		this.expression = expression;
 	}
 	

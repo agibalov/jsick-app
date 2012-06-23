@@ -1,12 +1,15 @@
 package com.loki2302.jsick.parser.tree;
 
+import org.parboiled.support.IndexRange;
+
 public class ArithmExpressionNode extends ExpressionNode {
 	
 	private final ExpressionNode a;
 	private final ExpressionNode b;
 	private final Operation op;
 	
-	public ArithmExpressionNode(ExpressionNode a, ExpressionNode b, Operation op) {
+	public ArithmExpressionNode(ExpressionNode a, ExpressionNode b, Operation op, IndexRange indexRange) {
+		super(indexRange);
 		this.a = a;
 		this.b = b;
 		this.op = op;

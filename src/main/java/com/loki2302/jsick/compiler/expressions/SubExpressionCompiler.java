@@ -27,8 +27,8 @@ public class SubExpressionCompiler extends AbstractBinaryArithmeticExpressionCom
 	}
 
 	@Override
-	protected CompilationError makeOperationUndefinedForTypeError(JType type) {
-		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Sub, type);
+	protected CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext) {
+		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Sub, type, sourceContext);
 	}	
 
 }

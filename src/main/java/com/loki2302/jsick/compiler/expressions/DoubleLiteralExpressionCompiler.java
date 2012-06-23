@@ -20,7 +20,7 @@ public class DoubleLiteralExpressionCompiler extends AbstractExpressionCompiler<
 			double value = Double.parseDouble(stringValue);
 			return ExpressionCompilationResult.ok(new PushDoubleInstruction(value), doubleType);
 		} catch(NumberFormatException e) {
-			return ExpressionCompilationResult.error(new BadDoubleLiteralCompilationError());
+			return ExpressionCompilationResult.error(new BadDoubleLiteralCompilationError(expression));
 		}			
 	}		
 }

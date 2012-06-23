@@ -1,15 +1,11 @@
 package com.loki2302.jsick.compiler.model.expressions;
 
-public abstract class Expression {
+import com.loki2302.jsick.compiler.SourceContextAware;
 
-	private final Object sourceContext;
+public abstract class Expression extends SourceContextAware {
 	
 	protected Expression(Object sourceContext) {
-		this.sourceContext = sourceContext;
+		super(sourceContext);
 	}
-	
-	public Object getSourceContext() {
-		return sourceContext;
-	}
-	
+		
 }

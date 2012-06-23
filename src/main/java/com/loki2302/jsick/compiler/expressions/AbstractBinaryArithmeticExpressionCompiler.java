@@ -45,7 +45,7 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 		}
 		
 		if(!badResults.isEmpty()) {
-			return ExpressionCompilationResult.error(new DependencyHasErrorsCompilationError(badResults));
+			return ExpressionCompilationResult.error(new DependencyHasErrorsCompilationError(badResults, expression));
 		}
 		
 		JType leftType = leftResult.getType();
@@ -74,7 +74,7 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 		}
 		
 		if(operationType == null) {
-			return ExpressionCompilationResult.error(new CannotDeduceCommonTypeCompilationError(leftType, rightType));
+			return ExpressionCompilationResult.error(new CannotDeduceCommonTypeCompilationError(leftType, rightType, expression));
 		}
 		
 		if(operationType.equals(intType)) {
@@ -82,7 +82,7 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 		} else if(operationType.equals(doubleType)) {
 			instructions.add(makeDoubleOperationInstruction());
 		} else {
-			return ExpressionCompilationResult.error(makeOperationUndefinedForTypeError(operationType));
+			return ExpressionCompilationResult.error(makeOperationUndefinedForTypeError(operationType, expression));
 		}
 		
 		return ExpressionCompilationResult.ok(instructions, operationType);		
@@ -90,6 +90,6 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 	
 	protected abstract Instruction makeIntOperationInstruction(); 
 	protected abstract Instruction makeDoubleOperationInstruction();
-	protected abstract CompilationError makeOperationUndefinedForTypeError(JType type);
+	protected abstract CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext);
 }
 

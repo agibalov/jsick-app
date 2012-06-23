@@ -3,12 +3,15 @@ package com.loki2302.jsick.parser.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.parboiled.support.IndexRange;
+
 
 public class ProgramNode extends Node {
 	
 	private final List<StatementNode> statements = new ArrayList<StatementNode>();
 	
-	public ProgramNode() {
+	public ProgramNode(IndexRange indexRange) {
+		super(indexRange);
 	}
 	
 	public boolean addStatement(StatementNode statement) {

@@ -1,4 +1,4 @@
-package com.loki2302.jsick.compiler.model;
+package com.loki2302.jsick.compiler.model.statements;
 
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 

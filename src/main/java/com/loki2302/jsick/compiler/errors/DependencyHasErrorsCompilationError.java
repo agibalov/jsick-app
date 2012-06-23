@@ -9,11 +9,13 @@ public class DependencyHasErrorsCompilationError extends CompilationError {
 	
 	private final List<ExpressionCompilationResult> badResults = new ArrayList<ExpressionCompilationResult>();
 	
-	public DependencyHasErrorsCompilationError(List<? extends ExpressionCompilationResult> badResults) {
+	public DependencyHasErrorsCompilationError(List<? extends ExpressionCompilationResult> badResults, Object sourceContext) {
+		super(sourceContext);
 		this.badResults.addAll(badResults);
 	}
 	
-	public DependencyHasErrorsCompilationError(ExpressionCompilationResult badResult) {
+	public DependencyHasErrorsCompilationError(ExpressionCompilationResult badResult, Object sourceContext) {
+		super(sourceContext);
 		this.badResults.add(badResult);
 	}
 	

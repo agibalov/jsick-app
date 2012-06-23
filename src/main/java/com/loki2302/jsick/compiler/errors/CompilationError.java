@@ -1,4 +1,9 @@
 package com.loki2302.jsick.compiler.errors;
 
-public abstract class CompilationError {
+import com.loki2302.jsick.compiler.SourceContextAware;
+
+public abstract class CompilationError extends SourceContextAware {
+	protected CompilationError(Object sourceContext) {
+		super(sourceContext);
+	}		
 }

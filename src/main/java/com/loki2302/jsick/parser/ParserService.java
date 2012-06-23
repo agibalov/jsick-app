@@ -9,10 +9,15 @@ import com.loki2302.jsick.parser.tree.ProgramNode;
 
 public class ParserService {
 	
-	public static ProgramNode parse(String code) {
+	public static ParseResult parse(String code) {
 		Parser parser = Parboiled.createParser(Parser.class);
 		ParsingResult<Node> result = new RecoveringParseRunner<Node>(parser.program()).run(code);
-		return (ProgramNode)result.resultValue;
+		
+		if(result.hasErrors()) {			
+			return ParseResult.bad(result.inputBuffer); 
+		}
+		
+		return ParseResult.good(result.inputBuffer, (ProgramNode)result.resultValue);
 	}
 
 }

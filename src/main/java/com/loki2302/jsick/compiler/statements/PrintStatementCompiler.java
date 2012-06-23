@@ -7,8 +7,8 @@ import com.loki2302.jsick.compiler.errors.DependencyHasErrorsCompilationError;
 import com.loki2302.jsick.compiler.errors.PrintNotDefinedForType;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompilationResult;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
-import com.loki2302.jsick.compiler.model.PrintStatement;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
+import com.loki2302.jsick.compiler.model.statements.PrintStatement;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 import com.loki2302.jsick.vm.instructions.Instruction;
@@ -32,7 +32,7 @@ public class PrintStatementCompiler extends AbstractStatementCompiler<PrintState
 		Expression expression = statement.getExpression();
 		ExpressionCompilationResult result = expressionCompiler.compile(expression);
 		if(result.hasErrors()) {
-			return StatementCompilationResult.error(new DependencyHasErrorsCompilationError(result));
+			return StatementCompilationResult.error(new DependencyHasErrorsCompilationError(result, statement));
 		}
 		
 		List<Instruction> instructions = new ArrayList<Instruction>();
@@ -42,7 +42,7 @@ public class PrintStatementCompiler extends AbstractStatementCompiler<PrintState
 		} else if(result.getType().equals(doubleType)) {
 			instructions.add(new PrintDoubleInstruction());
 		} else {
-			StatementCompilationResult.error(new PrintNotDefinedForType(result.getType()));
+			StatementCompilationResult.error(new PrintNotDefinedForType(result.getType(), statement));
 		}
 		
 		return StatementCompilationResult.ok(instructions);

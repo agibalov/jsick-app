@@ -27,8 +27,8 @@ public class MulExpressionCompiler extends AbstractBinaryArithmeticExpressionCom
 	}
 
 	@Override
-	protected CompilationError makeOperationUndefinedForTypeError(JType type) {
-		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Mul, type);
+	protected CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext) {
+		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Mul, type, sourceContext);
 	}	
 
 }

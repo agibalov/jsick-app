@@ -27,8 +27,8 @@ public class DivExpressionCompiler extends AbstractBinaryArithmeticExpressionCom
 	}
 
 	@Override
-	protected CompilationError makeOperationUndefinedForTypeError(JType type) {
-		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Div, type);
+	protected CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext) {
+		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Div, type, sourceContext);
 	}	
 
 }

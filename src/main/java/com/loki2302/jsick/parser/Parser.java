@@ -19,7 +19,7 @@ import com.loki2302.jsick.parser.tree.VariableReferenceNode;
 public class Parser extends BaseParser<Node> {
 	
 	public Rule program() {
-		ProgramNode programNode = new ProgramNode();
+		ProgramNode programNode = new ProgramNode(null);
 		return Sequence(				
 				OneOrMore(
 						statement(), 
@@ -48,7 +48,7 @@ public class Parser extends BaseParser<Node> {
 				"=",
 				optGap(),
 				expression(),
-				push(new SetVariableStatementNode(name.get(), (ExpressionNode)pop()))
+				push(new SetVariableStatementNode(name.get(), (ExpressionNode)pop(), getContext().getMatchRange()))
 				);
 	}
 	
@@ -57,7 +57,7 @@ public class Parser extends BaseParser<Node> {
 				"?",
 				optGap(),
 				expression(),				
-				push(new PrintStatementNode((ExpressionNode)pop()))
+				push(new PrintStatementNode((ExpressionNode)pop(), getContext().getMatchRange()))
 				);		
 	}
 		
@@ -84,7 +84,7 @@ public class Parser extends BaseParser<Node> {
 	Rule intLiteralExpression() {
 		return Sequence(
 				OneOrMore(CharRange('0', '9')),
-				push(new IntLiteralExpressionNode(match())));
+				push(new IntLiteralExpressionNode(match(), getContext().getMatchRange())));
 	}
 	
 	Rule doubleLiteralExpression() {
@@ -93,7 +93,7 @@ public class Parser extends BaseParser<Node> {
 					OneOrMore(CharRange('0', '9')),
 					".",
 					OneOrMore(CharRange('0', '9'))),
-				push(new DoubleLiteralExpressionNode(match())));
+				push(new DoubleLiteralExpressionNode(match(), getContext().getMatchRange())));
 	}
 	
 	Rule variableName() {
@@ -103,7 +103,7 @@ public class Parser extends BaseParser<Node> {
 	Rule variableReferenceExpression() {
 		return Sequence(
 				variableName(),
-				push(new VariableReferenceNode(match()))); 
+				push(new VariableReferenceNode(match(), getContext().getMatchRange()))); 
 	}
 	
 	Rule termExpression() {
@@ -117,7 +117,8 @@ public class Parser extends BaseParser<Node> {
 					push(new ArithmExpressionNode(
 							(ExpressionNode)pop(1), 
 							(ExpressionNode)pop(), 
-							ArithmExpressionNode.operationFromChar(op.get()))))							
+							ArithmExpressionNode.operationFromChar(op.get()), 
+							getContext().getMatchRange())))							
 				);		
 	}
 	
@@ -132,7 +133,8 @@ public class Parser extends BaseParser<Node> {
 					push(new ArithmExpressionNode(
 							(ExpressionNode)pop(1), 
 							(ExpressionNode)pop(), 
-							ArithmExpressionNode.operationFromChar(op.get()))))
+							ArithmExpressionNode.operationFromChar(op.get()), 
+							getContext().getMatchRange())))
 				);
 	}
 	
