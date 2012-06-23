@@ -7,6 +7,11 @@ public class PrintStatement extends Statement {
 	private final Expression expression;
 	
 	public PrintStatement(Expression expression) {
+		this(expression, null);
+	}
+		
+	public PrintStatement(Expression expression, Object sourceContext) {
+		super(sourceContext);
 		this.expression = expression;
 	}
 	

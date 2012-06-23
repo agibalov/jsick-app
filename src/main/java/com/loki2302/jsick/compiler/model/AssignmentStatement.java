@@ -8,6 +8,11 @@ public class AssignmentStatement extends Statement {
 	private final Expression expression;
 	
 	public AssignmentStatement(String name, Expression expression) {
+		this(name, expression, null);
+	}
+	
+	public AssignmentStatement(String name, Expression expression, Object sourceContext) {
+		super(sourceContext);
 		this.name = name;
 		this.expression = expression;
 	}	

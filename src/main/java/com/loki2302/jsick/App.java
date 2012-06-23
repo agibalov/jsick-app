@@ -1,6 +1,5 @@
 package com.loki2302.jsick;
 
-
 import java.util.List;
 
 import com.loki2302.jsick.compiler.ProgramCompilationResult;
@@ -18,7 +17,13 @@ public class App {
 	
 	public static void main(String[] args) {
 		ProgramNode programNode = ParserService.parse(				
-				"x=123;y=2*x+1;z=(x+y)/2.0;?x;?y;?z;?z-4;a=b+c;"
+				"x = 123; /* assign 123 to x */\n" + 
+				"y = 2 * x + 1;\n" + 
+				"z = (x + y) / 2.0; // dividing int by double causes z to be double\n" + 
+				"? x; // print x\n" + 
+				"? y;\n" + 
+				"? z;\n" + 
+				"? z - 4; // print (z - 4) \n"
 				);
 				
 		Program program = ModelBuilder.build(programNode);

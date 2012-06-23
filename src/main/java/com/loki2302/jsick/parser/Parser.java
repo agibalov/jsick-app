@@ -30,10 +30,13 @@ public class Parser extends BaseParser<Node> {
 	
 	Rule statement() {
 		return Sequence(
+				optGap(),
 				FirstOf(
 					variableAssignmentStatement(),
 					variablePrintStatement()),
-				";");
+				optGap(),
+				";",
+				optGap());
 	}
 	
 	Rule variableAssignmentStatement() {
@@ -41,7 +44,9 @@ public class Parser extends BaseParser<Node> {
 		return Sequence(
 				variableName(),
 				name.set(match()),
+				optGap(),
 				"=",
+				optGap(),
 				expression(),
 				push(new SetVariableStatementNode(name.get(), (ExpressionNode)pop()))
 				);
@@ -50,16 +55,20 @@ public class Parser extends BaseParser<Node> {
 	Rule variablePrintStatement() {
 		return Sequence(
 				"?",
-				expression(),
+				optGap(),
+				expression(),				
 				push(new PrintStatementNode((ExpressionNode)pop()))
 				);		
 	}
 		
 	Rule factorExpression() {
-		return FirstOf(
-				literalExpression(),
-				variableReferenceExpression(),
-				parensExpression());
+		return Sequence(
+				optGap(),
+				FirstOf(
+					literalExpression(),
+					variableReferenceExpression(),
+					parensExpression()),
+				optGap());
 	}
 	
 	Rule parensExpression() {
@@ -125,6 +134,58 @@ public class Parser extends BaseParser<Node> {
 							(ExpressionNode)pop(), 
 							ArithmExpressionNode.operationFromChar(op.get()))))
 				);
+	}
+	
+	Rule gap() {
+		return OneOrMore(
+				gapSpec()
+				);
+	}
+	
+	Rule optGap() {
+		return ZeroOrMore(
+				gapSpec()
+				);
+	}
+	
+	Rule gapSpec() {
+		return FirstOf(
+				gapChar(),
+				comment());
+	}
+	
+	Rule gapChar() {
+		return FirstOf(
+				' ', 
+				'\t', 
+				'\r', 
+				'\n'
+				);
+	}
+	
+	Rule comment() {
+		return FirstOf(
+				multilineComment(),
+				singleLineComment());
+	}
+	
+	Rule multilineComment() {
+		return Sequence(
+				"/*",
+				ZeroOrMore(TestNot("*/"), ANY),
+				"*/");
+	}
+	
+	Rule singleLineComment() {
+		return Sequence(
+				"//",
+				ZeroOrMore(TestNot(AnyOf("\r\n")), ANY),
+				FirstOf(
+						"\r\n", 
+						"\n\r", 
+						'\n', 
+						'\r',
+						EOI));
 	}
 	
 }

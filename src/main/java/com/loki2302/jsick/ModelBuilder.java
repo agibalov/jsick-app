@@ -44,13 +44,13 @@ public class ModelBuilder {
 			PrintStatementNode printStatementNode = (PrintStatementNode)statementNode;
 			ExpressionNode expressionNode = printStatementNode.getExpression();
 			Expression expression = makeExpression(expressionNode);
-			statement = new PrintStatement(expression);
+			statement = new PrintStatement(expression, statementNode);
 		} else if(statementNode instanceof SetVariableStatementNode) {
 			SetVariableStatementNode setVariableStatementNode = (SetVariableStatementNode)statementNode;
 			String name = setVariableStatementNode.getName();
 			ExpressionNode expressionNode = setVariableStatementNode.getExpression();
 			Expression expression = makeExpression(expressionNode);
-			statement = new AssignmentStatement(name, expression);
+			statement = new AssignmentStatement(name, expression, statementNode);
 		} else {
 			throw new RuntimeException();
 		}
@@ -62,19 +62,19 @@ public class ModelBuilder {
 		Expression expression = null;
 		if(expressionNode instanceof IntLiteralExpressionNode) {
 			IntLiteralExpressionNode literalExpressionNode = (IntLiteralExpressionNode)expressionNode;
-			expression = new IntLiteralExpression(literalExpressionNode.getValue());
+			expression = new IntLiteralExpression(literalExpressionNode.getValue(), expressionNode);
 		} else if(expressionNode instanceof DoubleLiteralExpressionNode) {
 			DoubleLiteralExpressionNode literalExpressionNode = (DoubleLiteralExpressionNode)expressionNode;
 			expression = new DoubleLiteralExpression(literalExpressionNode.getValue());
 		} else if(expressionNode instanceof VariableReferenceNode) {
 			VariableReferenceNode variableReferenceNode = (VariableReferenceNode)expressionNode;
 			String name = variableReferenceNode.getName();
-			expression = new VariableReferenceExpression(name);
+			expression = new VariableReferenceExpression(name, expressionNode);
 		} else if(expressionNode instanceof ArithmExpressionNode) {
 			ArithmExpressionNode arithmExpressionNode = (ArithmExpressionNode)expressionNode;
 			Expression expressionA = makeExpression(arithmExpressionNode.getA());
 			Expression expressionB = makeExpression(arithmExpressionNode.getB());
-			expression = makeArithmExpression(expressionA, expressionB, arithmExpressionNode.getOperation());
+			expression = makeArithmExpression(expressionA, expressionB, arithmExpressionNode.getOperation(), expressionNode);
 		} else {
 			throw new RuntimeException();
 		}
@@ -82,15 +82,15 @@ public class ModelBuilder {
 		return expression;
 	}
 	
-	private static Expression makeArithmExpression(Expression a, Expression b, Operation op) {
+	private static Expression makeArithmExpression(Expression a, Expression b, Operation op, Object sourceContext) {
 		if(op == Operation.Add) {
-			return new AddExpression(a, b);
+			return new AddExpression(a, b, sourceContext);
 		} else if(op == Operation.Sub) {
-			return new SubExpression(a, b);
+			return new SubExpression(a, b, sourceContext);
 		} else if(op == Operation.Mul) {
-			return new MulExpression(a, b);
+			return new MulExpression(a, b, sourceContext);
 		} else if(op == Operation.Div) {
-			return new DivExpression(a, b);
+			return new DivExpression(a, b, sourceContext);
 		} 
 		
 		throw new RuntimeException();			

@@ -5,7 +5,13 @@ jsick (`djay-si:k`) programming language.
 
 Code:
 
-    x=123;y=2*x+1;z=(x+y)/2.0;?x;?y;?z;?z-4;
+    x = 123; /* assign 123 to x */
+    y = 2 * x + 1;
+    z = (x + y) / 2.0; // dividing int by double causes z to be double
+    ? x; // print x
+    ? y;
+		? z;
+		? z - 4; // print (z - 4)
 
 Compiled as:
 

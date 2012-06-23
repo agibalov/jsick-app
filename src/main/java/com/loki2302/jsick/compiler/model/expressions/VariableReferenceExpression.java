@@ -5,6 +5,11 @@ public class VariableReferenceExpression extends Expression {
 	private final String name;
 	
 	public VariableReferenceExpression(String name) {
+		this(name, null);
+	}
+	
+	public VariableReferenceExpression(String name, Object sourceContext) {
+		super(sourceContext);
 		this.name = name;
 	}
 	
