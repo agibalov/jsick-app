@@ -5,7 +5,7 @@ jsick (`djay-si:k`) programming language.
 
 Code:
 
-    x=123;y=2*x+1;z=(x+y)/2;?x;?y;?z;?z-4;
+    x=123;y=2*x+1;z=(x+y)/2.0;?x;?y;?z;?z-4;
 
 Compiled as:
 
@@ -20,24 +20,26 @@ Compiled as:
     load.0
     load.1
     add.i
-    push.i 2
-    div.i
+    cast.i.d
+    push.d 2,000000
+    div.d
     save.2
     load.0
     print.i
     load.1
     print.i
     load.2
-    print.i
+    print.d
     load.2
     push.i 4
-    sub.i
-    print.i
+    cast.i.d
+    sub.d
+    print.d
 
 Executed as:
 
     PRINT 123
     PRINT 247
-    PRINT 185
-    PRINT 181
+    PRINT 185.000000
+    PRINT 181.000000
 
