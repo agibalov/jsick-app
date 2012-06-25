@@ -7,5 +7,7 @@ public abstract class Expression extends SourceContextAware {
 	protected Expression(Object sourceContext) {
 		super(sourceContext);
 	}
-		
+	
+	public abstract <T> T accept(ExpressionVisitor<T> visitor);
+	
 }

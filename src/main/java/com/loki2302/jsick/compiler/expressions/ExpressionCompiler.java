@@ -1,8 +1,8 @@
 package com.loki2302.jsick.compiler.expressions;
 
 import com.loki2302.jsick.compiler.LexicalContext;
-import com.loki2302.jsick.compiler.errors.UnknownExpressionClassCompilationError;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
+import com.loki2302.jsick.compiler.model.expressions.ExpressionVisitor;
 import com.loki2302.jsick.compiler.model.expressions.IntLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.DoubleLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
@@ -13,7 +13,7 @@ import com.loki2302.jsick.compiler.model.expressions.DivExpression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 
-public class ExpressionCompiler extends AbstractExpressionCompiler<Expression> {
+public class ExpressionCompiler extends AbstractExpressionCompiler<Expression> implements ExpressionVisitor<ExpressionCompilationResult> {
 	private final IntLiteralExpressionCompiler intLiteralExpressionCompiler;
 	private final DoubleLiteralExpressionCompiler doubleLiteralExpressionCompiler;
 	private final VariableReferenceExpressionCompiler variableReferenceExpressionCompiler; 
@@ -33,23 +33,42 @@ public class ExpressionCompiler extends AbstractExpressionCompiler<Expression> {
 	}
 	
 	public ExpressionCompilationResult compile(Expression expression) {
-		if(expression instanceof IntLiteralExpression) {
-			return intLiteralExpressionCompiler.compile((IntLiteralExpression)expression);
-		} else if(expression instanceof DoubleLiteralExpression) {
-			return doubleLiteralExpressionCompiler.compile((DoubleLiteralExpression)expression);
-		} else if(expression instanceof VariableReferenceExpression) {
-			return variableReferenceExpressionCompiler.compile((VariableReferenceExpression)expression);
-		} else if(expression instanceof AddExpression) {
-			return addExpressionCompiler.compile((AddExpression)expression);
-		} else if(expression instanceof SubExpression) {
-			return subExpressionCompiler.compile((SubExpression)expression);
-		} else if(expression instanceof MulExpression) {
-			return mulExpressionCompiler.compile((MulExpression)expression);
-		} else if(expression instanceof DivExpression) {
-			return divExpressionCompiler.compile((DivExpression)expression);
-		}
-		
-		return ExpressionCompilationResult.error(new UnknownExpressionClassCompilationError(expression, expression));
+		return expression.accept(this);
+	}
+
+	@Override
+	public ExpressionCompilationResult visitAddExpression(AddExpression expression) {
+		return addExpressionCompiler.compile(expression);
+	}
+
+	@Override
+	public ExpressionCompilationResult visitSubExpression(SubExpression expression) {
+		return subExpressionCompiler.compile(expression);
+	}
+
+	@Override
+	public ExpressionCompilationResult visitMulExpression(MulExpression expression) {
+		return mulExpressionCompiler.compile(expression);
+	}
+
+	@Override
+	public ExpressionCompilationResult visitDivExpression(DivExpression expression) {
+		return divExpressionCompiler.compile(expression);
+	}
+
+	@Override
+	public ExpressionCompilationResult visitIntLiteralExpression(IntLiteralExpression expression) {
+		return intLiteralExpressionCompiler.compile(expression);
+	}
+
+	@Override
+	public ExpressionCompilationResult visitDoubleLiteralExpression(DoubleLiteralExpression expression) {
+		return doubleLiteralExpressionCompiler.compile(expression);
+	}
+
+	@Override
+	public ExpressionCompilationResult visitVariableReferenceExpression(VariableReferenceExpression expression) {
+		return variableReferenceExpressionCompiler.compile(expression);
 	}
 
 }

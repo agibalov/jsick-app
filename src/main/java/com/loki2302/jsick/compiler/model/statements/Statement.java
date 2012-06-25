@@ -8,4 +8,6 @@ public abstract class Statement extends SourceContextAware {
 		super(sourceContext);
 	}
 	
+	public abstract <T> T accept(StatementVisitor<T> visitor);
+	
 }

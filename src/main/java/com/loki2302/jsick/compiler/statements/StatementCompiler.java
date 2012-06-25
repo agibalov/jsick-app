@@ -1,15 +1,15 @@
 package com.loki2302.jsick.compiler.statements;
 
 import com.loki2302.jsick.compiler.LexicalContext;
-import com.loki2302.jsick.compiler.errors.UnknownStatementClassCompilationError;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
 import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.statements.PrintStatement;
 import com.loki2302.jsick.compiler.model.statements.Statement;
+import com.loki2302.jsick.compiler.model.statements.StatementVisitor;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 
-public class StatementCompiler extends AbstractStatementCompiler<Statement> {
+public class StatementCompiler extends AbstractStatementCompiler<Statement> implements StatementVisitor<StatementCompilationResult> {
 	
 	private final AssignmentStatementCompiler assignmentCompiler;
 	private final PrintStatementCompiler printStatementCompiler;
@@ -21,12 +21,16 @@ public class StatementCompiler extends AbstractStatementCompiler<Statement> {
 
 	@Override
 	public StatementCompilationResult compile(Statement statement) {
-		if(statement instanceof PrintStatement) {
-			return printStatementCompiler.compile((PrintStatement)statement);
-		} else if(statement instanceof AssignmentStatement) {
-			return assignmentCompiler.compile((AssignmentStatement)statement);
-		}
-		
-		return StatementCompilationResult.error(new UnknownStatementClassCompilationError(statement, statement));
+		return statement.accept(this);
+	}
+
+	@Override
+	public StatementCompilationResult visitAssignmentStatement(AssignmentStatement statement) {
+		return assignmentCompiler.compile(statement);
+	}
+
+	@Override
+	public StatementCompilationResult visitPrintStatement(PrintStatement statement) {
+		return printStatementCompiler.compile(statement);
 	}
 }

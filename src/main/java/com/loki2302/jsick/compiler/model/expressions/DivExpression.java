@@ -9,5 +9,10 @@ public class DivExpression extends BinaryExpression {
 	public DivExpression(Expression left, Expression right, Object sourceContext) {
 		super(left, right, sourceContext);
 	}
+
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitDivExpression(this);
+	}
 		
 }

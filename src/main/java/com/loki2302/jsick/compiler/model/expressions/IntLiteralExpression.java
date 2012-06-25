@@ -10,4 +10,9 @@ public class IntLiteralExpression extends LiteralExpression {
 		super(value, sourceContext);
 	}
 
+	@Override
+	public <T> T accept(ExpressionVisitor<T> visitor) {
+		return visitor.visitIntLiteralExpression(this);
+	}
+
 }
