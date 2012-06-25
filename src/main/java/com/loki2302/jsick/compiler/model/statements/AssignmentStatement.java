@@ -25,9 +25,4 @@ public class AssignmentStatement extends Statement {
 		return expression;
 	}
 
-	@Override
-	public <T> T accept(StatementVisitor<T> visitor) {
-		return visitor.visitAssignmentStatement(this);
-	}
-
 }

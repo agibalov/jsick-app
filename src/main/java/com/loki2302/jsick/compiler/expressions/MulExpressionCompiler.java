@@ -12,8 +12,8 @@ import com.loki2302.jsick.vm.instructions.IntMulInstruction;
 
 public class MulExpressionCompiler extends AbstractBinaryArithmeticExpressionCompiler<MulExpression> {
 
-	public MulExpressionCompiler(ExpressionCompiler expressionCompiler, IntType intType, DoubleType doubleType) {
-		super(expressionCompiler, intType, doubleType);
+	public MulExpressionCompiler(IntType intType, DoubleType doubleType) {
+		super(intType, doubleType);
 	}
 
 	@Override

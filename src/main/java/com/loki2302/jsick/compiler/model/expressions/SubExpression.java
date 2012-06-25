@@ -10,9 +10,4 @@ public class SubExpression extends BinaryExpression {
 		super(left, right, sourceContext);
 	}
 
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitSubExpression(this);
-	}
-
 }

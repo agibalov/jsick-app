@@ -12,8 +12,8 @@ import com.loki2302.jsick.vm.instructions.IntDivInstruction;
 
 public class DivExpressionCompiler extends AbstractBinaryArithmeticExpressionCompiler<DivExpression> {
 
-	public DivExpressionCompiler(ExpressionCompiler expressionCompiler, IntType intType, DoubleType doubleType) {
-		super(expressionCompiler, intType, doubleType);
+	public DivExpressionCompiler(IntType intType, DoubleType doubleType) {
+		super(intType, doubleType);
 	}
 
 	@Override

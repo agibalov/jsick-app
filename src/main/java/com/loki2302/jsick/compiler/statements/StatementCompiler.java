@@ -1,36 +1,27 @@
 package com.loki2302.jsick.compiler.statements;
 
-import com.loki2302.jsick.compiler.LexicalContext;
-import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
-import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
-import com.loki2302.jsick.compiler.model.statements.PrintStatement;
-import com.loki2302.jsick.compiler.model.statements.Statement;
-import com.loki2302.jsick.compiler.model.statements.StatementVisitor;
-import com.loki2302.jsick.types.DoubleType;
-import com.loki2302.jsick.types.IntType;
+import java.util.Map;
 
-public class StatementCompiler extends AbstractStatementCompiler<Statement> implements StatementVisitor<StatementCompilationResult> {
+import com.loki2302.jsick.compiler.errors.UnknownStatementClassCompilationError;
+import com.loki2302.jsick.compiler.model.statements.Statement;
+
+public class StatementCompiler extends AbstractStatementCompiler<Statement> {
 	
-	private final AssignmentStatementCompiler assignmentCompiler;
-	private final PrintStatementCompiler printStatementCompiler;
+	private final Map<Class<? extends Statement>, AbstractStatementCompiler<? extends Statement>> compilersByStatementClasses;
 	
-	public StatementCompiler(LexicalContext lexicalContext, ExpressionCompiler expressionCompiler, IntType intType, DoubleType doubleType) {
-		assignmentCompiler = new AssignmentStatementCompiler(lexicalContext, expressionCompiler);
-		printStatementCompiler = new PrintStatementCompiler(expressionCompiler, intType, doubleType); 
+	public StatementCompiler(Map<Class<? extends Statement>, AbstractStatementCompiler<? extends Statement>> compilersByStatementClasses) {
+		this.compilersByStatementClasses = compilersByStatementClasses;
 	}
 
 	@Override
 	public StatementCompilationResult compile(Statement statement) {
-		return statement.accept(this);
+		AbstractStatementCompiler<Statement> statementCompiler = 
+				(AbstractStatementCompiler<Statement>)compilersByStatementClasses.get(statement.getClass());
+		if(statementCompiler == null) {
+			return StatementCompilationResult.error(new UnknownStatementClassCompilationError(statement));
+		}
+		
+		return statementCompiler.compile(statement);
 	}
 
-	@Override
-	public StatementCompilationResult visitAssignmentStatement(AssignmentStatement statement) {
-		return assignmentCompiler.compile(statement);
-	}
-
-	@Override
-	public StatementCompilationResult visitPrintStatement(PrintStatement statement) {
-		return printStatementCompiler.compile(statement);
-	}
 }

@@ -16,10 +16,5 @@ public class VariableReferenceExpression extends Expression {
 	public String getName() {
 		return name;
 	}
-
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitVariableReferenceExpression(this);
-	}
 		
 }

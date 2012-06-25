@@ -8,6 +8,4 @@ public abstract class Expression extends SourceContextAware {
 		super(sourceContext);
 	}
 	
-	public abstract <T> T accept(ExpressionVisitor<T> visitor);
-	
 }

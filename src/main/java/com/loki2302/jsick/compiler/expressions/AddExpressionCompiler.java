@@ -12,8 +12,8 @@ import com.loki2302.jsick.vm.instructions.IntAddInstruction;
 
 public class AddExpressionCompiler extends AbstractBinaryArithmeticExpressionCompiler<AddExpression> {
 
-	public AddExpressionCompiler(ExpressionCompiler expressionCompiler, IntType intType, DoubleType doubleType) {
-		super(expressionCompiler, intType, doubleType);
+	public AddExpressionCompiler(IntType intType, DoubleType doubleType) {
+		super(intType, doubleType);
 	}
 
 	@Override

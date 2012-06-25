@@ -14,18 +14,22 @@ import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.compiler.model.expressions.BinaryExpression;
 
-public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends BinaryExpression> extends AbstractExpressionCompiler<E> {
+public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends BinaryExpression> extends AbstractExpressionCompiler<E> implements RequiresExpressionCompiler {	
 	
-	private final ExpressionCompiler expressionCompiler;
 	private final IntType intType;
 	private final DoubleType doubleType;
+	private ExpressionCompiler expressionCompiler;
 	
-	public AbstractBinaryArithmeticExpressionCompiler(ExpressionCompiler expressionCompiler, IntType intType, DoubleType doubleType) {
-		this.expressionCompiler = expressionCompiler;
+	public AbstractBinaryArithmeticExpressionCompiler(IntType intType, DoubleType doubleType) {		
 		this.intType = intType;
 		this.doubleType = doubleType;
 	}
 
+	@Override
+	public void setExpressionCompiler(ExpressionCompiler expressionCompiler) {
+		this.expressionCompiler = expressionCompiler;		
+	}
+	
 	@Override
 	public ExpressionCompilationResult compile(E expression) {
 		

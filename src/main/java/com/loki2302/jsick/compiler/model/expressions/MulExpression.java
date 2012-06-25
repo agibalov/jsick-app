@@ -10,9 +10,4 @@ public class MulExpression extends BinaryExpression {
 		super(left, right, sourceContext);
 	}
 
-	@Override
-	public <T> T accept(ExpressionVisitor<T> visitor) {
-		return visitor.visitMulExpression(this);
-	}
-	
 }
