@@ -16,7 +16,7 @@ public class AppTest {
 	@Test
 	public void sillyTest() {
 		ProgramNode programNode = ParserService.parse(				
-				"x=123;y=2*x+1;z=(x+y)/2;?x;?y;?z;?z-4;"				
+				"int x=123;int y=2*x+1;int z=(x+y)/2;?x;?y;?z;?z-4;"				
 				).getProgramNode();
 				
 		Program program = ModelBuilder.build(programNode);

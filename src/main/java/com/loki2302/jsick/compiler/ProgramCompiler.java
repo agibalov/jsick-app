@@ -24,11 +24,13 @@ import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression
 import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.statements.PrintStatement;
 import com.loki2302.jsick.compiler.model.statements.Statement;
+import com.loki2302.jsick.compiler.model.statements.VariableDefinitionStatement;
 import com.loki2302.jsick.compiler.statements.AssignmentStatementCompiler;
 import com.loki2302.jsick.compiler.statements.PrintStatementCompiler;
 import com.loki2302.jsick.compiler.statements.StatementCompilationResult;
 import com.loki2302.jsick.compiler.statements.StatementCompiler;
 import com.loki2302.jsick.compiler.statements.StatementCompilerBuilder;
+import com.loki2302.jsick.compiler.statements.VariableDefinitionStatementCompiler;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
 import com.loki2302.jsick.vm.instructions.Instruction;
@@ -54,6 +56,7 @@ public class ProgramCompiler {
 		StatementCompiler statementCompiler = new StatementCompilerBuilder()
 			.registerCompiler(AssignmentStatement.class, new AssignmentStatementCompiler(lexicalContext, expressionCompiler))
 			.registerCompiler(PrintStatement.class, new PrintStatementCompiler(expressionCompiler, intType, doubleType))
+			.registerCompiler(VariableDefinitionStatement.class, new VariableDefinitionStatementCompiler(lexicalContext, expressionCompiler, intType, doubleType))
 			.build();
 		
 		List<Instruction> instructions = new ArrayList<Instruction>();

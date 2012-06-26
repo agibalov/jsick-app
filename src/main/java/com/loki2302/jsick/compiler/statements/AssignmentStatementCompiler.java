@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.loki2302.jsick.compiler.LexicalContext;
+import com.loki2302.jsick.compiler.errors.CannotAssignCompilationError;
 import com.loki2302.jsick.compiler.errors.DependencyHasErrorsCompilationError;
+import com.loki2302.jsick.compiler.errors.UndefinedVariableCompilationError;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompilationResult;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
+import com.loki2302.jsick.types.JType;
 import com.loki2302.jsick.vm.instructions.Instruction;
+import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.vm.instructions.SaveLocalInstruction;
 
 public class AssignmentStatementCompiler extends AbstractStatementCompiler<AssignmentStatement> {
@@ -31,18 +35,25 @@ public class AssignmentStatementCompiler extends AbstractStatementCompiler<Assig
 		if(result.hasErrors()) {
 			return StatementCompilationResult.error(new DependencyHasErrorsCompilationError(result, statement));
 		}
-				
-		if(lexicalContext.hasVariable(name)) {
-			lexicalContext.setVariableType(name, result.getType());
-		} else {
-			lexicalContext.addVariable(name, result.getType());
-		}
 		
-		int position = lexicalContext.getVariablePosition(name);
+		if(!lexicalContext.hasVariable(name)) {
+			return StatementCompilationResult.error(new UndefinedVariableCompilationError(name, statement));
+		}
 		
 		List<Instruction> instructions = new ArrayList<Instruction>();
 		instructions.addAll(result.getInstructions());
-		instructions.add(new SaveLocalInstruction(position));		
+		
+		JType type = lexicalContext.getVariableType(name);
+		if(result.getType().equals(type)) {
+			// types are the same, do nothing
+		} else if(result.getType().canImplicitlyCastTo(type)) {
+			instructions.add(new IntToDoubleInstruction());
+		} else {
+			return StatementCompilationResult.error(new CannotAssignCompilationError(type, result.getType(), statement));
+		}
+						
+		int position = lexicalContext.getVariablePosition(name);
+		instructions.add(new SaveLocalInstruction(position));
 		
 		return StatementCompilationResult.ok(instructions);
 	}

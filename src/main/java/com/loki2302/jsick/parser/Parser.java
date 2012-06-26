@@ -12,9 +12,11 @@ import com.loki2302.jsick.parser.tree.Node;
 import com.loki2302.jsick.parser.tree.PrintStatementNode;
 import com.loki2302.jsick.parser.tree.ProgramNode;
 import com.loki2302.jsick.parser.tree.SetVariableStatementNode;
+import com.loki2302.jsick.parser.tree.SimpleTypeNode;
 import com.loki2302.jsick.parser.tree.StatementNode;
+import com.loki2302.jsick.parser.tree.VariableDefinitionStatementNode;
 import com.loki2302.jsick.parser.tree.VariableReferenceNode;
-
+import com.loki2302.jsick.parser.tree.TypeNode;
 
 public class Parser extends BaseParser<Node> {
 	
@@ -32,11 +34,38 @@ public class Parser extends BaseParser<Node> {
 		return Sequence(
 				optGap(),
 				FirstOf(
+					variableDefinitionStatement(),
 					variableAssignmentStatement(),
 					variablePrintStatement()),
 				optGap(),
 				";",
 				optGap());
+	}
+	
+	Rule variableDefinitionStatement() {
+		Var<String> name = new Var<String>();
+		return Sequence(
+				type(),
+				gap(),
+				variableName(),
+				name.set(match()),
+				optGap(),
+				"=",
+				optGap(),
+				expression(),
+				push(new VariableDefinitionStatementNode((TypeNode)pop(1), name.get(), (ExpressionNode)pop(), getContext().getMatchRange())));
+	}
+	
+	Rule type() {
+		return simpleType();
+	}
+	
+	Rule simpleType() {
+		return Sequence(
+				FirstOf(
+						"int", 
+						"double"),
+				push(new SimpleTypeNode(match(), getContext().getMatchRange())));
 	}
 	
 	Rule variableAssignmentStatement() {

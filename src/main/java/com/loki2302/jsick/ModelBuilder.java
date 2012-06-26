@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.loki2302.jsick.compiler.model.Program;
+import com.loki2302.jsick.compiler.model.SimpleType;
+import com.loki2302.jsick.compiler.model.Type;
 import com.loki2302.jsick.compiler.model.expressions.AddExpression;
 import com.loki2302.jsick.compiler.model.expressions.DivExpression;
 import com.loki2302.jsick.compiler.model.expressions.DoubleLiteralExpression;
@@ -15,6 +17,7 @@ import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression
 import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.statements.PrintStatement;
 import com.loki2302.jsick.compiler.model.statements.Statement;
+import com.loki2302.jsick.compiler.model.statements.VariableDefinitionStatement;
 import com.loki2302.jsick.parser.tree.ArithmExpressionNode;
 import com.loki2302.jsick.parser.tree.DoubleLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.ExpressionNode;
@@ -22,7 +25,9 @@ import com.loki2302.jsick.parser.tree.IntLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.PrintStatementNode;
 import com.loki2302.jsick.parser.tree.ProgramNode;
 import com.loki2302.jsick.parser.tree.SetVariableStatementNode;
+import com.loki2302.jsick.parser.tree.SimpleTypeNode;
 import com.loki2302.jsick.parser.tree.StatementNode;
+import com.loki2302.jsick.parser.tree.VariableDefinitionStatementNode;
 import com.loki2302.jsick.parser.tree.VariableReferenceNode;
 import com.loki2302.jsick.parser.tree.ArithmExpressionNode.Operation;
 
@@ -51,6 +56,13 @@ public class ModelBuilder {
 			ExpressionNode expressionNode = setVariableStatementNode.getExpression();
 			Expression expression = makeExpression(expressionNode);
 			statement = new AssignmentStatement(name, expression, statementNode);
+		} else if(statementNode instanceof VariableDefinitionStatementNode) {
+			VariableDefinitionStatementNode variableDefinitionStatementNode = (VariableDefinitionStatementNode)statementNode;
+			Type type = new SimpleType(((SimpleTypeNode)variableDefinitionStatementNode.getType()).getTypeName(), statementNode);
+			String variableName = variableDefinitionStatementNode.getName();
+			ExpressionNode expressionNode = variableDefinitionStatementNode.getExpression();
+			Expression expression = makeExpression(expressionNode);
+			statement = new VariableDefinitionStatement(type, variableName, expression, statementNode);
 		} else {
 			throw new RuntimeException();
 		}

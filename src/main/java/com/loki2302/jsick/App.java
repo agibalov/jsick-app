@@ -22,15 +22,16 @@ public class App {
 	public static void main(String[] args) {
 		
 		String code =
-				"x = 123; /* assign 123 to x */\n" + 
-				"y = 2 * x + 1;\n" +
-				"z = (x + y) / 2.0; // dividing int by double causes z to be double\n" + 
+				"int x = 123; /* assign 123 to x */\n" + 
+				"int y = 2 * x + 1;\n" +
+				"double z = (x + y) / 2.0; // dividing int by double causes z to be double\n" + 
 				"? x; // print x\n" + 
 				"? y;\n" +
-				"? a + b;\n" +
-				"? a;\n" + 
-				"? b;\n" +
-				"? z - 4; // print (z - 4) \n";
+				"? z;\n" +
+				"? z - 4; // print (z - 4) \n" + 
+				"z = 1;\n" + 
+				"? z;\n" +
+				"x = 3.1;\n";
 		
 		ParseResult parseResult = ParserService.parse(code);
 		if(parseResult.hasErrors()) {

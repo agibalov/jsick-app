@@ -1,7 +1,7 @@
 package com.loki2302.jsick.compiler.expressions;
 
 import com.loki2302.jsick.compiler.LexicalContext;
-import com.loki2302.jsick.compiler.errors.NoSuchVariableCompilationError;
+import com.loki2302.jsick.compiler.errors.UndefinedVariableCompilationError;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.JType;
 import com.loki2302.jsick.vm.instructions.LoadLocalInstruction;
@@ -18,7 +18,7 @@ public class VariableReferenceExpressionCompiler extends AbstractExpressionCompi
 	public ExpressionCompilationResult compile(VariableReferenceExpression expression) {
 		String name = expression.getName();
 		if(!lexicalContext.hasVariable(name)) {
-			return ExpressionCompilationResult.error(new NoSuchVariableCompilationError(name, expression));
+			return ExpressionCompilationResult.error(new UndefinedVariableCompilationError(name, expression));
 		}
 		
 		int position = lexicalContext.getVariablePosition(name);

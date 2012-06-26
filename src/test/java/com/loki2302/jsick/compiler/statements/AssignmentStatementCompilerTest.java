@@ -38,7 +38,7 @@ public class AssignmentStatementCompilerTest {
 		
 		AssignmentStatement s = new AssignmentStatement("a", new IntLiteralExpression("1"));
 		
-		assertFalse(lc.hasVariable("a"));
+		lc.addVariable("a", intType);
 		StatementCompilationResult r = c.compile(s);
 		
 		assertFalse(r.hasErrors());
