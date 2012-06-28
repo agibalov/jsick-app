@@ -14,7 +14,7 @@ public class IntLiteralExpressionCompiler extends AbstractExpressionCompiler<Int
 	}
 	
 	@Override
-	public ExpressionCompilationResult compile(IntLiteralExpression expression) {			
+	public ExpressionCompilationResult compileImpl(IntLiteralExpression expression, PrecompilationResults precompilationResults) {			
 		String stringValue = expression.getValue();
 		try {
 			int value = Integer.parseInt(stringValue);

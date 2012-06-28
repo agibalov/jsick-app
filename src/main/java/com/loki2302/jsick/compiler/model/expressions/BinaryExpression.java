@@ -1,5 +1,8 @@
 package com.loki2302.jsick.compiler.model.expressions;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class BinaryExpression extends Expression {
 
 	private final Expression left;
@@ -21,6 +24,11 @@ public abstract class BinaryExpression extends Expression {
 	
 	public Expression getRight() {
 		return right;
+	}
+
+	@Override
+	public List<Expression> getDependencies() {
+		return Arrays.asList(left, right);
 	}
 	
 }

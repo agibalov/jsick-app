@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.loki2302.jsick.compiler.errors.CannotDeduceCommonTypeCompilationError;
 import com.loki2302.jsick.compiler.errors.CompilationError;
-import com.loki2302.jsick.compiler.errors.DependencyHasErrorsCompilationError;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
@@ -14,73 +13,50 @@ import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.compiler.model.expressions.BinaryExpression;
 
-public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends BinaryExpression> extends AbstractExpressionCompiler<E> implements RequiresExpressionCompiler {	
+public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends BinaryExpression> extends AbstractExpressionCompiler<E> {	
 	
 	private final IntType intType;
 	private final DoubleType doubleType;
-	private ExpressionCompiler expressionCompiler;
 	
 	public AbstractBinaryArithmeticExpressionCompiler(IntType intType, DoubleType doubleType) {		
 		this.intType = intType;
 		this.doubleType = doubleType;
 	}
-
-	@Override
-	public void setExpressionCompiler(ExpressionCompiler expressionCompiler) {
-		this.expressionCompiler = expressionCompiler;		
-	}
 	
 	@Override
-	public ExpressionCompilationResult compile(E expression) {
+	public ExpressionCompilationResult compileImpl(E expression, PrecompilationResults precompilationResults) {
 		
 		Expression leftExpression = expression.getLeft();
-		ExpressionCompilationResult leftResult = expressionCompiler.compile(leftExpression);		
-		
 		Expression rightExpression = expression.getRight();
-		ExpressionCompilationResult rightResult = expressionCompiler.compile(rightExpression);
 		
-		List<ExpressionCompilationResult> badResults = new ArrayList<ExpressionCompilationResult>();		
-		if(leftResult.hasErrors()) {
-			badResults.add(leftResult);
-		}
+		JType leftType = precompilationResults.getFor(leftExpression).getType();
+		JType rightType = precompilationResults.getFor(rightExpression).getType();
 		
-		if(rightResult.hasErrors()) {
-			badResults.add(rightResult);
-		}
-		
-		if(!badResults.isEmpty()) {
-			return ExpressionCompilationResult.error(new DependencyHasErrorsCompilationError(badResults, expression));
-		}
-		
-		JType leftType = leftResult.getType();
-		JType rightType = rightResult.getType();	
+		ExpressionCompilationResult leftResult = precompilationResults.getFor(leftExpression);
+		ExpressionCompilationResult rightResult = precompilationResults.getFor(rightExpression);
 		
 		JType operationType = null;
-		List<Instruction> instructions = new ArrayList<Instruction>();
 		if(leftType.equals(rightType)) {
-			operationType = leftType;			
-			instructions.addAll(leftResult.getInstructions());
-			instructions.addAll(rightResult.getInstructions());			
-		}
-		
-		if(leftType.canImplicitlyCastTo(rightType)) {			
-			operationType = rightType;
-			instructions.addAll(leftResult.getInstructions());			
-			instructions.add(new IntToDoubleInstruction());			
-			instructions.addAll(rightResult.getInstructions());			
-		}
-		
-		if(rightType.canImplicitlyCastTo(leftType)) {
 			operationType = leftType;
-			instructions.addAll(leftResult.getInstructions());					
-			instructions.addAll(rightResult.getInstructions());
-			instructions.add(new IntToDoubleInstruction());
-		}
-		
-		if(operationType == null) {
+		} else if(leftType.canImplicitlyCastTo(rightType)) {			
+			operationType = rightType;
+		} else if(rightType.canImplicitlyCastTo(leftType)) {
+			operationType = leftType;
+		} else {
 			return ExpressionCompilationResult.error(new CannotDeduceCommonTypeCompilationError(leftType, rightType, expression));
 		}
 		
+		List<Instruction> instructions = new ArrayList<Instruction>();		
+		instructions.addAll(leftResult.getInstructions());
+		if(!leftResult.getType().equals(operationType)) {
+			instructions.add(new IntToDoubleInstruction());
+		}
+		
+		instructions.addAll(rightResult.getInstructions());
+		if(!rightResult.getType().equals(operationType)) {
+			instructions.add(new IntToDoubleInstruction());
+		}
+				
 		if(operationType.equals(intType)) {
 			instructions.add(makeIntOperationInstruction());
 		} else if(operationType.equals(doubleType)) {

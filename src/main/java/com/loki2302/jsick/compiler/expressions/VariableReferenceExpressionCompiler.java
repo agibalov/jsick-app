@@ -15,7 +15,7 @@ public class VariableReferenceExpressionCompiler extends AbstractExpressionCompi
 	}
 	
 	@Override
-	public ExpressionCompilationResult compile(VariableReferenceExpression expression) {
+	public ExpressionCompilationResult compileImpl(VariableReferenceExpression expression, PrecompilationResults precompilationResults) {
 		String name = expression.getName();
 		if(!lexicalContext.hasVariable(name)) {
 			return ExpressionCompilationResult.error(new UndefinedVariableCompilationError(name, expression));

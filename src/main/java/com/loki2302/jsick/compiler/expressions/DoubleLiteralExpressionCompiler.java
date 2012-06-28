@@ -14,7 +14,7 @@ public class DoubleLiteralExpressionCompiler extends AbstractExpressionCompiler<
 	}
 	
 	@Override
-	public ExpressionCompilationResult compile(DoubleLiteralExpression expression) {			
+	public ExpressionCompilationResult compileImpl(DoubleLiteralExpression expression, PrecompilationResults precompilationResults) {			
 		String stringValue = expression.getValue();
 		try {
 			double value = Double.parseDouble(stringValue);
@@ -22,5 +22,6 @@ public class DoubleLiteralExpressionCompiler extends AbstractExpressionCompiler<
 		} catch(NumberFormatException e) {
 			return ExpressionCompilationResult.error(new BadDoubleLiteralCompilationError(expression));
 		}			
-	}		
+	}
+		
 }

@@ -12,9 +12,10 @@ public class ExpressionCompiler extends AbstractExpressionCompiler<Expression> {
 	
 	public ExpressionCompiler(Map<Class<? extends Expression>, AbstractExpressionCompiler<? extends Expression>> compilersByExpressionClasses) {
 		this.compilersByExpressionClasses = compilersByExpressionClasses;
+		setExpressionCompiler(this);
 	}
 	
-	public ExpressionCompilationResult compile(Expression expression) {
+	public ExpressionCompilationResult compileImpl(Expression expression, PrecompilationResults precompilationResults) {
 		AbstractExpressionCompiler<Expression> compiler = 
 				(AbstractExpressionCompiler<Expression>)compilersByExpressionClasses.get(expression.getClass());
 		if(compiler == null) {

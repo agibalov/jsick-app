@@ -1,5 +1,7 @@
 package com.loki2302.jsick.compiler.model.expressions;
 
+import java.util.List;
+
 public abstract class LiteralExpression extends Expression {
 	
 	private final String value;
@@ -16,5 +18,9 @@ public abstract class LiteralExpression extends Expression {
 	public String getValue() {
 		return value;
 	}
-		
+
+	@Override
+	public List<Expression> getDependencies() {	
+		return null;
+	}
 }
