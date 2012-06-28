@@ -29,12 +29,9 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 		Expression leftExpression = expression.getLeft();
 		Expression rightExpression = expression.getRight();
 		
-		JType leftType = precompilationResults.getFor(leftExpression).getType();
-		JType rightType = precompilationResults.getFor(rightExpression).getType();
-		
-		ExpressionCompilationResult leftResult = precompilationResults.getFor(leftExpression);
-		ExpressionCompilationResult rightResult = precompilationResults.getFor(rightExpression);
-		
+		JType leftType = precompilationResults.getType(leftExpression);
+		JType rightType = precompilationResults.getType(rightExpression);
+				
 		JType operationType = null;
 		if(leftType.equals(rightType)) {
 			operationType = leftType;
@@ -47,13 +44,13 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 		}
 		
 		List<Instruction> instructions = new ArrayList<Instruction>();		
-		instructions.addAll(leftResult.getInstructions());
-		if(!leftResult.getType().equals(operationType)) {
+		instructions.addAll(precompilationResults.getInstructions(leftExpression));
+		if(!leftType.equals(operationType)) {
 			instructions.add(new IntToDoubleInstruction());
 		}
 		
-		instructions.addAll(rightResult.getInstructions());
-		if(!rightResult.getType().equals(operationType)) {
+		instructions.addAll(precompilationResults.getInstructions(rightExpression));
+		if(!rightType.equals(operationType)) {
 			instructions.add(new IntToDoubleInstruction());
 		}
 				
