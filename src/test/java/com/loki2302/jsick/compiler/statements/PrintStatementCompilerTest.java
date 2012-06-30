@@ -24,13 +24,11 @@ import com.loki2302.jsick.compiler.model.expressions.SubExpression;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.statements.PrintStatement;
-import com.loki2302.jsick.types.DoubleType;
-import com.loki2302.jsick.types.IntType;
+import com.loki2302.jsick.types.Types;
 
 public class PrintStatementCompilerTest {
 	
-	private static final IntType intType = new IntType();
-	private static final DoubleType doubleType = new DoubleType();
+	private final static Types types = new Types();
 	
 	@Test
 	public void shouldBeAbleToCompilePrintInt() {		
@@ -58,18 +56,18 @@ public class PrintStatementCompilerTest {
 		LexicalContext lexicalContext = new LexicalContext();
 		
 		ExpressionCompiler expressionCompiler = new ExpressionCompilerBuilder()
-			.registerCompiler(IntLiteralExpression.class, new IntLiteralExpressionCompiler(intType))
-			.registerCompiler(DoubleLiteralExpression.class, new DoubleLiteralExpressionCompiler(doubleType))
+			.registerCompiler(IntLiteralExpression.class, new IntLiteralExpressionCompiler(types.intType))
+			.registerCompiler(DoubleLiteralExpression.class, new DoubleLiteralExpressionCompiler(types.doubleType))
 			.registerCompiler(VariableReferenceExpression.class, new VariableReferenceExpressionCompiler(lexicalContext)) 
-			.registerCompiler(AddExpression.class, new AddExpressionCompiler(intType, doubleType))
-			.registerCompiler(SubExpression.class, new SubExpressionCompiler(intType, doubleType))
-			.registerCompiler(MulExpression.class, new MulExpressionCompiler(intType, doubleType))
-			.registerCompiler(DivExpression.class, new DivExpressionCompiler(intType, doubleType))
+			.registerCompiler(AddExpression.class, new AddExpressionCompiler(types))
+			.registerCompiler(SubExpression.class, new SubExpressionCompiler(types))
+			.registerCompiler(MulExpression.class, new MulExpressionCompiler(types))
+			.registerCompiler(DivExpression.class, new DivExpressionCompiler(types))
 			.build();
 		
 		StatementCompiler statementCompiler = new StatementCompilerBuilder()
 			.registerCompiler(AssignmentStatement.class, new AssignmentStatementCompiler(lexicalContext, expressionCompiler))
-			.registerCompiler(PrintStatement.class, new PrintStatementCompiler(expressionCompiler, intType, doubleType))
+			.registerCompiler(PrintStatement.class, new PrintStatementCompiler(expressionCompiler, types))
 			.build();
 		
 		return statementCompiler; 

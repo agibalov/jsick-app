@@ -3,17 +3,16 @@ package com.loki2302.jsick.compiler.expressions;
 import com.loki2302.jsick.compiler.errors.CompilationError;
 import com.loki2302.jsick.compiler.errors.OperationUndefinedForTypeCompilationError;
 import com.loki2302.jsick.compiler.model.expressions.MulExpression;
-import com.loki2302.jsick.types.DoubleType;
-import com.loki2302.jsick.types.IntType;
 import com.loki2302.jsick.types.Type;
+import com.loki2302.jsick.types.Types;
 import com.loki2302.jsick.vm.instructions.DoubleMulInstruction;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntMulInstruction;
 
 public class MulExpressionCompiler extends AbstractBinaryArithmeticExpressionCompiler<MulExpression> {
 
-	public MulExpressionCompiler(IntType intType, DoubleType doubleType) {
-		super(intType, doubleType);
+	public MulExpressionCompiler(Types types) {
+		super(types);
 	}
 
 	@Override

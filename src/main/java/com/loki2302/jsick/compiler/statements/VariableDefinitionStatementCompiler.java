@@ -13,9 +13,8 @@ import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
 import com.loki2302.jsick.compiler.model.SimpleType;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.compiler.model.statements.VariableDefinitionStatement;
-import com.loki2302.jsick.types.DoubleType;
-import com.loki2302.jsick.types.IntType;
 import com.loki2302.jsick.types.Type;
+import com.loki2302.jsick.types.Types;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.vm.instructions.SaveLocalInstruction;
@@ -24,14 +23,12 @@ public class VariableDefinitionStatementCompiler extends AbstractStatementCompil
 
 	private final LexicalContext lexicalContext;
 	private final ExpressionCompiler expressionCompiler;
-	private final IntType intType;
-	private final DoubleType doubleType;
+	private final Types types;
 	
-	public VariableDefinitionStatementCompiler(LexicalContext lexicalContext, ExpressionCompiler expressionCompiler, IntType intType, DoubleType doubleType) {
+	public VariableDefinitionStatementCompiler(LexicalContext lexicalContext, ExpressionCompiler expressionCompiler, Types types) {
 		this.lexicalContext = lexicalContext;
 		this.expressionCompiler = expressionCompiler;
-		this.intType = intType;
-		this.doubleType = doubleType;
+		this.types = types;
 	}
 	
 	@Override
@@ -51,9 +48,9 @@ public class VariableDefinitionStatementCompiler extends AbstractStatementCompil
 		
 		Type variableType = null;
 		if(type.getName().equals("int")) {
-			variableType = intType;
+			variableType = types.intType;
 		} else if(type.getName().equals("double")) {
-			variableType = doubleType;
+			variableType = types.doubleType;
 		} else {
 			return StatementCompilationResult.error(new UnknownSimpleTypeCompilationError(type.getName(), statement)); 
 		}

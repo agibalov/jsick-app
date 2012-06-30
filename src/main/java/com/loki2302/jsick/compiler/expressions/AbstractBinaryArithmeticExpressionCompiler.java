@@ -6,21 +6,25 @@ import java.util.List;
 import com.loki2302.jsick.compiler.errors.CannotDeduceCommonTypeCompilationError;
 import com.loki2302.jsick.compiler.errors.CompilationError;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
-import com.loki2302.jsick.types.DoubleType;
-import com.loki2302.jsick.types.IntType;
 import com.loki2302.jsick.types.Type;
+import com.loki2302.jsick.types.Types;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.compiler.model.expressions.BinaryExpression;
 
+import com.loki2302.jsick.compiler.typeevaluation.BinaryEvaluationContext;
+import com.loki2302.jsick.compiler.typeevaluation.TypeEvaluationResult;
+import com.loki2302.jsick.compiler.typeevaluation.TypeEvaluator;
+import static com.loki2302.jsick.compiler.typeevaluation.Fluency.*;
+
 public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends BinaryExpression> extends AbstractExpressionCompiler<E> {	
 	
-	private final IntType intType;
-	private final DoubleType doubleType;
+	private final Types types;
+	private final TypeEvaluator typeEvaluator;
 	
-	public AbstractBinaryArithmeticExpressionCompiler(IntType intType, DoubleType doubleType) {		
-		this.intType = intType;
-		this.doubleType = doubleType;
+	public AbstractBinaryArithmeticExpressionCompiler(Types types) {		
+		this.types = types;
+		this.typeEvaluator = makeTypeEvaluator(types);
 	}
 	
 	@Override
@@ -31,18 +35,14 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 		
 		Type leftType = precompilationResults.getType(leftExpression);
 		Type rightType = precompilationResults.getType(rightExpression);
-				
-		Type operationType = null;
-		if(leftType.equals(rightType)) {
-			operationType = leftType;
-		} else if(leftType.canImplicitlyCastTo(rightType)) {			
-			operationType = rightType;
-		} else if(rightType.canImplicitlyCastTo(leftType)) {
-			operationType = leftType;
-		} else {
+		
+		TypeEvaluationResult evaluationResult = typeEvaluator.evaluate(new BinaryEvaluationContext(leftType, rightType));
+		if(!evaluationResult.isOk()) {
 			return ExpressionCompilationResult.error(new CannotDeduceCommonTypeCompilationError(leftType, rightType, expression));
 		}
 		
+		Type operationType = evaluationResult.getType();
+								
 		List<Instruction> instructions = new ArrayList<Instruction>();		
 		instructions.addAll(precompilationResults.getInstructions(leftExpression));
 		if(!leftType.equals(operationType)) {
@@ -54,9 +54,9 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 			instructions.add(new IntToDoubleInstruction());
 		}
 				
-		if(operationType.equals(intType)) {
+		if(operationType.equals(types.intType)) {
 			instructions.add(makeIntOperationInstruction());
-		} else if(operationType.equals(doubleType)) {
+		} else if(operationType.equals(types.doubleType)) {
 			instructions.add(makeDoubleOperationInstruction());
 		} else {
 			return ExpressionCompilationResult.error(makeOperationUndefinedForTypeError(operationType, expression));
@@ -68,5 +68,23 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 	protected abstract Instruction makeIntOperationInstruction(); 
 	protected abstract Instruction makeDoubleOperationInstruction();
 	protected abstract CompilationError makeOperationUndefinedForTypeError(Type type, Object sourceContext);
+	
+	private static TypeEvaluator makeTypeEvaluator(Types types) {
+		
+		TypeEvaluator left = or(
+    			same(first(), fixed(types.intType)), 
+    			same(first(), fixed(types.doubleType)));
+	    	
+    	TypeEvaluator right = or(
+    			same(second(), fixed(types.intType)), 
+    			same(second(), fixed(types.doubleType)));	    	
+	    	
+    	TypeEvaluator op = or(
+    			same(left, right), 
+    			castable(left, right), 
+    			castable(right, left));
+    	
+    	return op;
+	}
 }
 

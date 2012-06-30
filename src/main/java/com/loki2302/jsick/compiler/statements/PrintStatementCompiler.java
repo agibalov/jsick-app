@@ -11,6 +11,7 @@ import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.compiler.model.statements.PrintStatement;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
+import com.loki2302.jsick.types.Types;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.PrintDoubleInstruction;
 import com.loki2302.jsick.vm.instructions.PrintIntInstruction;
@@ -18,13 +19,11 @@ import com.loki2302.jsick.vm.instructions.PrintIntInstruction;
 public class PrintStatementCompiler extends AbstractStatementCompiler<PrintStatement> {
 
 	private final ExpressionCompiler expressionCompiler;
-	private final IntType intType;
-	private final DoubleType doubleType;
+	private final Types types;
 	
-	public PrintStatementCompiler(ExpressionCompiler expressionCompiler, IntType intType, DoubleType doubleType) {
+	public PrintStatementCompiler(ExpressionCompiler expressionCompiler, Types types) {
 		this.expressionCompiler = expressionCompiler;
-		this.intType = intType;
-		this.doubleType = doubleType;
+		this.types = types;
 	}
 	
 	@Override
@@ -37,9 +36,9 @@ public class PrintStatementCompiler extends AbstractStatementCompiler<PrintState
 		
 		List<Instruction> instructions = new ArrayList<Instruction>();
 		instructions.addAll(result.getInstructions());
-		if(result.getType().equals(intType)) {
+		if(result.getType().equals(types.intType)) {
 			instructions.add(new PrintIntInstruction());			
-		} else if(result.getType().equals(doubleType)) {
+		} else if(result.getType().equals(types.doubleType)) {
 			instructions.add(new PrintDoubleInstruction());
 		} else {
 			StatementCompilationResult.error(new PrintNotDefinedForType(result.getType(), statement));

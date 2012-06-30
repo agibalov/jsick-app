@@ -31,32 +31,30 @@ import com.loki2302.jsick.compiler.statements.StatementCompilationResult;
 import com.loki2302.jsick.compiler.statements.StatementCompiler;
 import com.loki2302.jsick.compiler.statements.StatementCompilerBuilder;
 import com.loki2302.jsick.compiler.statements.VariableDefinitionStatementCompiler;
-import com.loki2302.jsick.types.DoubleType;
-import com.loki2302.jsick.types.IntType;
+import com.loki2302.jsick.types.Types;
 import com.loki2302.jsick.vm.instructions.Instruction;
 
 public class ProgramCompiler {
 	
-	private final static IntType intType = new IntType();		
-	private final static DoubleType doubleType = new DoubleType();
+	private final static Types types = new Types();
 	
 	public static ProgramCompilationResult compile(Program program) {	
 		LexicalContext lexicalContext = new LexicalContext();		
 				
 		ExpressionCompiler expressionCompiler = new ExpressionCompilerBuilder()
-			.registerCompiler(IntLiteralExpression.class, new IntLiteralExpressionCompiler(intType))
-			.registerCompiler(DoubleLiteralExpression.class, new DoubleLiteralExpressionCompiler(doubleType))
+			.registerCompiler(IntLiteralExpression.class, new IntLiteralExpressionCompiler(types.intType))
+			.registerCompiler(DoubleLiteralExpression.class, new DoubleLiteralExpressionCompiler(types.doubleType))
 			.registerCompiler(VariableReferenceExpression.class, new VariableReferenceExpressionCompiler(lexicalContext)) 
-			.registerCompiler(AddExpression.class, new AddExpressionCompiler(intType, doubleType))
-			.registerCompiler(SubExpression.class, new SubExpressionCompiler(intType, doubleType))
-			.registerCompiler(MulExpression.class, new MulExpressionCompiler(intType, doubleType))
-			.registerCompiler(DivExpression.class, new DivExpressionCompiler(intType, doubleType))
+			.registerCompiler(AddExpression.class, new AddExpressionCompiler(types))
+			.registerCompiler(SubExpression.class, new SubExpressionCompiler(types))
+			.registerCompiler(MulExpression.class, new MulExpressionCompiler(types))
+			.registerCompiler(DivExpression.class, new DivExpressionCompiler(types))
 			.build();
 		
 		StatementCompiler statementCompiler = new StatementCompilerBuilder()
 			.registerCompiler(AssignmentStatement.class, new AssignmentStatementCompiler(lexicalContext, expressionCompiler))
-			.registerCompiler(PrintStatement.class, new PrintStatementCompiler(expressionCompiler, intType, doubleType))
-			.registerCompiler(VariableDefinitionStatement.class, new VariableDefinitionStatementCompiler(lexicalContext, expressionCompiler, intType, doubleType))
+			.registerCompiler(PrintStatement.class, new PrintStatementCompiler(expressionCompiler, types))
+			.registerCompiler(VariableDefinitionStatement.class, new VariableDefinitionStatementCompiler(lexicalContext, expressionCompiler, types))
 			.build();
 		
 		List<Instruction> instructions = new ArrayList<Instruction>();
