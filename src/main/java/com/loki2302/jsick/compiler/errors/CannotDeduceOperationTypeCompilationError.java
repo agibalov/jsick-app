@@ -2,12 +2,12 @@ package com.loki2302.jsick.compiler.errors;
 
 import com.loki2302.jsick.types.Type;
 
-public class CannotDeduceCommonTypeCompilationError extends CompilationError {
+public class CannotDeduceOperationTypeCompilationError extends CompilationError {
 	
 	private final Type type1;
 	private final Type type2;
 	
-	public CannotDeduceCommonTypeCompilationError(Type type1, Type type2, Object sourceContext) {
+	public CannotDeduceOperationTypeCompilationError(Type type1, Type type2, Object sourceContext) {
 		super(sourceContext);
 		this.type1 = type1;
 		this.type2 = type2;
