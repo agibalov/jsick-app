@@ -1,13 +1,13 @@
 package com.loki2302.jsick.compiler.errors;
 
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 
 public class CannotAssignCompilationError extends CompilationError {
 	
-	private final JType left;
-	private final JType right;
+	private final Type left;
+	private final Type right;
 	
-	public CannotAssignCompilationError(JType left, JType right, Object sourceContext) {
+	public CannotAssignCompilationError(Type left, Type right, Object sourceContext) {
 		super(sourceContext);
 		this.left = left;
 		this.right = right;

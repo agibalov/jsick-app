@@ -1,6 +1,6 @@
 package com.loki2302.jsick.types;
 
-public class IntType implements JType {
+public class IntType implements Type {
 
 	@Override
 	public String getName() {		
@@ -8,17 +8,12 @@ public class IntType implements JType {
 	}
 
 	@Override
-	public JObject makeInstance() {
-		return new IntObject(this);
-	}
-
-	@Override
-	public boolean canImplicitlyCastTo(JType otherType) {
+	public boolean canImplicitlyCastTo(Type otherType) {
 		return otherType instanceof DoubleType;
 	}
 
 	@Override
-	public boolean canExplicitlyCastTo(JType otherType) {
+	public boolean canExplicitlyCastTo(Type otherType) {
 		return canImplicitlyCastTo(otherType);
 	}
 

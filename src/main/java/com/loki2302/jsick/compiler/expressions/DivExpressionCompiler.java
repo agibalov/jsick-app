@@ -5,7 +5,7 @@ import com.loki2302.jsick.compiler.errors.OperationUndefinedForTypeCompilationEr
 import com.loki2302.jsick.compiler.model.expressions.DivExpression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.DoubleDivInstruction;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntDivInstruction;
@@ -27,7 +27,7 @@ public class DivExpressionCompiler extends AbstractBinaryArithmeticExpressionCom
 	}
 
 	@Override
-	protected CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext) {
+	protected CompilationError makeOperationUndefinedForTypeError(Type type, Object sourceContext) {
 		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Div, type, sourceContext);
 	}	
 

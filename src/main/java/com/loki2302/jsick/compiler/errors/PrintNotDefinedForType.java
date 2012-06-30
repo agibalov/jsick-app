@@ -1,12 +1,12 @@
 package com.loki2302.jsick.compiler.errors;
 
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 
 public class PrintNotDefinedForType extends CompilationError {
 	
-	private final JType type;
+	private final Type type;
 	
-	public PrintNotDefinedForType(JType type, Object sourceContext) {
+	public PrintNotDefinedForType(Type type, Object sourceContext) {
 		super(sourceContext);
 		this.type = type;
 	}

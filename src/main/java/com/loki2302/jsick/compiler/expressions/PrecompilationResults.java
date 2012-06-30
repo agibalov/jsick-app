@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.loki2302.jsick.compiler.model.expressions.Expression;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.Instruction;
 
 public class PrecompilationResults {
@@ -15,7 +15,7 @@ public class PrecompilationResults {
 		this.results = results;
 	}
 	
-	public JType getType(Expression e) {
+	public Type getType(Expression e) {
 		return results.get(e).getType();
 	}
 	

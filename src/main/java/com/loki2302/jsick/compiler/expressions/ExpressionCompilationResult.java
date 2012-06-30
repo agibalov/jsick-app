@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.loki2302.jsick.compiler.CompilationResult;
 import com.loki2302.jsick.compiler.errors.CompilationError;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.Instruction;
 
 public class ExpressionCompilationResult extends CompilationResult {
-	private JType type;
+	private Type type;
 	
-	public JType getType() {
+	public Type getType() {
 		return type;
 	}
 	
@@ -26,14 +26,14 @@ public class ExpressionCompilationResult extends CompilationResult {
 		return r;
 	}
 	
-	public static ExpressionCompilationResult ok(List<Instruction> instructions, JType type) {
+	public static ExpressionCompilationResult ok(List<Instruction> instructions, Type type) {
 		ExpressionCompilationResult r = new ExpressionCompilationResult();
 		r.instructions.addAll(instructions);
 		r.type = type;
 		return r;
 	}
 	
-	public static ExpressionCompilationResult ok(Instruction instruction, JType type) {
+	public static ExpressionCompilationResult ok(Instruction instruction, Type type) {
 		ExpressionCompilationResult r = new ExpressionCompilationResult();
 		r.instructions.add(instruction);
 		r.type = type;

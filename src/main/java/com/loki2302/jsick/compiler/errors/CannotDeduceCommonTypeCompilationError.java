@@ -1,13 +1,13 @@
 package com.loki2302.jsick.compiler.errors;
 
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 
 public class CannotDeduceCommonTypeCompilationError extends CompilationError {
 	
-	private final JType type1;
-	private final JType type2;
+	private final Type type1;
+	private final Type type2;
 	
-	public CannotDeduceCommonTypeCompilationError(JType type1, JType type2, Object sourceContext) {
+	public CannotDeduceCommonTypeCompilationError(Type type1, Type type2, Object sourceContext) {
 		super(sourceContext);
 		this.type1 = type1;
 		this.type2 = type2;

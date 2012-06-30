@@ -11,7 +11,7 @@ import com.loki2302.jsick.compiler.expressions.ExpressionCompilationResult;
 import com.loki2302.jsick.compiler.expressions.ExpressionCompiler;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.vm.instructions.SaveLocalInstruction;
@@ -43,7 +43,7 @@ public class AssignmentStatementCompiler extends AbstractStatementCompiler<Assig
 		List<Instruction> instructions = new ArrayList<Instruction>();
 		instructions.addAll(result.getInstructions());
 		
-		JType type = lexicalContext.getVariableType(name);
+		Type type = lexicalContext.getVariableType(name);
 		if(result.getType().equals(type)) {
 			// types are the same, do nothing
 		} else if(result.getType().canImplicitlyCastTo(type)) {

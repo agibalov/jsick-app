@@ -3,7 +3,7 @@ package com.loki2302.jsick.compiler.expressions;
 import com.loki2302.jsick.compiler.LexicalContext;
 import com.loki2302.jsick.compiler.errors.UndefinedVariableCompilationError;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.LoadLocalInstruction;
 
 public class VariableReferenceExpressionCompiler extends AbstractExpressionCompiler<VariableReferenceExpression> {
@@ -22,7 +22,7 @@ public class VariableReferenceExpressionCompiler extends AbstractExpressionCompi
 		}
 		
 		int position = lexicalContext.getVariablePosition(name);
-		JType type = lexicalContext.getVariableType(name);
+		Type type = lexicalContext.getVariableType(name);
 		
 		return ExpressionCompilationResult.ok(new LoadLocalInstruction(position), type);
 	}

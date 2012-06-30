@@ -15,7 +15,7 @@ import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.compiler.model.statements.VariableDefinitionStatement;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.vm.instructions.SaveLocalInstruction;
@@ -49,7 +49,7 @@ public class VariableDefinitionStatementCompiler extends AbstractStatementCompil
 			return StatementCompilationResult.error(new VariableRedefinitionCompilationError(variableName, statement));
 		}
 		
-		JType variableType = null;
+		Type variableType = null;
 		if(type.getName().equals("int")) {
 			variableType = intType;
 		} else if(type.getName().equals("double")) {

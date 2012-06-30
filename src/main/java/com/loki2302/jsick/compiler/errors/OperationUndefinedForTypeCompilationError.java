@@ -1,12 +1,12 @@
 package com.loki2302.jsick.compiler.errors;
 
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 
 public class OperationUndefinedForTypeCompilationError extends CompilationError {
-	private final JType type;
+	private final Type type;
 	private final Operation operation;
 	
-	public OperationUndefinedForTypeCompilationError(Operation operation, JType type, Object sourceContext) {
+	public OperationUndefinedForTypeCompilationError(Operation operation, Type type, Object sourceContext) {
 		super(sourceContext);
 		this.type = type;
 		this.operation = operation;

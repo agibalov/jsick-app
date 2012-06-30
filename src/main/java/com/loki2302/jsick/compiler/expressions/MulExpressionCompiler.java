@@ -5,7 +5,7 @@ import com.loki2302.jsick.compiler.errors.OperationUndefinedForTypeCompilationEr
 import com.loki2302.jsick.compiler.model.expressions.MulExpression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.DoubleMulInstruction;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntMulInstruction;
@@ -27,7 +27,7 @@ public class MulExpressionCompiler extends AbstractBinaryArithmeticExpressionCom
 	}
 
 	@Override
-	protected CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext) {
+	protected CompilationError makeOperationUndefinedForTypeError(Type type, Object sourceContext) {
 		return new OperationUndefinedForTypeCompilationError(OperationUndefinedForTypeCompilationError.Operation.Mul, type, sourceContext);
 	}	
 

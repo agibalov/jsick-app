@@ -8,7 +8,7 @@ import com.loki2302.jsick.compiler.errors.CompilationError;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.types.DoubleType;
 import com.loki2302.jsick.types.IntType;
-import com.loki2302.jsick.types.JType;
+import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.vm.instructions.Instruction;
 import com.loki2302.jsick.vm.instructions.IntToDoubleInstruction;
 import com.loki2302.jsick.compiler.model.expressions.BinaryExpression;
@@ -29,10 +29,10 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 		Expression leftExpression = expression.getLeft();
 		Expression rightExpression = expression.getRight();
 		
-		JType leftType = precompilationResults.getType(leftExpression);
-		JType rightType = precompilationResults.getType(rightExpression);
+		Type leftType = precompilationResults.getType(leftExpression);
+		Type rightType = precompilationResults.getType(rightExpression);
 				
-		JType operationType = null;
+		Type operationType = null;
 		if(leftType.equals(rightType)) {
 			operationType = leftType;
 		} else if(leftType.canImplicitlyCastTo(rightType)) {			
@@ -67,6 +67,6 @@ public abstract class AbstractBinaryArithmeticExpressionCompiler<E extends Binar
 	
 	protected abstract Instruction makeIntOperationInstruction(); 
 	protected abstract Instruction makeDoubleOperationInstruction();
-	protected abstract CompilationError makeOperationUndefinedForTypeError(JType type, Object sourceContext);
+	protected abstract CompilationError makeOperationUndefinedForTypeError(Type type, Object sourceContext);
 }
 
