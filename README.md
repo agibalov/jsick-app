@@ -83,4 +83,5 @@ I'm going to stop as soon as following things are done:
  * `if`, `else`
  * ternary (`a ? b : c`)
  * `for`, `while`, `do-while`, `continue`, `break`
+ * Adequate compile-time error handling
 
