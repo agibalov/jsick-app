@@ -4,7 +4,7 @@ import org.parboiled.BaseParser;
 import org.parboiled.Rule;
 import org.parboiled.support.Var;
 
-import com.loki2302.jsick.parser.tree.ArithmExpressionNode;
+import com.loki2302.jsick.parser.tree.AbstractBinaryExpressionNode;
 import com.loki2302.jsick.parser.tree.DoubleLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.ExpressionNode;
 import com.loki2302.jsick.parser.tree.IntLiteralExpressionNode;
@@ -143,10 +143,10 @@ public class Parser extends BaseParser<Node> {
 					FirstOf("*", "/"),
 					op.set(matchedChar()),
 					factorExpression(),
-					push(new ArithmExpressionNode(
+					push(AbstractBinaryExpressionNode.expressionFromChar(
+							op.get(),
 							(ExpressionNode)pop(1), 
 							(ExpressionNode)pop(), 
-							ArithmExpressionNode.operationFromChar(op.get()), 
 							getContext().getMatchRange())))							
 				);		
 	}
@@ -159,10 +159,10 @@ public class Parser extends BaseParser<Node> {
 					FirstOf("+", "-"),
 					op.set(matchedChar()),
 					termExpression(),
-					push(new ArithmExpressionNode(
+					push(AbstractBinaryExpressionNode.expressionFromChar(
+							op.get(),
 							(ExpressionNode)pop(1), 
 							(ExpressionNode)pop(), 
-							ArithmExpressionNode.operationFromChar(op.get()), 
 							getContext().getMatchRange())))
 				);
 	}

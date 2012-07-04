@@ -12,24 +12,28 @@ import com.loki2302.jsick.compiler.model.expressions.DoubleLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.Expression;
 import com.loki2302.jsick.compiler.model.expressions.IntLiteralExpression;
 import com.loki2302.jsick.compiler.model.expressions.MulExpression;
+import com.loki2302.jsick.compiler.model.expressions.RemExpression;
 import com.loki2302.jsick.compiler.model.expressions.SubExpression;
 import com.loki2302.jsick.compiler.model.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.compiler.model.statements.AssignmentStatement;
 import com.loki2302.jsick.compiler.model.statements.PrintStatement;
 import com.loki2302.jsick.compiler.model.statements.Statement;
 import com.loki2302.jsick.compiler.model.statements.VariableDefinitionStatement;
-import com.loki2302.jsick.parser.tree.ArithmExpressionNode;
+import com.loki2302.jsick.parser.tree.AddExpressionNode;
+import com.loki2302.jsick.parser.tree.DivExpressionNode;
 import com.loki2302.jsick.parser.tree.DoubleLiteralExpressionNode;
 import com.loki2302.jsick.parser.tree.ExpressionNode;
 import com.loki2302.jsick.parser.tree.IntLiteralExpressionNode;
+import com.loki2302.jsick.parser.tree.MulExpressionNode;
 import com.loki2302.jsick.parser.tree.PrintStatementNode;
 import com.loki2302.jsick.parser.tree.ProgramNode;
+import com.loki2302.jsick.parser.tree.RemExpressionNode;
 import com.loki2302.jsick.parser.tree.SetVariableStatementNode;
 import com.loki2302.jsick.parser.tree.SimpleTypeNode;
 import com.loki2302.jsick.parser.tree.StatementNode;
+import com.loki2302.jsick.parser.tree.SubExpressionNode;
 import com.loki2302.jsick.parser.tree.VariableDefinitionStatementNode;
 import com.loki2302.jsick.parser.tree.VariableReferenceNode;
-import com.loki2302.jsick.parser.tree.ArithmExpressionNode.Operation;
 
 public class ModelBuilder {
 	
@@ -82,30 +86,36 @@ public class ModelBuilder {
 			VariableReferenceNode variableReferenceNode = (VariableReferenceNode)expressionNode;
 			String name = variableReferenceNode.getName();
 			expression = new VariableReferenceExpression(name, expressionNode);
-		} else if(expressionNode instanceof ArithmExpressionNode) {
-			ArithmExpressionNode arithmExpressionNode = (ArithmExpressionNode)expressionNode;
+		} else if(expressionNode instanceof AddExpressionNode) {
+			AddExpressionNode arithmExpressionNode = (AddExpressionNode)expressionNode;
 			Expression expressionA = makeExpression(arithmExpressionNode.getA());
 			Expression expressionB = makeExpression(arithmExpressionNode.getB());
-			expression = makeArithmExpression(expressionA, expressionB, arithmExpressionNode.getOperation(), expressionNode);
+			expression = new AddExpression(expressionA, expressionB, expressionNode);
+		} else if(expressionNode instanceof SubExpressionNode) {
+			SubExpressionNode arithmExpressionNode = (SubExpressionNode)expressionNode;
+			Expression expressionA = makeExpression(arithmExpressionNode.getA());
+			Expression expressionB = makeExpression(arithmExpressionNode.getB());
+			expression = new SubExpression(expressionA, expressionB, expressionNode);
+		} else if(expressionNode instanceof MulExpressionNode) {
+			MulExpressionNode arithmExpressionNode = (MulExpressionNode)expressionNode;
+			Expression expressionA = makeExpression(arithmExpressionNode.getA());
+			Expression expressionB = makeExpression(arithmExpressionNode.getB());
+			expression = new MulExpression(expressionA, expressionB, expressionNode);
+		} else if(expressionNode instanceof DivExpressionNode) {
+			DivExpressionNode arithmExpressionNode = (DivExpressionNode)expressionNode;
+			Expression expressionA = makeExpression(arithmExpressionNode.getA());
+			Expression expressionB = makeExpression(arithmExpressionNode.getB());
+			expression = new DivExpression(expressionA, expressionB, expressionNode);
+		} else if(expressionNode instanceof RemExpressionNode) {
+			RemExpressionNode arithmExpressionNode = (RemExpressionNode)expressionNode;
+			Expression expressionA = makeExpression(arithmExpressionNode.getA());
+			Expression expressionB = makeExpression(arithmExpressionNode.getB());
+			expression = new RemExpression(expressionA, expressionB, expressionNode);
 		} else {
 			throw new RuntimeException();
 		}
 		
 		return expression;
-	}
-	
-	private static Expression makeArithmExpression(Expression a, Expression b, Operation op, Object sourceContext) {
-		if(op == Operation.Add) {
-			return new AddExpression(a, b, sourceContext);
-		} else if(op == Operation.Sub) {
-			return new SubExpression(a, b, sourceContext);
-		} else if(op == Operation.Mul) {
-			return new MulExpression(a, b, sourceContext);
-		} else if(op == Operation.Div) {
-			return new DivExpression(a, b, sourceContext);
-		} 
-		
-		throw new RuntimeException();			
-	}
+	}	
 	
 }
