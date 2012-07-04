@@ -75,10 +75,12 @@ Task definition
 I'm going to stop as soon as following things are done:
 
  * `boolean` type and comparison operators (`==`, `>=`, `<=`, `!=`, `<`, `>`, `!`, `&&`, `||`)
- * `int` and `double` types and related operators (`<<`, `>>`, `+=`, `-=`, `*=`, `/=`, `++`, `--`, `+`, `-`, `*`, `/`, `%`, `&`, `|`, `^`)
+ * `int` and `double` types and related operators (`<<`, `>>`, `+=`, `-=`, `*=`, `/=`, prefix and postfix `++`, prefix and postfix `--`, unary and binary `+`, unary and binary `-`, `*`, `/`, `%`, `&`, `|`, `^`)
  * `void` type
  * `string` type and related operators (`+`, `+=`, formatting, char access)
  * functions/procedures
+ * arrays
  * `if`, `else`
+ * ternary (`a ? b : c`)
  * `for`, `while`, `do-while`, `continue`, `break`
 
