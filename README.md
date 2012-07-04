@@ -70,4 +70,15 @@ Executed as:
     185.0
     181.0
 
+Task definition
+===============
+I'm going to stop as soon as following things are done:
+
+ * `boolean` type and comparison operators (`==`, `>=`, `<=`, `!=`, `<`, `>`, `!`, `&&`, `||`)
+ * `int` and `double` types and related operators (`<<`, `>>`, `+=`, `-=`, `*=`, `/=`, `++`, `--`, `+`, `-`, `*`, `/`, `%`, `&`, `|`, `^`)
+ * `void` type
+ * `string` type and related operators (`+`, `+=`, formatting, char access)
+ * functions/procedures
+ * `if`, `else`
+ * `for`, `while`, `do-while`, `continue`, `break`
 
