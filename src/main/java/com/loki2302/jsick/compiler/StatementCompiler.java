@@ -1,16 +1,23 @@
 package com.loki2302.jsick.compiler;
 
 import com.loki2302.jsick.dom.statements.DOMStatement;
+import com.loki2302.jsick.evaluator.Context;
+import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.statements.Statement;
 
 public class StatementCompiler {
-	private final StatementCompilingVisitor statementCompilingVisitor; 
+	private final Evaluator<DOMStatement, Statement> statementEvaluator; 
 
-	public StatementCompiler(StatementCompilingVisitor statementCompilingVisitor) {
-		this.statementCompilingVisitor = statementCompilingVisitor;
+	public StatementCompiler(Evaluator<DOMStatement, Statement> statementEvaluator) {
+		this.statementEvaluator = statementEvaluator;
 	}
 	
 	public Statement compile(DOMStatement domStatement) {
-		return domStatement.accept(statementCompilingVisitor);
+		Context<Statement> statementContext = statementEvaluator.evaluate(Context.<DOMStatement>ok(domStatement));
+		if(!statementContext.isOk()) {
+			throw new RuntimeException();
+		}
+		
+		return statementContext.getValue();
 	}
 }
