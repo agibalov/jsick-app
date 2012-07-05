@@ -6,8 +6,8 @@ public class DOMVariableReferenceExpression extends DOMExpression {
 
 	private final String variableName;
 	
-	public DOMVariableReferenceExpression(String variableName, IndexRange indexRange) {
-		super(indexRange);
+	public DOMVariableReferenceExpression(String variableName, IndexRange matchRange) {
+		super(matchRange);
 		this.variableName = variableName;
 	}
 	

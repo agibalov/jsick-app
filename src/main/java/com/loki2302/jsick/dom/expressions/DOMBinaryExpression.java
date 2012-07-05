@@ -7,8 +7,8 @@ public abstract class DOMBinaryExpression extends DOMExpression {
 	private final DOMExpression left;
 	private final DOMExpression right;
 	
-	protected DOMBinaryExpression(DOMExpression left, DOMExpression right, IndexRange indexRange) {
-		super(indexRange);
+	protected DOMBinaryExpression(DOMExpression left, DOMExpression right, IndexRange matchRange) {
+		super(matchRange);
 		this.left = left;
 		this.right = right;
 	}

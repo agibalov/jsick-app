@@ -7,8 +7,8 @@ import com.loki2302.jsick.dom.expressions.DOMExpression;
 public class DOMExpressionStatement extends DOMStatement {
 	private final DOMExpression expression;
 
-	public DOMExpressionStatement(DOMExpression expression, IndexRange indexRange) {
-		super(indexRange);
+	public DOMExpressionStatement(DOMExpression expression, IndexRange matchRange) {
+		super(matchRange);
 		this.expression = expression;
 	}
 	

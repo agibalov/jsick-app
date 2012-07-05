@@ -9,8 +9,8 @@ public class DOMVariableDefinitionStatement extends DOMStatement {
 	private final String variableName;
 	private final DOMExpression expression;
 
-	public DOMVariableDefinitionStatement(String typeName, String variableName, DOMExpression expression, IndexRange indexRange) {
-		super(indexRange);
+	public DOMVariableDefinitionStatement(String typeName, String variableName, DOMExpression expression, IndexRange matchRange) {
+		super(matchRange);
 		this.typeName = typeName;
 		this.variableName = variableName;
 		this.expression = expression;

@@ -1,6 +1,5 @@
 package com.loki2302.jsick.dom.expressions;
 
-
 public interface DOMExpressionVisitor<T> {
 	T visitDOMAddExpression(DOMAddExpression expression);
 	T visitDOMSubExpression(DOMSubExpression expression);

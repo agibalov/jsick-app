@@ -6,8 +6,8 @@ import org.parboiled.support.IndexRange;
 public class DOMIntConstExpression extends DOMExpression {   
 	private final int value;
 	
-	public DOMIntConstExpression(int value, IndexRange indexRange) {
-		super(indexRange);
+	public DOMIntConstExpression(int value, IndexRange matchRange) {
+		super(matchRange);
 		this.value = value;
 	}
 	

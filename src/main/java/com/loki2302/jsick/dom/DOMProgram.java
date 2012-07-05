@@ -11,8 +11,8 @@ public class DOMProgram extends DOMNode {
 	
 	private final List<DOMStatement> statements = new ArrayList<DOMStatement>();
 
-	public DOMProgram(IndexRange indexRange) {
-		super(indexRange);
+	public DOMProgram(IndexRange matchRange) {
+		super(matchRange);
 	}
 	
 	public boolean addStatement(DOMStatement statement) {

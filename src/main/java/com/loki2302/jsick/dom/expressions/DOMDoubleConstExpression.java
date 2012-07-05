@@ -5,8 +5,8 @@ import org.parboiled.support.IndexRange;
 public class DOMDoubleConstExpression extends DOMExpression {
 	private final double value;
 	
-	public DOMDoubleConstExpression(double value, IndexRange indexRange) {
-		super(indexRange);
+	public DOMDoubleConstExpression(double value, IndexRange matchRange) {
+		super(matchRange);
 		this.value = value;
 	}
 	

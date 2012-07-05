@@ -3,14 +3,14 @@ package com.loki2302.jsick.dom;
 import org.parboiled.support.IndexRange;
 
 public abstract class DOMNode {
-	private final IndexRange indexRange;
+	private final IndexRange matchRange;
 	
-	protected DOMNode(IndexRange indexRange) {
-		this.indexRange = indexRange;
+	protected DOMNode(IndexRange matchRange) {
+		this.matchRange = matchRange;
 	}
 	
-	public IndexRange getIndexRange() {
-		return indexRange;
+	public IndexRange getMatchRange() {
+		return matchRange;
 	}
 	
 }

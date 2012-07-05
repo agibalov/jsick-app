@@ -3,8 +3,8 @@ package com.loki2302.jsick.dom.expressions;
 import org.parboiled.support.IndexRange;
 
 public class DOMDivExpression extends DOMBinaryExpression {	
-	public DOMDivExpression(DOMExpression left, DOMExpression right, IndexRange indexRange) {
-		super(left, right, indexRange);
+	public DOMDivExpression(DOMExpression left, DOMExpression right, IndexRange matchRange) {
+		super(left, right, matchRange);
 	}
 
 	@Override
