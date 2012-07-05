@@ -12,12 +12,7 @@ public class StatementCompiler {
 		this.statementEvaluator = statementEvaluator;
 	}
 	
-	public Statement compile(DOMStatement domStatement) {
-		Context<Statement> statementContext = statementEvaluator.evaluate(Context.<DOMStatement>ok(domStatement));
-		if(!statementContext.isOk()) {
-			throw new RuntimeException();
-		}
-		
-		return statementContext.getValue();
+	public Context<Statement> compile(DOMStatement domStatement) {
+		return statementEvaluator.evaluate(Context.<DOMStatement>ok(domStatement));
 	}
 }

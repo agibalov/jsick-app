@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loki2302.jsick.compiler.DOMExpressionStatementToStatementConverterEvaluator;
-import com.loki2302.jsick.compiler.DOMPrintStatementToStatementConverterEvaluator;
-import com.loki2302.jsick.compiler.DOMStatementToStatementConverterEvaluator;
-import com.loki2302.jsick.compiler.DOMVariableDefinitionStatementToStatementConverterEvaluator;
 import com.loki2302.jsick.compiler.ExpressionCompiler;
 import com.loki2302.jsick.compiler.StatementCompiler;
 import com.loki2302.jsick.compiler.backend.jvm.JVMCodeGenerator;
@@ -17,6 +13,7 @@ import com.loki2302.jsick.dom.DOMProgram;
 import com.loki2302.jsick.dom.parser.ParseResult;
 import com.loki2302.jsick.dom.parser.Parser;
 import com.loki2302.jsick.dom.statements.DOMStatement;
+import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.expressions.AddSubMulDivOperationTypeEvaluator;
 import com.loki2302.jsick.evaluator.expressions.AddTypedExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.BinaryOperationEvaluator;
@@ -28,6 +25,10 @@ import com.loki2302.jsick.evaluator.expressions.MulTypedExpressionBuilderEvaluat
 import com.loki2302.jsick.evaluator.expressions.RemOperationTypeEvaluator;
 import com.loki2302.jsick.evaluator.expressions.RemTypedExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.SubTypedExpressionBuilderEvaluator;
+import com.loki2302.jsick.evaluator.statements.DOMExpressionStatementToStatementConverterEvaluator;
+import com.loki2302.jsick.evaluator.statements.DOMPrintStatementToStatementConverterEvaluator;
+import com.loki2302.jsick.evaluator.statements.DOMStatementToStatementConverterEvaluator;
+import com.loki2302.jsick.evaluator.statements.DOMVariableDefinitionStatementToStatementConverterEvaluator;
 import com.loki2302.jsick.statements.Program;
 import com.loki2302.jsick.statements.Statement;
 import com.loki2302.jsick.types.Types;
@@ -57,7 +58,12 @@ public class App {
 		DOMProgram domProgram = parseResult.getProgram();
 		List<Statement> statements = new ArrayList<Statement>(); 
 		for(DOMStatement domStatement : domProgram.getStatements()) {			
-			Statement statement = statementCompiler.compile(domStatement);
+			Context<Statement> statementContext = statementCompiler.compile(domStatement);
+			if(!statementContext.isOk()) {
+				throw new RuntimeException(); // TODO: error handling
+			}
+			
+			Statement statement = statementContext.getValue();			
 			statements.add(statement);
 		}
 		    		
