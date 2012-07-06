@@ -8,6 +8,7 @@ import com.loki2302.jsick.compiler.ProgramCompiler;
 import com.loki2302.jsick.compiler.backend.jvm.JVMCodeGenerator;
 import com.loki2302.jsick.dom.parser.ParseResult;
 import com.loki2302.jsick.dom.parser.Parser;
+import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.statements.Program;
 import com.loki2302.jsick.types.Types;
 
@@ -32,7 +33,13 @@ public class App {
 		
 		Types types = new Types();
 		ProgramCompiler programCompiler = ProgramCompiler.makeDefaultCompiler(types);
-		Program program = programCompiler.compile(parseResult.getProgram());
+		Context<Program> programContext = programCompiler.compile(parseResult.getProgram());
+		if(!programContext.isOk()) {
+			System.out.println("SEMANTIC ERRORS");
+			return;
+		}
+		
+		Program program = programContext.getValue();
 		    		
     	JVMCodeGenerator jvmCompiler = new JVMCodeGenerator(types);    	
     	byte[] byteCode = jvmCompiler.generateCode(program);

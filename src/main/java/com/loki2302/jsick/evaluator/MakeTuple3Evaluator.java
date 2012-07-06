@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.loki2302.jsick.evaluator.errors.AbstractError;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
 
 public class MakeTuple3Evaluator<T1, T2, T3, TInput> extends Evaluator<TInput, Tuple3<T1, T2, T3>> {
@@ -23,11 +22,7 @@ public class MakeTuple3Evaluator<T1, T2, T3, TInput> extends Evaluator<TInput, T
 	}
 
 	@Override
-	public Context<Tuple3<T1, T2, T3>> evaluate(Context<TInput> input) {		
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<Tuple3<T1, T2, T3>> evaluateImpl(Context<TInput> input) {				
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
 		Context<T1> outputContext1 = evaluator1.evaluate(input);

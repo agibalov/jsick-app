@@ -5,7 +5,6 @@ import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.dom.statements.DOMExpressionStatement;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
 import com.loki2302.jsick.expressions.TypedExpression;
 import com.loki2302.jsick.statements.ExpressionStatement;
 import com.loki2302.jsick.statements.Statement;
@@ -19,11 +18,7 @@ public class DOMExpressionStatementToStatementConverterEvaluator extends Evaluat
 	}
 	
 	@Override
-	public Context<Statement> evaluate(Context<DOMExpressionStatement> input) {
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<Statement> evaluateImpl(Context<DOMExpressionStatement> input) {
 		DOMExpressionStatement domStatement = input.getValue();
 		
 		DOMExpression domExpression = domStatement.getExpression();

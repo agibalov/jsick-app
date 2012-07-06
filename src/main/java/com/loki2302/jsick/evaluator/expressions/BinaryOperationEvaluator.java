@@ -4,7 +4,6 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.Tuple3;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
 import com.loki2302.jsick.evaluator.expressions.errors.CannotDeduceOperationTypeError;
 import com.loki2302.jsick.expressions.TypedExpression;
 import com.loki2302.jsick.types.Type;
@@ -23,11 +22,7 @@ extends Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> {
 	}
 
 	@Override
-	public Context<TypedExpression> evaluate(Context<Tuple2<TypedExpression, TypedExpression>> input) {
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<TypedExpression> evaluateImpl(Context<Tuple2<TypedExpression, TypedExpression>> input) {		
 		Context<Tuple3<TypedExpression, TypedExpression, Type>> operationTypeContext = myOperationTypeEvaluator.evaluate(input);
 		if(!operationTypeContext.isOk()) {
 			return fail(new CannotDeduceOperationTypeError(this, input));

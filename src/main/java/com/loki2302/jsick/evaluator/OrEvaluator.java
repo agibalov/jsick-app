@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.loki2302.jsick.evaluator.errors.AbstractError;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
 import com.loki2302.jsick.evaluator.errors.NoViableAlternativeError;
 
 public class OrEvaluator<TInput, TOutput> extends Evaluator<TInput, TOutput> {
@@ -16,11 +15,7 @@ public class OrEvaluator<TInput, TOutput> extends Evaluator<TInput, TOutput> {
 	}
 
 	@Override
-	public Context<TOutput> evaluate(Context<TInput> input) {
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<TOutput> evaluateImpl(Context<TInput> input) {		
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		for(Evaluator<TInput, TOutput> evaluator : evaluators) {
 			Context<TOutput> outputContext = evaluator.evaluate(input);

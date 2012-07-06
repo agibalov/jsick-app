@@ -7,6 +7,8 @@ import com.loki2302.jsick.LexicalContext;
 import com.loki2302.jsick.dom.DOMProgram;
 import com.loki2302.jsick.dom.statements.DOMStatement;
 import com.loki2302.jsick.evaluator.Context;
+import com.loki2302.jsick.evaluator.errors.AbstractError;
+import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.evaluator.expressions.AddSubMulDivOperationTypeEvaluator;
 import com.loki2302.jsick.evaluator.expressions.AddTypedExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.BinaryOperationEvaluator;
@@ -34,19 +36,26 @@ public class ProgramCompiler {
 		this.statementCompiler = statementCompiler;
 	}
 	
-	public Program compile(DOMProgram domProgram) {
+	public Context<Program> compile(DOMProgram domProgram) {
+		List<AbstractError> errors = new ArrayList<AbstractError>();
+		
 		List<Statement> statements = new ArrayList<Statement>(); 
 		for(DOMStatement domStatement : domProgram.getStatements()) {			
-			Context<Statement> statementContext = statementCompiler.compile(domStatement);
+			Context<Statement> statementContext = statementCompiler.compile(domStatement);			
 			if(!statementContext.isOk()) {
-				throw new RuntimeException(); // TODO: error handling
-			}
+				errors.add(statementContext.getError());
+				continue;
+			} 
 			
 			Statement statement = statementContext.getValue();			
 			statements.add(statement);
 		}
 		
-		return new Program(statements);
+		if(!errors.isEmpty()) {
+			return Context.<Program>fail(new CompositeError(null, domProgram, errors));
+		}
+		
+		return Context.<Program>ok(new Program(statements));
 	}
 	
 	public static ProgramCompiler makeDefaultCompiler(Types types) {

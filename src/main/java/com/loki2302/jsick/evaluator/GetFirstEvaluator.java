@@ -4,11 +4,7 @@ import com.loki2302.jsick.evaluator.errors.BadContextError;
 
 public class GetFirstEvaluator<T, TInput extends Tuple1<T>> extends Evaluator<TInput, T> {
 	@Override
-	public Context<T> evaluate(Context<TInput> input) {
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<T> evaluateImpl(Context<TInput> input) {		
 		TInput in = input.getValue();
 		Context<T> inContext = in.first;
 		if(!inContext.isOk()) {

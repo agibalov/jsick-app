@@ -6,7 +6,6 @@ import java.util.List;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.evaluator.expressions.errors.TypesAreDifferentError;
 import com.loki2302.jsick.expressions.TypedExpression;
@@ -25,11 +24,7 @@ public class ExpressionIsOfTypeEvaluator<TInput> extends Evaluator<TInput, Typed
 	}
 
 	@Override
-	public Context<TypedExpression> evaluate(Context<TInput> input) {
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<TypedExpression> evaluateImpl(Context<TInput> input) {		
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
 		Context<TypedExpression> expressionContext = expressionEvaluator.evaluate(input);

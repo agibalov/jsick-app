@@ -51,11 +51,7 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 	}
 
 	@Override
-	public Context<TypedExpression> evaluate(Context<DOMExpression> input) {
-		if (!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-
+	protected Context<TypedExpression> evaluateImpl(Context<DOMExpression> input) {
 		DOMExpression domExpression = input.getValue();
 		return domExpression.accept(new CompilingDOMExpressionVisitor(lexicalContext));
 	}

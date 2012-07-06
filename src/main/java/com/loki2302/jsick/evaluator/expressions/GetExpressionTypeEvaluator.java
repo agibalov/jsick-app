@@ -15,11 +15,7 @@ public class GetExpressionTypeEvaluator<TInput> extends Evaluator<TInput, Type> 
 	}
 
 	@Override
-	public Context<Type> evaluate(Context<TInput> input) {
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<Type> evaluateImpl(Context<TInput> input) {		
 		Context<TypedExpression> expressionContext = expressionEvaluator.evaluate(input);
 		if(!expressionContext.isOk()) {
 			return fail(new BadContextError(this, input));

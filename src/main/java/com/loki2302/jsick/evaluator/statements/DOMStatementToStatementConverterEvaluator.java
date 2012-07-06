@@ -7,7 +7,6 @@ import com.loki2302.jsick.dom.statements.DOMStatementVisitor;
 import com.loki2302.jsick.dom.statements.DOMVariableDefinitionStatement;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
 import com.loki2302.jsick.statements.Statement;
 
 public class DOMStatementToStatementConverterEvaluator extends Evaluator<DOMStatement, Statement> {	
@@ -26,11 +25,7 @@ public class DOMStatementToStatementConverterEvaluator extends Evaluator<DOMStat
 	}
 
 	@Override
-	public Context<Statement> evaluate(Context<DOMStatement> input) {
-		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
-		}
-		
+	protected Context<Statement> evaluateImpl(Context<DOMStatement> input) {
 		DOMStatement statement = input.getValue();
 		return statement.accept(new ConvertingDOMStatementVisitor());
 	}
