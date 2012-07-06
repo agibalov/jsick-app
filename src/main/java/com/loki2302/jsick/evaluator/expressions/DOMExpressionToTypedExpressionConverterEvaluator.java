@@ -1,6 +1,7 @@
 package com.loki2302.jsick.evaluator.expressions;
 
 import com.loki2302.jsick.dom.expressions.DOMAddExpression;
+import com.loki2302.jsick.dom.expressions.DOMVariableAssignmentExpression;
 import com.loki2302.jsick.dom.expressions.DOMBinaryExpression;
 import com.loki2302.jsick.dom.expressions.DOMDivExpression;
 import com.loki2302.jsick.dom.expressions.DOMDoubleConstExpression;
@@ -27,6 +28,7 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> divExpressionEvaluator;
 	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> remExpressionEvaluator;
 	private final Evaluator<DOMVariableReferenceExpression, TypedExpression> variableReferenceExpressionEvaluator;
+	private final Evaluator<DOMVariableAssignmentExpression, TypedExpression> variableAssignmentExpressionEvaluator;
 
 	public DOMExpressionToTypedExpressionConverterEvaluator(
 			Evaluator<DOMIntConstExpression, TypedExpression> intConstExpressionEvaluator,
@@ -36,7 +38,8 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> mulExpressionEvaluator,
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> divExpressionEvaluator,
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> remExpressionEvaluator,
-			Evaluator<DOMVariableReferenceExpression, TypedExpression> variableReferenceExpressionEvaluator) {
+			Evaluator<DOMVariableReferenceExpression, TypedExpression> variableReferenceExpressionEvaluator,
+			Evaluator<DOMVariableAssignmentExpression, TypedExpression> variableAssignmentExpressionEvaluator) {
 		this.intConstExpressionEvaluator = intConstExpressionEvaluator;
 		this.doubleConstExpressionEvaluator = doubleConstExpressionEvaluator;
 		this.addExpressionEvaluator = addExpressionEvaluator;
@@ -45,6 +48,7 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 		this.divExpressionEvaluator = divExpressionEvaluator;
 		this.remExpressionEvaluator = remExpressionEvaluator;
 		this.variableReferenceExpressionEvaluator = variableReferenceExpressionEvaluator;
+		this.variableAssignmentExpressionEvaluator = variableAssignmentExpressionEvaluator;
 	}
 
 	@Override
@@ -54,45 +58,50 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 
 	private class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Context<TypedExpression>> {
 		@Override
-		public Context<TypedExpression> visitDOMIntConstExpression(DOMIntConstExpression expression) {
+		public Context<TypedExpression> visitIntConstExpression(DOMIntConstExpression expression) {
 			return intConstExpressionEvaluator.evaluate(expression);
 		}
 
 		@Override
-		public Context<TypedExpression> visitDOMDoubleConstExpression(DOMDoubleConstExpression expression) {
+		public Context<TypedExpression> visitDoubleConstExpression(DOMDoubleConstExpression expression) {
 			return doubleConstExpressionEvaluator.evaluate(expression);
 		}
 
 		@Override
-		public Context<TypedExpression> visitDOMAddExpression(DOMAddExpression expression) {
+		public Context<TypedExpression> visitAddExpression(DOMAddExpression expression) {
 			return processBinaryExpression(expression, addExpressionEvaluator);
 		}
 
 		@Override
-		public Context<TypedExpression> visitDOMSubExpression(DOMSubExpression expression) {
+		public Context<TypedExpression> visitSubExpression(DOMSubExpression expression) {
 			return processBinaryExpression(expression, subExpressionEvaluator);
 		}
 
 		@Override
-		public Context<TypedExpression> visitDOMMulExpression(DOMMulExpression expression) {
+		public Context<TypedExpression> visitMulExpression(DOMMulExpression expression) {
 			return processBinaryExpression(expression, mulExpressionEvaluator);
 		}
 
 		@Override
-		public Context<TypedExpression> visitDOMDivExpression(DOMDivExpression expression) {
+		public Context<TypedExpression> visitDivExpression(DOMDivExpression expression) {
 			return processBinaryExpression(expression, divExpressionEvaluator);
 		}
 
 		@Override
-		public Context<TypedExpression> visitDOMRemExpression(DOMRemExpression expression) {
+		public Context<TypedExpression> visitRemExpression(DOMRemExpression expression) {
 			return processBinaryExpression(expression, remExpressionEvaluator);
 		}
 
 		@Override
-		public Context<TypedExpression> visitDOMVariableReferenceExpression(DOMVariableReferenceExpression expression) {
+		public Context<TypedExpression> visitVariableReferenceExpression(DOMVariableReferenceExpression expression) {
 			return variableReferenceExpressionEvaluator.evaluate(expression);
 		}		
-
+		
+		@Override
+		public Context<TypedExpression> visitVariableAssignmentExpression(DOMVariableAssignmentExpression expression) {			
+			return variableAssignmentExpressionEvaluator.evaluate(expression);
+		}
+		
 		private Context<TypedExpression> processBinaryExpression(
 				DOMBinaryExpression expression,
 				Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> evaluator) {
@@ -111,6 +120,6 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 					new Tuple2<TypedExpression, TypedExpression>(
 							leftContext.getValue(), 
 							rightContext.getValue()));
-		}
+		}		
 	}
 }

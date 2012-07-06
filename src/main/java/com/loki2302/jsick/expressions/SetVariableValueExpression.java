@@ -3,16 +3,22 @@ package com.loki2302.jsick.expressions;
 import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 
-public class VariableReferenceExpression implements TypedExpression {
+public class SetVariableValueExpression implements TypedExpression {
 	
 	private final Instance instance;
+	private final TypedExpression expression;
 	
-	public VariableReferenceExpression(Instance instance) {
+	public SetVariableValueExpression(Instance instance, TypedExpression expression) {
 		this.instance = instance;
+		this.expression = expression;
 	}
 
 	public Instance getInstance() {
 		return instance;
+	}
+	
+	public TypedExpression getExpression() {
+		return expression;
 	}
 	
 	@Override
@@ -22,7 +28,7 @@ public class VariableReferenceExpression implements TypedExpression {
 
 	@Override
 	public <T> T accept(TypedExpressionVisitor<T> visitor) {
-		return visitor.visitVariableReferenceExpression(this);
+		return visitor.visitSetVariableValueExpression(this);
 	}
 
 }

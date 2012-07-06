@@ -9,6 +9,6 @@ public class DOMMulExpression extends DOMBinaryExpression {
 
 	@Override
 	public <T> T accept(DOMExpressionVisitor<T> visitor) {
-		return visitor.visitDOMMulExpression(this);
+		return visitor.visitMulExpression(this);
 	}
 }

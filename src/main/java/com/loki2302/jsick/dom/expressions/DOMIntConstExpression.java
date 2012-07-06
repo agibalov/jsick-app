@@ -17,6 +17,6 @@ public class DOMIntConstExpression extends DOMExpression {
 	
 	@Override
 	public <T> T accept(DOMExpressionVisitor<T> visitor) {
-		return visitor.visitDOMIntConstExpression(this);
+		return visitor.visitIntConstExpression(this);
 	}
 }

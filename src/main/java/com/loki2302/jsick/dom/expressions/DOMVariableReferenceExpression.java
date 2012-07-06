@@ -17,7 +17,7 @@ public class DOMVariableReferenceExpression extends DOMExpression {
 
 	@Override
 	public <T> T accept(DOMExpressionVisitor<T> visitor) {
-		return visitor.visitDOMVariableReferenceExpression(this);
+		return visitor.visitVariableReferenceExpression(this);
 	}
 
 }

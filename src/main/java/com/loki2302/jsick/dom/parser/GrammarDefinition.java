@@ -10,6 +10,7 @@ import com.loki2302.jsick.dom.expressions.DOMBinaryExpression;
 import com.loki2302.jsick.dom.expressions.DOMDoubleConstExpression;
 import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.dom.expressions.DOMIntConstExpression;
+import com.loki2302.jsick.dom.expressions.DOMVariableAssignmentExpression;
 import com.loki2302.jsick.dom.expressions.DOMVariableReferenceExpression;
 import com.loki2302.jsick.dom.statements.DOMExpressionStatement;
 import com.loki2302.jsick.dom.statements.DOMPrintStatement;
@@ -81,7 +82,7 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 	}
 	
 	Rule parensExpression() {
-		return Sequence("(", expression(), ")");
+		return Sequence("(", additiveExpression(), ")");
 	}
 	
 	Rule literalExpression() {
@@ -115,7 +116,26 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 				push(new DOMVariableReferenceExpression(match(), getContext().getMatchRange()))); 
 	}
 	
-	Rule termExpression() {
+	Rule expression() {
+		return FirstOf(				
+				assignmentExpression(),
+				additiveExpression());
+	}
+	
+	Rule assignmentExpression() {
+		return Sequence(
+				variableReferenceExpression(),
+				optGap(),
+				"=",
+				optGap(),
+				expression(),
+				push(new DOMVariableAssignmentExpression(
+						(DOMVariableReferenceExpression)pop(1), 
+						(DOMExpression)pop(), 
+						getContext().getMatchRange())));
+	}
+		
+	Rule multiplicativeExpression() {
 		Var<Character> op = new Var<Character>();
 		return Sequence(
 				factorExpression(),
@@ -131,14 +151,14 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 				);		
 	}
 	
-	Rule expression() {
+	Rule additiveExpression() {
 		Var<Character> op = new Var<Character>();
 		return Sequence(
-				termExpression(),
+				multiplicativeExpression(),
 				ZeroOrMore(
 					FirstOf("+", "-"),
 					op.set(matchedChar()),
-					termExpression(),
+					multiplicativeExpression(),
 					push(DOMBinaryExpression.expressionFromChar(
 							op.get(),
 							(DOMExpression)pop(1), 
@@ -152,7 +172,9 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 	}
 	
 	Rule simpleType() {
-		return FirstOf("int", "double");
+		return FirstOf(
+				"int", 
+				"double");
 	}
 		
 	Rule gap() {

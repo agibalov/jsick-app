@@ -10,10 +10,11 @@ import com.loki2302.jsick.expressions.DoubleConstExpression;
 import com.loki2302.jsick.expressions.IntConstExpression;
 import com.loki2302.jsick.expressions.MulExpression;
 import com.loki2302.jsick.expressions.RemExpression;
+import com.loki2302.jsick.expressions.SetVariableValueExpression;
 import com.loki2302.jsick.expressions.SubExpression;
 import com.loki2302.jsick.expressions.TypedExpression;
 import com.loki2302.jsick.expressions.TypedExpressionVisitor;
-import com.loki2302.jsick.expressions.VariableReferenceExpression;
+import com.loki2302.jsick.expressions.GetVariableValueExpression;
 import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.types.Types;
@@ -137,7 +138,7 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 	}
 
 	@Override
-	public Object visitVariableReferenceExpression(VariableReferenceExpression expression) {
+	public Object visitGetVariableValueExpression(GetVariableValueExpression expression) {
 		Instance instance = expression.getInstance();
 		Type instanceType = instance.getType();
 		
@@ -153,4 +154,24 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 		
 		return null;
 	}
+
+	@Override
+	public Object visitSetVariableValueExpression(SetVariableValueExpression expression) {
+		Instance instance = expression.getInstance();
+		Type instanceType = instance.getType();
+		TypedExpression valueExpression = expression.getExpression();
+		
+		int index = localsContext.getLocalIndex(instance);
+		valueExpression.accept(this);
+		if(instanceType.equals(types.IntType)) {
+			methodVisitor.visitIntInsn(Opcodes.ISTORE, index);
+		} else if(instanceType.equals(types.DoubleType)) {
+			methodVisitor.visitIntInsn(Opcodes.DSTORE, index);
+		} else {
+			throw new RuntimeException();
+		}
+		
+		return null;
+	}
+
 }

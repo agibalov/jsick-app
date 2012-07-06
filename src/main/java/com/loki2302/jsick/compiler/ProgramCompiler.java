@@ -12,7 +12,8 @@ import com.loki2302.jsick.evaluator.expressions.AddSubMulDivOperationTypeEvaluat
 import com.loki2302.jsick.evaluator.expressions.AddTypedExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.BinaryOperationEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DOMExpressionToTypedExpressionConverterEvaluator;
-import com.loki2302.jsick.evaluator.expressions.DOMVariableReferenceExpressionToTypedExpressionConverterEvaluator;
+import com.loki2302.jsick.evaluator.expressions.VariableAssignmentExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.VariableReferenceExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DivTypedExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DoubleConstExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.IntConstExpressionEvaluator;
@@ -82,7 +83,8 @@ public class ProgramCompiler {
 	    			new BinaryOperationEvaluator(
 	    					new RemOperationTypeEvaluator(types), 
 	    					new RemTypedExpressionBuilderEvaluator()),
-	    			new DOMVariableReferenceExpressionToTypedExpressionConverterEvaluator(lexicalContext));
+	    			new VariableReferenceExpressionEvaluator(lexicalContext),
+	    			new VariableAssignmentExpressionEvaluator(lexicalContext));
 		
 		ExpressionCompiler expressionCompiler = new ExpressionCompiler(compilingExpressionEvaluator);
 		

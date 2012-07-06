@@ -9,6 +9,6 @@ public class DOMAddExpression extends DOMBinaryExpression {
 
 	@Override
 	public <T> T accept(DOMExpressionVisitor<T> visitor) {
-		return visitor.visitDOMAddExpression(this);
+		return visitor.visitAddExpression(this);
 	}
 }

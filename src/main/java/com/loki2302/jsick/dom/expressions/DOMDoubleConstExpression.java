@@ -16,7 +16,7 @@ public class DOMDoubleConstExpression extends DOMExpression {
 
 	@Override
 	public <T> T accept(DOMExpressionVisitor<T> visitor) {
-		return visitor.visitDOMDoubleConstExpression(this);
+		return visitor.visitDoubleConstExpression(this);
 	}	
 	
 }

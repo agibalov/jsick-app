@@ -9,5 +9,6 @@ public interface TypedExpressionVisitor<T> {
 	T visitMulExpression(MulExpression expression);
 	T visitDivExpression(DivExpression expression);
 	T visitRemExpression(RemExpression expression);
-	T visitVariableReferenceExpression(VariableReferenceExpression expression);
+	T visitGetVariableValueExpression(GetVariableValueExpression expression);
+	T visitSetVariableValueExpression(SetVariableValueExpression expression);
 }

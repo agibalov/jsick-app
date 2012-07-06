@@ -15,9 +15,9 @@ extends Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> {
 	private final Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> typedExpressionBuilderEvaluator;
 	
 	public BinaryOperationEvaluator(
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> myOperationTypeEvaluator,
+			Evaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> operationTypeEvaluator,
 			Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> typedExpressionBuilderEvaluator) {
-		this.myOperationTypeEvaluator = myOperationTypeEvaluator;
+		this.myOperationTypeEvaluator = operationTypeEvaluator;
 		this.typedExpressionBuilderEvaluator = typedExpressionBuilderEvaluator;
 	}
 
