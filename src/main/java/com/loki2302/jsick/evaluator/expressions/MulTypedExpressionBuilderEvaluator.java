@@ -9,12 +9,11 @@ import com.loki2302.jsick.types.Type;
 
 public class MulTypedExpressionBuilderEvaluator extends Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> {
 	@Override
-	protected Context<TypedExpression> evaluateImpl(Context<Tuple3<TypedExpression, TypedExpression, Type>> input) {		
-		Tuple3<TypedExpression, TypedExpression, Type> tuple = input.getValue();			
-		return Context.<TypedExpression>ok(
+	public Context<TypedExpression> evaluate(Tuple3<TypedExpression, TypedExpression, Type> input) {				
+		return ok(
 				new MulExpression(
-						tuple.first.getValue(),
-						tuple.second.getValue(),
-						tuple.third.getValue())); 
+						input.first.getValue(),
+						input.second.getValue(),
+						input.third.getValue())); 
 	}		
 }

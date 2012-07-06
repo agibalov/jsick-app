@@ -1,28 +1,22 @@
 package com.loki2302.jsick.statements;
 
 import com.loki2302.jsick.expressions.TypedExpression;
-import com.loki2302.jsick.types.Type;
+import com.loki2302.jsick.types.Instance;
 
 public class VariableDefinitionStatement extends Statement {
 	
-	private final Type variableType;	
-	private final String variableName;
+	private final Instance instance;
 	private final TypedExpression expression;
 	
-	public VariableDefinitionStatement(Type variableType, String variableName, TypedExpression expression) {
-		this.variableType = variableType;
-		this.variableName = variableName;
+	public VariableDefinitionStatement(Instance instance, TypedExpression expression) {
+		this.instance = instance;
 		this.expression = expression;
 	}
 	
-	public Type getVariableType() {
-		return variableType;
+	public Instance getInstance() {
+		return instance;
 	}
-	
-	public String getVariableName() {
-		return variableName;
-	}
-	
+		
 	public TypedExpression getExpression() {
 		return expression;
 	}

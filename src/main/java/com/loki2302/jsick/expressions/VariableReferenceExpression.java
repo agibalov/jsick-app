@@ -1,24 +1,23 @@
 package com.loki2302.jsick.expressions;
 
+import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 
 public class VariableReferenceExpression implements TypedExpression {
 	
-	private final String variableName;
-	private final Type variableType;
+	private final Instance instance;
 	
-	public VariableReferenceExpression(String variableName, Type variableType) {
-		this.variableName = variableName;
-		this.variableType = variableType;
+	public VariableReferenceExpression(Instance instance) {
+		this.instance = instance;
 	}
 
-	public String getVariableName() {
-		return variableName;
+	public Instance getInstance() {
+		return instance;
 	}
 	
 	@Override
 	public Type getType() {
-		return variableType;
+		return instance.getType();
 	}
 
 	@Override

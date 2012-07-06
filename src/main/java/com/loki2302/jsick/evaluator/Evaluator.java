@@ -9,10 +9,10 @@ public abstract class Evaluator<TInput, TOutput> {
 			return fail(new BadContextError(this, input));
 		}
 		
-		return evaluateImpl(input);
+		return evaluate(input.getValue());
 	}
 	
-	protected abstract Context<TOutput> evaluateImpl(Context<TInput> input);
+	public abstract Context<TOutput> evaluate(TInput input);
 	
 	protected Context<TOutput> ok(TOutput output) {
 		return Context.<TOutput>ok(output);

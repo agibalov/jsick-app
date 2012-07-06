@@ -15,7 +15,7 @@ public class OrEvaluator<TInput, TOutput> extends Evaluator<TInput, TOutput> {
 	}
 
 	@Override
-	protected Context<TOutput> evaluateImpl(Context<TInput> input) {		
+	public Context<TOutput> evaluate(TInput input) {		
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		for(Evaluator<TInput, TOutput> evaluator : evaluators) {
 			Context<TOutput> outputContext = evaluator.evaluate(input);

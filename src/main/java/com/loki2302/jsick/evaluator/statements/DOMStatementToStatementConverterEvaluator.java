@@ -25,25 +25,24 @@ public class DOMStatementToStatementConverterEvaluator extends Evaluator<DOMStat
 	}
 
 	@Override
-	protected Context<Statement> evaluateImpl(Context<DOMStatement> input) {
-		DOMStatement statement = input.getValue();
-		return statement.accept(new ConvertingDOMStatementVisitor());
+	public Context<Statement> evaluate(DOMStatement input) {
+		return input.accept(new ConvertingDOMStatementVisitor());
 	}
 	
 	private class ConvertingDOMStatementVisitor implements DOMStatementVisitor<Context<Statement>> {
 		@Override
 		public Context<Statement> visitVariableDefinitionStatement(DOMVariableDefinitionStatement statement) {
-			return variableDefinitionStatementEvaluator.evaluate(Context.<DOMVariableDefinitionStatement>ok(statement));
+			return variableDefinitionStatementEvaluator.evaluate(statement);
 		}
 
 		@Override
 		public Context<Statement> visitExpressionStatement(DOMExpressionStatement statement) {
-			return expressionStatementEvaluator.evaluate(Context.<DOMExpressionStatement>ok(statement));
+			return expressionStatementEvaluator.evaluate(statement);
 		}
 
 		@Override
 		public Context<Statement> visitPrintStatement(DOMPrintStatement statement) {
-			return printStatementEvaluator.evaluate(Context.<DOMPrintStatement>ok(statement));
+			return printStatementEvaluator.evaluate(statement);
 		}
 	}
 

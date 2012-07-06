@@ -1,12 +1,13 @@
 package com.loki2302.jsick.expressions;
 
-import com.loki2302.jsick.types.SimpleType;
 import com.loki2302.jsick.types.Type;
 
 public class IntConstExpression implements TypedExpression {
+	private final Type intType;
 	private final int value;
 	
-	public IntConstExpression(int value) {
+	public IntConstExpression(Type intType, int value) {
+		this.intType = intType;
 		this.value = value;
 	}
 	
@@ -16,7 +17,7 @@ public class IntConstExpression implements TypedExpression {
 	
 	@Override
 	public Type getType() {			
-		return new SimpleType("int", new SimpleType("double"));
+		return intType;
 	}    	
 	
 	@Override

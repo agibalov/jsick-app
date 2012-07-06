@@ -24,7 +24,7 @@ public class ExpressionIsOfTypeEvaluator<TInput> extends Evaluator<TInput, Typed
 	}
 
 	@Override
-	protected Context<TypedExpression> evaluateImpl(Context<TInput> input) {		
+	public Context<TypedExpression> evaluate(TInput input) {		
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
 		Context<TypedExpression> expressionContext = expressionEvaluator.evaluate(input);

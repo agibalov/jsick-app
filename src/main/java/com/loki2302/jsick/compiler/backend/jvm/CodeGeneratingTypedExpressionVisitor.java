@@ -3,7 +3,6 @@ package com.loki2302.jsick.compiler.backend.jvm;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import com.loki2302.jsick.LexicalContext;
 import com.loki2302.jsick.expressions.AddExpression;
 import com.loki2302.jsick.expressions.CastExpression;
 import com.loki2302.jsick.expressions.DivExpression;
@@ -15,6 +14,7 @@ import com.loki2302.jsick.expressions.SubExpression;
 import com.loki2302.jsick.expressions.TypedExpression;
 import com.loki2302.jsick.expressions.TypedExpressionVisitor;
 import com.loki2302.jsick.expressions.VariableReferenceExpression;
+import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.types.Types;
 
@@ -22,15 +22,15 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 	
 	private final Types types;
 	private final MethodVisitor methodVisitor;
-	private final LexicalContext lexicalContext;
+	private final LocalsContext localsContext;
 	
 	public CodeGeneratingTypedExpressionVisitor(
 			Types types, 
 			MethodVisitor methodVisitor, 
-			LexicalContext lexicalContext) {
+			LocalsContext localsContext) {
 		this.types = types;
 		this.methodVisitor = methodVisitor;
-		this.lexicalContext = lexicalContext;
+		this.localsContext = localsContext;
 	}
 	
 	@Override
@@ -138,17 +138,15 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 
 	@Override
 	public Object visitVariableReferenceExpression(VariableReferenceExpression expression) {
-		String variableName = expression.getVariableName();
-		if(!lexicalContext.variableExists(variableName)) {
-			throw new RuntimeException();
-		}
+		Instance instance = expression.getInstance();
+		Type instanceType = instance.getType();
 		
-		Type variableType = lexicalContext.getVariableType(variableName);
-		int location = lexicalContext.getVariableLocation(variableName);
-		if(variableType.equals(types.IntType)) {
-			methodVisitor.visitIntInsn(Opcodes.ILOAD, location);
-		} else if(variableType.equals(types.DoubleType)) {
-			methodVisitor.visitIntInsn(Opcodes.DLOAD, location);
+		int index = localsContext.getLocalIndex(instance);		
+		
+		if(instanceType.equals(types.IntType)) {
+			methodVisitor.visitIntInsn(Opcodes.ILOAD, index);
+		} else if(instanceType.equals(types.DoubleType)) {
+			methodVisitor.visitIntInsn(Opcodes.DLOAD, index);
 		} else {
 			throw new RuntimeException();
 		}

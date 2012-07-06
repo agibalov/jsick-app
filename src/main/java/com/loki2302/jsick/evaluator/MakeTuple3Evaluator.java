@@ -22,7 +22,7 @@ public class MakeTuple3Evaluator<T1, T2, T3, TInput> extends Evaluator<TInput, T
 	}
 
 	@Override
-	protected Context<Tuple3<T1, T2, T3>> evaluateImpl(Context<TInput> input) {				
+	public Context<Tuple3<T1, T2, T3>> evaluate(TInput input) {				
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
 		Context<T1> outputContext1 = evaluator1.evaluate(input);

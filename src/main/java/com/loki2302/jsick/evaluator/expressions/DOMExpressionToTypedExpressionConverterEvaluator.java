@@ -1,6 +1,5 @@
 package com.loki2302.jsick.evaluator.expressions;
 
-import com.loki2302.jsick.LexicalContext;
 import com.loki2302.jsick.dom.expressions.DOMAddExpression;
 import com.loki2302.jsick.dom.expressions.DOMBinaryExpression;
 import com.loki2302.jsick.dom.expressions.DOMDivExpression;
@@ -17,12 +16,9 @@ import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.errors.BadContextError;
 import com.loki2302.jsick.expressions.TypedExpression;
-import com.loki2302.jsick.expressions.VariableReferenceExpression;
-import com.loki2302.jsick.types.Type;
 
 public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<DOMExpression, TypedExpression> {
 
-	private final LexicalContext lexicalContext;
 	private final Evaluator<DOMIntConstExpression, TypedExpression> intConstExpressionEvaluator;
 	private final Evaluator<DOMDoubleConstExpression, TypedExpression> doubleConstExpressionEvaluator;
 	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> addExpressionEvaluator;
@@ -30,17 +26,17 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> mulExpressionEvaluator;
 	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> divExpressionEvaluator;
 	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> remExpressionEvaluator;
+	private final Evaluator<DOMVariableReferenceExpression, TypedExpression> variableReferenceExpressionEvaluator;
 
 	public DOMExpressionToTypedExpressionConverterEvaluator(
-			LexicalContext lexicalContext,
 			Evaluator<DOMIntConstExpression, TypedExpression> intConstExpressionEvaluator,
 			Evaluator<DOMDoubleConstExpression, TypedExpression> doubleConstExpressionEvaluator,
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> addExpressionEvaluator,
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> subExpressionEvaluator,
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> mulExpressionEvaluator,
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> divExpressionEvaluator,
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> remExpressionEvaluator) {
-		this.lexicalContext = lexicalContext;
+			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> remExpressionEvaluator,
+			Evaluator<DOMVariableReferenceExpression, TypedExpression> variableReferenceExpressionEvaluator) {
 		this.intConstExpressionEvaluator = intConstExpressionEvaluator;
 		this.doubleConstExpressionEvaluator = doubleConstExpressionEvaluator;
 		this.addExpressionEvaluator = addExpressionEvaluator;
@@ -48,29 +44,23 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 		this.mulExpressionEvaluator = mulExpressionEvaluator;
 		this.divExpressionEvaluator = divExpressionEvaluator;
 		this.remExpressionEvaluator = remExpressionEvaluator;
+		this.variableReferenceExpressionEvaluator = variableReferenceExpressionEvaluator;
 	}
 
 	@Override
-	protected Context<TypedExpression> evaluateImpl(Context<DOMExpression> input) {
-		DOMExpression domExpression = input.getValue();
-		return domExpression.accept(new CompilingDOMExpressionVisitor(lexicalContext));
+	public Context<TypedExpression> evaluate(DOMExpression input) {
+		return input.accept(new CompilingDOMExpressionVisitor());
 	}
 
 	private class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Context<TypedExpression>> {
-		private final LexicalContext lexicalContext;
-		
-		public CompilingDOMExpressionVisitor(LexicalContext lexicalContext) {
-			this.lexicalContext = lexicalContext;
-		}
-		
 		@Override
 		public Context<TypedExpression> visitDOMIntConstExpression(DOMIntConstExpression expression) {
-			return intConstExpressionEvaluator.evaluate(Context.<DOMIntConstExpression> ok(expression));
+			return intConstExpressionEvaluator.evaluate(expression);
 		}
 
 		@Override
 		public Context<TypedExpression> visitDOMDoubleConstExpression(DOMDoubleConstExpression expression) {
-			return doubleConstExpressionEvaluator.evaluate(Context.<DOMDoubleConstExpression> ok(expression));
+			return doubleConstExpressionEvaluator.evaluate(expression);
 		}
 
 		@Override
@@ -100,17 +90,8 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 
 		@Override
 		public Context<TypedExpression> visitDOMVariableReferenceExpression(DOMVariableReferenceExpression expression) {
-			
-			String variableName = expression.getVariableName();
-			if(!lexicalContext.variableExists(variableName)) {
-				System.out.println("123");
-				return Context.<TypedExpression>fail(new BadContextError(null, null));
-			}
-			
-			Type variableType = lexicalContext.getVariableType(variableName);
-			
-			return Context.<TypedExpression>ok(new VariableReferenceExpression(variableName, variableType));
-		}
+			return variableReferenceExpressionEvaluator.evaluate(expression);
+		}		
 
 		private Context<TypedExpression> processBinaryExpression(
 				DOMBinaryExpression expression,
@@ -126,11 +107,10 @@ public class DOMExpressionToTypedExpressionConverterEvaluator extends Evaluator<
 				return fail(new BadContextError(evaluator, null));
 			}
 
-			return evaluator.evaluate(Context.<Tuple2<TypedExpression, TypedExpression>> ok(
+			return evaluator.evaluate(
 					new Tuple2<TypedExpression, TypedExpression>(
 							leftContext.getValue(), 
-							rightContext.getValue())));
+							rightContext.getValue()));
 		}
 	}
-
 }

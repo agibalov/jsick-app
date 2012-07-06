@@ -13,6 +13,6 @@ public class StatementCompiler {
 	}
 	
 	public Context<Statement> compile(DOMStatement domStatement) {
-		return statementEvaluator.evaluate(Context.<DOMStatement>ok(domStatement));
+		return statementEvaluator.evaluate(domStatement);
 	}
 }

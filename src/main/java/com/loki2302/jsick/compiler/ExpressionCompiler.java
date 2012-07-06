@@ -14,7 +14,7 @@ public class ExpressionCompiler {
 	}
 	
 	public Context<TypedExpression> compile(DOMExpression domExpression) {
-		return compilingExpressionEvaluator.evaluate(Context.<DOMExpression>ok(domExpression));
+		return compilingExpressionEvaluator.evaluate(domExpression);
 	}
 	
 }

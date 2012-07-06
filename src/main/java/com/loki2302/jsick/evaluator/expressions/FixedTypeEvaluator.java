@@ -13,7 +13,7 @@ public class FixedTypeEvaluator<TInput> extends Evaluator<TInput, Type> {
 	}
 
 	@Override
-	protected Context<Type> evaluateImpl(Context<TInput> input) {		
+	public Context<Type> evaluate(TInput input) {		
 		return ok(type);
 	}
 

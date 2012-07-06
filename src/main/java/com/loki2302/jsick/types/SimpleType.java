@@ -7,7 +7,7 @@ public class SimpleType implements Type {
 	private final String name;
 	private final Type[] canCastTo;
 	
-	public SimpleType(String name, Type... canCastTo) {
+	SimpleType(String name, Type... canCastTo) {
 		this.name = name;
 		this.canCastTo = canCastTo;
 	}
@@ -18,9 +18,14 @@ public class SimpleType implements Type {
 	}
 
 	@Override
-	public boolean canCastTo(Type other) {		
+	public boolean canImplicitlyCastTo(Type other) {		
 		return Arrays.asList(canCastTo).contains(other);
-	}		
+	}
+	
+	@Override
+	public Instance makeInstance() {
+		return new Instance(this);
+	}
 	
 	@Override
 	public String toString() {
@@ -29,7 +34,7 @@ public class SimpleType implements Type {
 	
 	@Override
 	public boolean equals(Object other) {
-		return (other instanceof Type) && (((Type)other).getName().equals(getName()));
+		return other == this;
 	}
 	
 }

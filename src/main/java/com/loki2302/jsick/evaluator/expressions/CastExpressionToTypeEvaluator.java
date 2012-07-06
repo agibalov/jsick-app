@@ -25,7 +25,7 @@ public class CastExpressionToTypeEvaluator<TInput> extends Evaluator<TInput, Typ
 	}
 
 	@Override
-	protected Context<TypedExpression> evaluateImpl(Context<TInput> input) {		
+	public Context<TypedExpression> evaluate(TInput input) {		
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
 		Context<TypedExpression> expressionContext = expressionEvaluator.evaluate(input);
@@ -42,7 +42,7 @@ public class CastExpressionToTypeEvaluator<TInput> extends Evaluator<TInput, Typ
 			return fail(new CompositeError(this, input, errors));
 		}
 		
-		if(!expressionContext.getValue().getType().canCastTo(typeContext.getValue())) {
+		if(!expressionContext.getValue().getType().canImplicitlyCastTo(typeContext.getValue())) {
 			return fail(new CannotCastError(this, input));
 		}
 		

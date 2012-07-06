@@ -3,7 +3,6 @@ package com.loki2302.jsick.compiler;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loki2302.jsick.LexicalContext;
 import com.loki2302.jsick.dom.DOMProgram;
 import com.loki2302.jsick.dom.statements.DOMStatement;
 import com.loki2302.jsick.evaluator.Context;
@@ -13,6 +12,7 @@ import com.loki2302.jsick.evaluator.expressions.AddSubMulDivOperationTypeEvaluat
 import com.loki2302.jsick.evaluator.expressions.AddTypedExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.BinaryOperationEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DOMExpressionToTypedExpressionConverterEvaluator;
+import com.loki2302.jsick.evaluator.expressions.DOMVariableReferenceExpressionToTypedExpressionConverterEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DivTypedExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DoubleConstExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.IntConstExpressionEvaluator;
@@ -65,9 +65,8 @@ public class ProgramCompiler {
 				new AddSubMulDivOperationTypeEvaluator(types);		
     	DOMExpressionToTypedExpressionConverterEvaluator compilingExpressionEvaluator = 
     			new DOMExpressionToTypedExpressionConverterEvaluator(
-	    			lexicalContext,
-	    			new IntConstExpressionEvaluator(),
-	    			new DoubleConstExpressionEvaluator(),
+	    			new IntConstExpressionEvaluator(types.IntType),
+	    			new DoubleConstExpressionEvaluator(types.DoubleType),
 	    			new BinaryOperationEvaluator(
 	    					addSubMulDivOperationTypeEvaluator, 
 	    					new AddTypedExpressionBuilderEvaluator()),
@@ -82,7 +81,8 @@ public class ProgramCompiler {
 	    					new DivTypedExpressionBuilderEvaluator()),
 	    			new BinaryOperationEvaluator(
 	    					new RemOperationTypeEvaluator(types), 
-	    					new RemTypedExpressionBuilderEvaluator()));
+	    					new RemTypedExpressionBuilderEvaluator()),
+	    			new DOMVariableReferenceExpressionToTypedExpressionConverterEvaluator(lexicalContext));
 		
 		ExpressionCompiler expressionCompiler = new ExpressionCompiler(compilingExpressionEvaluator);
 		

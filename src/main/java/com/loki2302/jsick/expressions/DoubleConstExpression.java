@@ -1,12 +1,13 @@
 package com.loki2302.jsick.expressions;
 
-import com.loki2302.jsick.types.SimpleType;
 import com.loki2302.jsick.types.Type;
 
 public class DoubleConstExpression implements TypedExpression {
+	private final Type doubleType;
 	private final double value;
 	
-	public DoubleConstExpression(double value) {
+	public DoubleConstExpression(Type doubleType, double value) {
+		this.doubleType = doubleType;
 		this.value = value;
 	}
 	
@@ -16,7 +17,7 @@ public class DoubleConstExpression implements TypedExpression {
 	
 	@Override
 	public Type getType() {			
-		return new SimpleType("double");
+		return doubleType;
 	}
 	
 	@Override

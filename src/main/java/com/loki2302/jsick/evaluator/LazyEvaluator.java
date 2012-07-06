@@ -7,7 +7,7 @@ public abstract class LazyEvaluator<TInput, TOutput> extends Evaluator<TInput, T
 	protected abstract Evaluator<TInput, TOutput> makeEvaluator();
 	
 	@Override
-	protected Context<TOutput> evaluateImpl(Context<TInput> input) {
+	public Context<TOutput> evaluate(TInput input) {
 		if(evaluator == null) {
 			evaluator = makeEvaluator();
 		}

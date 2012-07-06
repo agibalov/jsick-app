@@ -6,7 +6,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import com.loki2302.jsick.LexicalContext;
 import com.loki2302.jsick.statements.Program;
 import com.loki2302.jsick.statements.Statement;
 import com.loki2302.jsick.types.Types;
@@ -37,23 +36,23 @@ public class JVMCodeGenerator {
     	
     	MethodVisitor mainVisitor = cw.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
         
-    	LexicalContext lexicalContext = new LexicalContext();
+    	LocalsContext localsContext = new LocalsContext();
     	CodeGeneratingTypedExpressionVisitor expressionVisitor = new CodeGeneratingTypedExpressionVisitor(
     			types,
     			mainVisitor,
-    			lexicalContext);    	
+    			localsContext);    	
     	CodeGeneratingStatementCompilerVisitor statementVisitor = new CodeGeneratingStatementCompilerVisitor(
     			types, 
     			mainVisitor, 
     			expressionVisitor,
-    			lexicalContext);
+    			localsContext);
 		for(Statement statement : program.getStatements()) {
 			statement.accept(statementVisitor);
 		}
                 
         mainVisitor.visitInsn(Opcodes.RETURN);
         // TODO: how do i compute max stack size?
-        mainVisitor.visitMaxs(100, lexicalContext.getNumberOfVariables() + 1); // TODO: why +1 here?
+        mainVisitor.visitMaxs(100, localsContext.getLocalsCount() + 1); // TODO: why +1 here?
         mainVisitor.visitEnd();
     	
     	cw.visitEnd();

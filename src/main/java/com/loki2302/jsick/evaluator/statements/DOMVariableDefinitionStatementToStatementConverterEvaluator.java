@@ -3,8 +3,8 @@ package com.loki2302.jsick.evaluator.statements;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.loki2302.jsick.LexicalContext;
 import com.loki2302.jsick.compiler.ExpressionCompiler;
+import com.loki2302.jsick.compiler.LexicalContext;
 import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.dom.statements.DOMVariableDefinitionStatement;
 import com.loki2302.jsick.evaluator.Context;
@@ -19,6 +19,7 @@ import com.loki2302.jsick.expressions.CastExpression;
 import com.loki2302.jsick.expressions.TypedExpression;
 import com.loki2302.jsick.statements.Statement;
 import com.loki2302.jsick.statements.VariableDefinitionStatement;
+import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.types.Types;
 
@@ -38,23 +39,22 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 	}
 	
 	@Override
-	protected Context<Statement> evaluateImpl(Context<DOMVariableDefinitionStatement> input) {		
+	public Context<Statement> evaluate(DOMVariableDefinitionStatement input) {		
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
-		DOMVariableDefinitionStatement domStatement = input.getValue();
-		DOMExpression domExpression = domStatement.getExpression();
+		DOMExpression domExpression = input.getExpression();
 		Context<TypedExpression> expressionContext = expressionCompiler.compile(domExpression);
 		if(!expressionContext.isOk()) {
 			errors.add(new BadInitializerExpressionError(this, input));
 		}
 		
-		String variableTypeName = domStatement.getTypeName();
+		String variableTypeName = input.getTypeName();
 		Type variableType = types.getTypeByName(variableTypeName);
 		if(variableType == null) {
 			errors.add(new UnknownTypeError(this, input));
 		}
 		
-		String variableName = domStatement.getVariableName();
+		String variableName = input.getVariableName();
 		if(lexicalContext.variableExists(variableName)) {
 			errors.add(new VariableRedefinitionError(this, input));
 		}		
@@ -63,7 +63,7 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 		TypedExpression expression = expressionContext.getValue();
 		Type expressionType = expression.getType();
 		if(!expressionType.equals(variableType)) {
-			if(expressionType.canCastTo(variableType)) {
+			if(expressionType.canImplicitlyCastTo(variableType)) {
 				expression = new CastExpression(expression, variableType);
 			} else {
 				errors.add(new CannotCastError(this, input));
@@ -75,8 +75,10 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 			return fail(new CompositeError(this, input, errors));
 		}
 		
-		lexicalContext.addVariable(variableName, variableType);
+		Instance instance = variableType.makeInstance();
+		
+		lexicalContext.addVariable(variableName, instance);
 				
-		return ok(new VariableDefinitionStatement(variableType, variableName, expression));
+		return ok(new VariableDefinitionStatement(instance, expression));
 	}		
 }

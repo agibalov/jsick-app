@@ -22,7 +22,7 @@ extends Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> {
 	}
 
 	@Override
-	protected Context<TypedExpression> evaluateImpl(Context<Tuple2<TypedExpression, TypedExpression>> input) {		
+	public Context<TypedExpression> evaluate(Tuple2<TypedExpression, TypedExpression> input) {		
 		Context<Tuple3<TypedExpression, TypedExpression, Type>> operationTypeContext = myOperationTypeEvaluator.evaluate(input);
 		if(!operationTypeContext.isOk()) {
 			return fail(new CannotDeduceOperationTypeError(this, input));

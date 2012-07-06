@@ -18,10 +18,8 @@ public class DOMExpressionStatementToStatementConverterEvaluator extends Evaluat
 	}
 	
 	@Override
-	protected Context<Statement> evaluateImpl(Context<DOMExpressionStatement> input) {
-		DOMExpressionStatement domStatement = input.getValue();
-		
-		DOMExpression domExpression = domStatement.getExpression();
+	public Context<Statement> evaluate(DOMExpressionStatement input) {		
+		DOMExpression domExpression = input.getExpression();
 		Context<TypedExpression> expressionContext = expressionCompiler.compile(domExpression);
 		if(!expressionContext.isOk()) {
 			return fail(expressionContext.getError());
