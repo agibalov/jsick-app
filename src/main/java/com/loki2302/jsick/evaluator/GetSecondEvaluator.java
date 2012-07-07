@@ -4,14 +4,7 @@ public class GetSecondEvaluator<T, TInput extends Tuple2<?, T>> extends Evaluato
 	
 	@Override
 	public Context<T> evaluate(TInput input) {		
-		Context<T> inContext = input.second;
-		if(!inContext.isOk()) {
-			return fail(inContext.getError());
-		}
-		
-		T inValue = inContext.getValue();		
-		
-		return ok(inValue);
+		return ok(input.second);
 	}    	
 	
 }

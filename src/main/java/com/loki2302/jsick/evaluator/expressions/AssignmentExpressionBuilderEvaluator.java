@@ -11,6 +11,6 @@ public class AssignmentExpressionBuilderEvaluator
 extends Evaluator<Tuple3<LvalueExpression, Expression, Type>, Expression> {
 	@Override
 	public Context<Expression> evaluate(Tuple3<LvalueExpression, Expression, Type> input) {		
-		return ok(input.first.getValue().asSetter(input.second.getValue())); 
+		return ok(input.first.asSetter(input.second)); 
 	}		
 }

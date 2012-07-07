@@ -12,8 +12,8 @@ public class SubExpressionBuilderEvaluator extends Evaluator<Tuple3<Expression, 
 	public Context<Expression> evaluate(Tuple3<Expression, Expression, Type> input) {		
 		return ok(
 				new SubExpression(
-						input.first.getValue(),
-						input.second.getValue(),
-						input.third.getValue())); 
+						input.first,
+						input.second,
+						input.third)); 
 	}		
 }

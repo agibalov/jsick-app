@@ -12,9 +12,9 @@ public class MakeSureExpressionIsOfTypeEvaluator extends Evaluator<Tuple2<Expres
 
 	@Override
 	public Context<Expression> evaluate(Tuple2<Expression, Type> input) {
-		Expression expression = input.first.getValue();
+		Expression expression = input.first;
 		Type expressionType = expression.getType();
-		Type targetType = input.second.getValue();
+		Type targetType = input.second;
 		
 		if(expressionType.equals(targetType)) {
 			return ok(expression);

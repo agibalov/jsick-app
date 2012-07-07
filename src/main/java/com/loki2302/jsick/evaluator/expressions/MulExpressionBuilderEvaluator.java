@@ -12,8 +12,8 @@ public class MulExpressionBuilderEvaluator extends Evaluator<Tuple3<Expression, 
 	public Context<Expression> evaluate(Tuple3<Expression, Expression, Type> input) {				
 		return ok(
 				new MulExpression(
-						input.first.getValue(),
-						input.second.getValue(),
-						input.third.getValue())); 
+						input.first,
+						input.second,
+						input.third)); 
 	}		
 }

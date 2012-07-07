@@ -31,9 +31,9 @@ public class AssignmentSemanticsTest {
 				new Tuple2<Expression, Expression>(variableReferenceExpression, intConstExpression));
 		
 		assertTrue(resultContext.isOk());
-		assertEquals(variableReferenceExpression, resultContext.getValue().first.getValue());
-		assertEquals(intConstExpression, resultContext.getValue().second.getValue());
-		assertEquals(types.IntType, resultContext.getValue().third.getValue());
+		assertEquals(variableReferenceExpression, resultContext.getValue().first);
+		assertEquals(intConstExpression, resultContext.getValue().second);
+		assertEquals(types.IntType, resultContext.getValue().third);
 	}
 	
 	@Test

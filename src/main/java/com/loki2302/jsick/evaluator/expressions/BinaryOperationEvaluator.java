@@ -25,7 +25,7 @@ extends Evaluator<Tuple2<Expression, Expression>, Expression> {
 	public Context<Expression> evaluate(Tuple2<Expression, Expression> input) {		
 		Context<Tuple3<T1, T2, Type>> operationTypeContext = operationTypeEvaluator.evaluate(input);
 		if(!operationTypeContext.isOk()) {
-			return fail(new CannotDeduceOperationTypeError(this, input, input.first.getValue(), input.second.getValue()));
+			return fail(new CannotDeduceOperationTypeError(this, input, input.first, input.second));
 		}
 		
 		return typedExpressionBuilderEvaluator.evaluate(operationTypeContext);

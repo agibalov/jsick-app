@@ -4,14 +4,7 @@ public class GetThirdEvaluator<T, TInput extends Tuple3<?, ?, T>> extends Evalua
 	
 	@Override
 	public Context<T> evaluate(TInput input) {		
-		Context<T> inContext = input.third;
-		if(!inContext.isOk()) {
-			return fail(inContext.getError());
-		}
-		
-		T inValue = inContext.getValue();		
-		
-		return ok(inValue);
+		return ok(input.third);
 	}    	
 	
 }
