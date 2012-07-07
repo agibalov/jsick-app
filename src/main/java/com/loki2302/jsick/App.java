@@ -16,6 +16,10 @@ import com.loki2302.jsick.statements.Program;
 import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Types;
 
+// TODO: add parser error handling
+// TODO: add compiler error handling
+// TODO: add global error handling
+
 public class App {	
 	
 	public static void main(String[] args) throws IOException {		

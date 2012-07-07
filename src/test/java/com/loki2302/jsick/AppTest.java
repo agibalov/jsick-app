@@ -103,4 +103,51 @@ public class AppTest {
 				);
 		assertEquals(1.66666, variables.getDoubleValue("x"), EPS);
 	}
+	
+	@Test
+	public void canAssignIntConstToInt() {		
+		Variables variables = execute(
+				"int x = 0;\n" + 
+				"x = 1;"
+				);
+		assertEquals(1, variables.getIntValue("x"));
+	}
+	
+	@Test
+	public void canAssignDoubleConstToDouble() {		
+		Variables variables = execute(
+				"double x = 0.0;\n" + 
+				"x = 1.2;"
+				);
+		assertEquals(1.2, variables.getDoubleValue("x"), EPS);
+	}
+	
+	@Test
+	public void canAssignIntConstToDouble() {		
+		Variables variables = execute(
+				"double x = 0.0;\n" + 
+				"x = 1;"
+				);
+		assertEquals(1, variables.getDoubleValue("x"), EPS);
+	}
+	
+	@Test
+	public void canUseVariablesInExpression() {
+		Variables variables = execute(
+				"int x = 1;\n" + 
+				"int y = 1 + x;"
+				);
+		assertEquals(1, variables.getIntValue("x"));
+		assertEquals(2, variables.getIntValue("y"));
+	}
+	
+	@Test
+	public void canUseInlineAssignments() {
+		Variables variables = execute(
+				"int x = 1;\n" + 
+				"int y = x = 2;"
+				);
+		assertEquals(2, variables.getIntValue("x"));
+		assertEquals(2, variables.getIntValue("y"));
+	}
 }
