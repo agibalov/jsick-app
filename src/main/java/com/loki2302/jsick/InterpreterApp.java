@@ -17,7 +17,15 @@ public class InterpreterApp extends AbstractJsickApp {
 			public void process(Program program, Types types, String sourceName) {
 				Map<Instance, Object> variables = new HashMap<Instance, Object>(); 
 		    	ProgramInterpreter programInterpreter = ProgramInterpreter.makeDefaultProgramInterpreter(types, variables);
-		    	programInterpreter.interprete(program);				
+		    	programInterpreter.interprete(program);
+		    	
+		    	System.out.println("DUMP");
+		    	for(Instance instance : variables.keySet()) {
+		    		System.out.printf("%s [%s] is %s\n", 
+		    				instance.getName(), 
+		    				instance.getType(), 
+		    				variables.get(instance));
+		    	}
 			}			
 		});
 	}

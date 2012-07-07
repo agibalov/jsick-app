@@ -23,8 +23,8 @@ public class SimpleType implements Type {
 	}
 	
 	@Override
-	public Instance makeInstance() {
-		return new Instance(this);
+	public Instance makeInstance(String name) {
+		return new Instance(this, name);
 	}
 	
 	@Override

@@ -4,6 +4,6 @@ public interface Type {
 	
 	String getName();
 	boolean canImplicitlyCastTo(Type other);
-	Instance makeInstance();
+	Instance makeInstance(String name);
 	
 }

@@ -71,7 +71,7 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 			return fail(new CompositeError(this, input, errors));
 		}
 		
-		Instance instance = variableType.makeInstance();
+		Instance instance = variableType.makeInstance(variableName);
 		Expression expression = castExpressionContext.getValue();
 		
 		lexicalContext.addVariable(variableName, instance);
