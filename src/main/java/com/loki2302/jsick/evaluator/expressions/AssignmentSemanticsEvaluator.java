@@ -13,7 +13,7 @@ import com.loki2302.jsick.expressions.LvalueExpression;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public class AssignmentOperationTypeEvaluator extends BinaryOperationTypeEvaluator<LvalueExpression, Expression> {
+public class AssignmentSemanticsEvaluator extends BinaryOperationTypeEvaluator<LvalueExpression, Expression> {
 				
 	@Override
 	protected Evaluator<Tuple2<Expression, Expression>, Tuple3<LvalueExpression, Expression, Type>> makeEvaluator() {

@@ -12,7 +12,7 @@ import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.evaluator.expressions.AddSubMulDivOperationTypeEvaluator;
 import com.loki2302.jsick.evaluator.expressions.AddExpressionBuilderEvaluator;
-import com.loki2302.jsick.evaluator.expressions.AssignmentOperationTypeEvaluator;
+import com.loki2302.jsick.evaluator.expressions.AssignmentSemanticsEvaluator;
 import com.loki2302.jsick.evaluator.expressions.AssignmentExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.BinaryOperationEvaluator;
 import com.loki2302.jsick.evaluator.expressions.CompilingDOMExpressionVisitor;
@@ -99,7 +99,7 @@ public class ProgramCompiler {
     									new RemExpressionBuilderEvaluator()),
     							new VariableReferenceExpressionEvaluator(lexicalContext),
     							new BinaryOperationEvaluator<LvalueExpression, Expression>(
-    									new AssignmentOperationTypeEvaluator(),
+    									new AssignmentSemanticsEvaluator(),
     									new AssignmentExpressionBuilderEvaluator()))));
 		
 		ExpressionCompiler expressionCompiler = new ExpressionCompiler(compilingExpressionEvaluator);

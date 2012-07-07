@@ -3,6 +3,7 @@ package com.loki2302.jsick.evaluator.errors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.loki2302.jsick.evaluator.Evaluator;
 
 public class CompositeError extends AbstractError {
@@ -15,5 +16,10 @@ public class CompositeError extends AbstractError {
 	
 	public List<AbstractError> getEvaluatorErrors() {
 		return errors;
+	}
+	
+	@Override
+	public String toString() {		
+		return String.format("Composite{%s}", Joiner.on(',').join(errors));
 	}
 }
