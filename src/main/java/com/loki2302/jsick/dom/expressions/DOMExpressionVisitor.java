@@ -9,5 +9,5 @@ public interface DOMExpressionVisitor<T> {
 	T visitIntConstExpression(DOMIntConstExpression expression);
 	T visitDoubleConstExpression(DOMDoubleConstExpression expression);
 	T visitVariableReferenceExpression(DOMVariableReferenceExpression expression);
-	T visitVariableAssignmentExpression(DOMVariableAssignmentExpression expression);
+	T visitAssignmentExpression(DOMAssignmentExpression expression);
 }

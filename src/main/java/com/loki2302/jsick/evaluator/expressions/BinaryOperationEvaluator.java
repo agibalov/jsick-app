@@ -11,19 +11,19 @@ import com.loki2302.jsick.types.Type;
 public class BinaryOperationEvaluator 
 extends Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> {
 	
-	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> myOperationTypeEvaluator;
+	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> operationTypeEvaluator;
 	private final Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> typedExpressionBuilderEvaluator;
 	
 	public BinaryOperationEvaluator(
 			Evaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> operationTypeEvaluator,
 			Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> typedExpressionBuilderEvaluator) {
-		this.myOperationTypeEvaluator = operationTypeEvaluator;
+		this.operationTypeEvaluator = operationTypeEvaluator;
 		this.typedExpressionBuilderEvaluator = typedExpressionBuilderEvaluator;
 	}
 
 	@Override
 	public Context<TypedExpression> evaluate(Tuple2<TypedExpression, TypedExpression> input) {		
-		Context<Tuple3<TypedExpression, TypedExpression, Type>> operationTypeContext = myOperationTypeEvaluator.evaluate(input);
+		Context<Tuple3<TypedExpression, TypedExpression, Type>> operationTypeContext = operationTypeEvaluator.evaluate(input);
 		if(!operationTypeContext.isOk()) {
 			return fail(new CannotDeduceOperationTypeError(this, input));
 		}

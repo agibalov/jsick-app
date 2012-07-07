@@ -9,13 +9,12 @@ import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.dom.statements.DOMVariableDefinitionStatement;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
+import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
-import com.loki2302.jsick.evaluator.expressions.errors.CannotCastError;
 import com.loki2302.jsick.evaluator.statements.errors.BadInitializerExpressionError;
 import com.loki2302.jsick.evaluator.statements.errors.UnknownTypeError;
 import com.loki2302.jsick.evaluator.statements.errors.VariableRedefinitionError;
-import com.loki2302.jsick.expressions.CastExpression;
 import com.loki2302.jsick.expressions.TypedExpression;
 import com.loki2302.jsick.statements.Statement;
 import com.loki2302.jsick.statements.VariableDefinitionStatement;
@@ -28,14 +27,17 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 	private final Types types;
 	private final ExpressionCompiler expressionCompiler;
 	private final LexicalContext lexicalContext;
+	private final Evaluator<Tuple2<TypedExpression, Type>, TypedExpression> makeSureExpressionIsOfTypeEvaluator;
 	
 	public DOMVariableDefinitionStatementToStatementConverterEvaluator(
 			ExpressionCompiler expressionCompiler, 
 			LexicalContext lexicalContext, 
-			Types types) {
+			Types types,
+			Evaluator<Tuple2<TypedExpression, Type>, TypedExpression> makeSureExpressionIsOfTypeEvaluator) {
 		this.expressionCompiler = expressionCompiler;
 		this.lexicalContext = lexicalContext;
 		this.types = types;
+		this.makeSureExpressionIsOfTypeEvaluator = makeSureExpressionIsOfTypeEvaluator;
 	}
 	
 	@Override
@@ -59,23 +61,18 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 			errors.add(new VariableRedefinitionError(this, input));
 		}		
 		
-		// TODO: this logic is pretty common, so this needs to be implemented somewhere else
-		TypedExpression expression = expressionContext.getValue();
-		Type expressionType = expression.getType();
-		if(!expressionType.equals(variableType)) {
-			if(expressionType.canImplicitlyCastTo(variableType)) {
-				expression = new CastExpression(expression, variableType);
-			} else {
-				errors.add(new CannotCastError(this, input));
-			}
+		Context<TypedExpression> castExpressionContext = makeSureExpressionIsOfTypeEvaluator.evaluate(
+				new Tuple2<TypedExpression, Type>(expressionContext.getValue(), variableType));
+		if(!castExpressionContext.isOk()) {
+			errors.add(castExpressionContext.getError());
 		}
-		//
 		
 		if(!errors.isEmpty()) {
 			return fail(new CompositeError(this, input, errors));
 		}
 		
 		Instance instance = variableType.makeInstance();
+		TypedExpression expression = castExpressionContext.getValue();
 		
 		lexicalContext.addVariable(variableName, instance);
 				

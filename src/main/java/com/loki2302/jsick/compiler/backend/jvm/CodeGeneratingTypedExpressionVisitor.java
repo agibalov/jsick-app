@@ -165,8 +165,10 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 		valueExpression.accept(this);
 		if(instanceType.equals(types.IntType)) {
 			methodVisitor.visitIntInsn(Opcodes.ISTORE, index);
+			methodVisitor.visitIntInsn(Opcodes.ILOAD, index);
 		} else if(instanceType.equals(types.DoubleType)) {
 			methodVisitor.visitIntInsn(Opcodes.DSTORE, index);
+			methodVisitor.visitIntInsn(Opcodes.DLOAD, index);
 		} else {
 			throw new RuntimeException();
 		}

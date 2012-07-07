@@ -22,7 +22,12 @@ public class App {
 				"? x; // print x\n" + 
 				"? y;\n" +
 				"? z;\n" +
-				"? z - 4; // print (z - 4) \n"; 
+				"? z - 4; // print (z - 4) \n" + 
+				"x=1; // x is now 1\n" + 
+				"?x; // it is\n" + 
+				"x=y=2; // x and y are now 2\n" + 
+				"?x;?y; // they are\n" + 
+				"?z=x=y=3; // x and y are now 3, z is 3.0, print z\n"; 
 		
 		Parser parser = new Parser();
 		ParseResult parseResult = parser.parse(code);

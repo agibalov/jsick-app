@@ -10,7 +10,7 @@ import com.loki2302.jsick.dom.expressions.DOMBinaryExpression;
 import com.loki2302.jsick.dom.expressions.DOMDoubleConstExpression;
 import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.dom.expressions.DOMIntConstExpression;
-import com.loki2302.jsick.dom.expressions.DOMVariableAssignmentExpression;
+import com.loki2302.jsick.dom.expressions.DOMAssignmentExpression;
 import com.loki2302.jsick.dom.expressions.DOMVariableReferenceExpression;
 import com.loki2302.jsick.dom.statements.DOMExpressionStatement;
 import com.loki2302.jsick.dom.statements.DOMPrintStatement;
@@ -129,7 +129,7 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 				"=",
 				optGap(),
 				expression(),
-				push(new DOMVariableAssignmentExpression(
+				push(new DOMAssignmentExpression(
 						(DOMVariableReferenceExpression)pop(1), 
 						(DOMExpression)pop(), 
 						getContext().getMatchRange())));
