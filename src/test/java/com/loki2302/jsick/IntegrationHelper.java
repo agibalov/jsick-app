@@ -12,7 +12,7 @@ import com.loki2302.jsick.statements.Program;
 import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Types;
 
-public class TestHelper {
+public class IntegrationHelper {
 	
 	public static Variables execute(String sourceCode) {
 		Parser parser = new Parser();

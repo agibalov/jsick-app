@@ -2,7 +2,7 @@ package com.loki2302.jsick;
 
 import org.junit.Test;
 
-import static com.loki2302.jsick.TestHelper.*;
+import static com.loki2302.jsick.IntegrationHelper.*;
 import static org.junit.Assert.*;
 
 public class AppTest {
