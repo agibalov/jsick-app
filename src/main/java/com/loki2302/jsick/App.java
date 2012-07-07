@@ -18,7 +18,7 @@ import com.loki2302.jsick.types.Types;
 
 public class App {	
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {		
 		String code =
 				"int x = 123; /* assign 123 to x */\n" + 
 				"int y = 2 * x + 1;\n" +
@@ -52,7 +52,7 @@ public class App {
 		
 		// write Java bytecode
     	JVMCodeGenerator jvmCompiler = new JVMCodeGenerator(types);
-    	byte[] byteCode = jvmCompiler.generateCode(program);
+    	byte[] byteCode = jvmCompiler.generateCode(program, "HelloWorld");
     	
     	BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("HelloWorld.class"));
     	bos.write(byteCode);
@@ -62,7 +62,7 @@ public class App {
     	// interprete
     	Map<Instance, Object> variables = new HashMap<Instance, Object>(); 
     	ProgramInterpreter programInterpreter = ProgramInterpreter.makeDefaultProgramInterpreter(types, variables);
-    	programInterpreter.interprete(program);
-    	
-    }
+    	programInterpreter.interprete(program);    	
+    }	
+	
 }

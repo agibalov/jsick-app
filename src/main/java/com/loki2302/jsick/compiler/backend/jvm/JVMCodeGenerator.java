@@ -18,11 +18,11 @@ public class JVMCodeGenerator {
 		this.types = types;
 	}
 	
-	public byte[] generateCode(Program program) throws IOException {		
+	public byte[] generateCode(Program program, String sourceName) throws IOException {		
 		ClassWriter cw = new ClassWriter(0);    	
-    	cw.visit(49 /*???*/, Opcodes.ACC_PUBLIC, "HelloWorld", null, "java/lang/Object", null);
+    	cw.visit(49 /*???*/, Opcodes.ACC_PUBLIC, sourceName, null, "java/lang/Object", null);
     	
-    	cw.visitSource("HelloWorld.java", null);
+    	cw.visitSource(String.format("%s.java", sourceName), null);
     	
     	MethodVisitor initVisitor = cw.visitMethod(Opcodes.ACC_PUBLIC, "<init>", "()V", null, null);
         initVisitor.visitVarInsn(Opcodes.ALOAD, 0);
