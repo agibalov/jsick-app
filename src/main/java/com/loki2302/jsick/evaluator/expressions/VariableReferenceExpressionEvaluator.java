@@ -21,7 +21,7 @@ public class VariableReferenceExpressionEvaluator extends Evaluator<DOMVariableR
 	public Context<Expression> evaluate(DOMVariableReferenceExpression input) {		
 		String variableName = input.getVariableName();
 		if(!lexicalContext.variableExists(variableName)) {
-			return Context.<Expression>fail(new UndefinedVariableError(this, input));
+			return fail(new UndefinedVariableError(this, input, variableName));
 		}			
 		
 		Instance instance = lexicalContext.getVariable(variableName);

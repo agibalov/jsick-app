@@ -1,12 +1,11 @@
 package com.loki2302.jsick.evaluator;
 
 import com.loki2302.jsick.evaluator.errors.AbstractError;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
 
 public abstract class Evaluator<TInput, TOutput> {
 	public final Context<TOutput> evaluate(Context<TInput> input) {
 		if(!input.isOk()) {
-			return fail(new BadContextError(this, input));
+			return fail(input.getError());
 		}
 		
 		return evaluate(input.getValue());

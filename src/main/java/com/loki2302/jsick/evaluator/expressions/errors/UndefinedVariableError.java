@@ -4,7 +4,16 @@ import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 
 public class UndefinedVariableError extends AbstractError {
-	public UndefinedVariableError(Evaluator<?, ?> evaluator, Object input) {
+	
+	private final String variableName;
+	
+	public UndefinedVariableError(Evaluator<?, ?> evaluator, Object input, String variableName) {
 		super(evaluator, input);
+		this.variableName = variableName;
 	}		
+	
+	@Override
+	public String toString() {
+		return String.format("UndefinedVariable{%s}", variableName);
+	}
 }

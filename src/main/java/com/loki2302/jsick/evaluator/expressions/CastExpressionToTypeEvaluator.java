@@ -7,7 +7,7 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
-import com.loki2302.jsick.evaluator.expressions.errors.CannotCastError;
+import com.loki2302.jsick.evaluator.expressions.errors.CannotCastImplicitlyError;
 import com.loki2302.jsick.expressions.CastExpression;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
@@ -42,8 +42,11 @@ public class CastExpressionToTypeEvaluator<TInput> extends Evaluator<TInput, Exp
 			return fail(new CompositeError(this, input, errors));
 		}
 		
-		if(!expressionContext.getValue().getType().canImplicitlyCastTo(typeContext.getValue())) {
-			return fail(new CannotCastError(this, input));
+		Expression expression = expressionContext.getValue();
+		Type expressionType = expression.getType();
+		Type targetType = typeContext.getValue();
+		if(!expressionType.canImplicitlyCastTo(targetType)) {
+			return fail(new CannotCastImplicitlyError(this, input, expression, targetType));
 		}
 		
 		Expression castExpression = new CastExpression(expressionContext.getValue(), typeContext.getValue()); 

@@ -12,7 +12,6 @@ import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
-import com.loki2302.jsick.evaluator.statements.errors.BadInitializerExpressionError;
 import com.loki2302.jsick.evaluator.statements.errors.UnknownTypeError;
 import com.loki2302.jsick.evaluator.statements.errors.VariableRedefinitionError;
 import com.loki2302.jsick.expressions.Expression;
@@ -47,18 +46,18 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 		DOMExpression domExpression = input.getExpression();
 		Context<Expression> expressionContext = expressionCompiler.compile(domExpression);
 		if(!expressionContext.isOk()) {
-			errors.add(new BadInitializerExpressionError(this, input));
+			errors.add(expressionContext.getError());
 		}
 		
 		String variableTypeName = input.getTypeName();
 		Type variableType = types.getTypeByName(variableTypeName);
 		if(variableType == null) {
-			errors.add(new UnknownTypeError(this, input));
+			errors.add(new UnknownTypeError(this, input, variableTypeName));
 		}
 		
 		String variableName = input.getVariableName();
 		if(lexicalContext.variableExists(variableName)) {
-			errors.add(new VariableRedefinitionError(this, input));
+			errors.add(new VariableRedefinitionError(this, input, variableName));
 		}		
 		
 		Context<Expression> castExpressionContext = makeSureExpressionIsOfTypeEvaluator.evaluate(

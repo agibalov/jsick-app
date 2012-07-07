@@ -23,7 +23,7 @@ public class ExpressionIsLvalueEvaluator<TInput> extends Evaluator<TInput, Lvalu
 		
 		Expression expression = expressionContext.getValue();
 		if(!(expression instanceof LvalueExpression)) {
-			return fail(new ExpressionIsNotLvalueError(this, input));
+			return fail(new ExpressionIsNotLvalueError(this, input, expression));
 		}
 		
 		return ok((LvalueExpression)expression);

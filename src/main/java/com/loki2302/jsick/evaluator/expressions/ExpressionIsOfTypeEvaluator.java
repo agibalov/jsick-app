@@ -7,7 +7,7 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
-import com.loki2302.jsick.evaluator.expressions.errors.TypesAreDifferentError;
+import com.loki2302.jsick.evaluator.expressions.errors.ExpressionIsNotOfType;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
@@ -41,14 +41,14 @@ public class ExpressionIsOfTypeEvaluator<TInput> extends Evaluator<TInput, Expre
 			return fail(new CompositeError(this, input, errors));
 		}
 		
-		Context<Expression> expression = expressionContext;
-		Context<Type> type = typeContext;
+		Expression expression = expressionContext.getValue();
+		Type type = typeContext.getValue();
 		
-		if(!expression.getValue().getType().equals(type.getValue())) {
-			return fail(new TypesAreDifferentError(this, input));
+		if(!expression.getType().equals(type)) {
+			return fail(new ExpressionIsNotOfType(this, input, expression, type));
 		}
 		
-		return ok(expression.getValue());
+		return ok(expression);
 	}
 
 }

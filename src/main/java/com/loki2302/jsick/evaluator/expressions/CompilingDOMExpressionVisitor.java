@@ -1,5 +1,8 @@
 package com.loki2302.jsick.evaluator.expressions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.loki2302.jsick.dom.expressions.DOMAddExpression;
 import com.loki2302.jsick.dom.expressions.DOMAssignmentExpression;
 import com.loki2302.jsick.dom.expressions.DOMBinaryExpression;
@@ -14,7 +17,8 @@ import com.loki2302.jsick.dom.expressions.DOMVariableReferenceExpression;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.Tuple2;
-import com.loki2302.jsick.evaluator.errors.BadContextError;
+import com.loki2302.jsick.evaluator.errors.AbstractError;
+import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.expressions.Expression;
 
 public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Context<Expression>> {
@@ -99,14 +103,19 @@ public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Conte
 			DOMBinaryExpression expression,
 			Evaluator<Tuple2<Expression, Expression>, Expression> evaluator) {
 
+		List<AbstractError> errors = new ArrayList<AbstractError>();
 		Context<Expression> leftContext = expression.getLeft().accept(this);
 		if (!leftContext.isOk()) {
-			return Context.<Expression>fail(new BadContextError(evaluator, leftContext));
+			errors.add(leftContext.getError());
 		}
 
 		Context<Expression> rightContext = expression.getRight().accept(this);
 		if (!rightContext.isOk()) {
-			return Context.<Expression>fail(new BadContextError(evaluator, rightContext));
+			errors.add(rightContext.getError());
+		}
+		
+		if(!errors.isEmpty()) {
+			return Context.<Expression>fail(new CompositeError(evaluator, rightContext, errors));
 		}
 
 		return evaluator.evaluate(

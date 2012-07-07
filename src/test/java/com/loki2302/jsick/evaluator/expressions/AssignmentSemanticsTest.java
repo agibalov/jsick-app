@@ -7,8 +7,6 @@ import org.junit.Test;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.Tuple3;
-import com.loki2302.jsick.evaluator.errors.AbstractError;
-import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.expressions.DoubleConstExpression;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.expressions.IntConstExpression;

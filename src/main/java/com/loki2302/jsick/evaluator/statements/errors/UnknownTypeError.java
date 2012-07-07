@@ -4,7 +4,16 @@ import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 
 public class UnknownTypeError extends AbstractError {
-	public UnknownTypeError(Evaluator<?, ?> evaluator, Object input) {
+	
+	private final String typeName;
+	
+	public UnknownTypeError(Evaluator<?, ?> evaluator, Object input, String typeName) {
 		super(evaluator, input);
+		this.typeName = typeName;
 	}		
+	
+	@Override
+	public String toString() {
+		return String.format("UnknownType{%s}", typeName);
+	}
 }
