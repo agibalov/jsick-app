@@ -1,14 +1,14 @@
 package com.loki2302.jsick.statements;
 
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Instance;
 
 public class VariableDefinitionStatement extends Statement {
 	
 	private final Instance instance;
-	private final TypedExpression expression;
+	private final Expression expression;
 	
-	public VariableDefinitionStatement(Instance instance, TypedExpression expression) {
+	public VariableDefinitionStatement(Instance instance, Expression expression) {
 		this.instance = instance;
 		this.expression = expression;
 	}
@@ -17,7 +17,7 @@ public class VariableDefinitionStatement extends Statement {
 		return instance;
 	}
 		
-	public TypedExpression getExpression() {
+	public Expression getExpression() {
 		return expression;
 	}
 

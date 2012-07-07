@@ -12,14 +12,14 @@ import com.loki2302.jsick.expressions.MulExpression;
 import com.loki2302.jsick.expressions.RemExpression;
 import com.loki2302.jsick.expressions.SetVariableValueExpression;
 import com.loki2302.jsick.expressions.SubExpression;
-import com.loki2302.jsick.expressions.TypedExpression;
-import com.loki2302.jsick.expressions.TypedExpressionVisitor;
-import com.loki2302.jsick.expressions.GetVariableValueExpression;
+import com.loki2302.jsick.expressions.Expression;
+import com.loki2302.jsick.expressions.ExpressionVisitor;
+import com.loki2302.jsick.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.types.Types;
 
-class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Object> {
+class CodeGeneratingTypedExpressionVisitor implements ExpressionVisitor<Object> {
 	
 	private final Types types;
 	private final MethodVisitor methodVisitor;
@@ -48,7 +48,7 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 
 	@Override
 	public Object visitCastExpression(CastExpression expression) {
-		TypedExpression sourceExpression = expression.getExpression();
+		Expression sourceExpression = expression.getExpression();
 		sourceExpression.accept(this);
 		
 		Type sourceType = sourceExpression.getType();
@@ -138,15 +138,18 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 	}
 
 	@Override
-	public Object visitGetVariableValueExpression(GetVariableValueExpression expression) {
+	public Object visitSetVariableValueExpression(SetVariableValueExpression expression) {
 		Instance instance = expression.getInstance();
 		Type instanceType = instance.getType();
+		Expression valueExpression = expression.getExpression();
 		
-		int index = localsContext.getLocalIndex(instance);		
-		
+		int index = localsContext.getLocalIndex(instance);
+		valueExpression.accept(this);
 		if(instanceType.equals(types.IntType)) {
+			methodVisitor.visitIntInsn(Opcodes.ISTORE, index);
 			methodVisitor.visitIntInsn(Opcodes.ILOAD, index);
 		} else if(instanceType.equals(types.DoubleType)) {
+			methodVisitor.visitIntInsn(Opcodes.DSTORE, index);
 			methodVisitor.visitIntInsn(Opcodes.DLOAD, index);
 		} else {
 			throw new RuntimeException();
@@ -156,18 +159,15 @@ class CodeGeneratingTypedExpressionVisitor implements TypedExpressionVisitor<Obj
 	}
 
 	@Override
-	public Object visitSetVariableValueExpression(SetVariableValueExpression expression) {
+	public Object visitVariableReferenceExpression(VariableReferenceExpression expression) {
 		Instance instance = expression.getInstance();
 		Type instanceType = instance.getType();
-		TypedExpression valueExpression = expression.getExpression();
 		
-		int index = localsContext.getLocalIndex(instance);
-		valueExpression.accept(this);
+		int index = localsContext.getLocalIndex(instance);		
+		
 		if(instanceType.equals(types.IntType)) {
-			methodVisitor.visitIntInsn(Opcodes.ISTORE, index);
 			methodVisitor.visitIntInsn(Opcodes.ILOAD, index);
 		} else if(instanceType.equals(types.DoubleType)) {
-			methodVisitor.visitIntInsn(Opcodes.DSTORE, index);
 			methodVisitor.visitIntInsn(Opcodes.DLOAD, index);
 		} else {
 			throw new RuntimeException();

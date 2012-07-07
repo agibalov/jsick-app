@@ -4,10 +4,10 @@ import com.loki2302.jsick.dom.expressions.DOMIntConstExpression;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.expressions.IntConstExpression;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public class IntConstExpressionEvaluator extends Evaluator<DOMIntConstExpression, TypedExpression> {
+public class IntConstExpressionEvaluator extends Evaluator<DOMIntConstExpression, Expression> {
 	
 	private final Type intType;
 	
@@ -16,7 +16,7 @@ public class IntConstExpressionEvaluator extends Evaluator<DOMIntConstExpression
 	}
 	
 	@Override
-	public Context<TypedExpression> evaluate(DOMIntConstExpression input) {
+	public Context<Expression> evaluate(DOMIntConstExpression input) {
 		return ok(new IntConstExpression(intType, input.getValue()));
 	}		
 }

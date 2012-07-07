@@ -15,7 +15,7 @@ import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.evaluator.statements.errors.BadInitializerExpressionError;
 import com.loki2302.jsick.evaluator.statements.errors.UnknownTypeError;
 import com.loki2302.jsick.evaluator.statements.errors.VariableRedefinitionError;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.statements.Statement;
 import com.loki2302.jsick.statements.VariableDefinitionStatement;
 import com.loki2302.jsick.types.Instance;
@@ -27,13 +27,13 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 	private final Types types;
 	private final ExpressionCompiler expressionCompiler;
 	private final LexicalContext lexicalContext;
-	private final Evaluator<Tuple2<TypedExpression, Type>, TypedExpression> makeSureExpressionIsOfTypeEvaluator;
+	private final Evaluator<Tuple2<Expression, Type>, Expression> makeSureExpressionIsOfTypeEvaluator;
 	
 	public DOMVariableDefinitionStatementToStatementConverterEvaluator(
 			ExpressionCompiler expressionCompiler, 
 			LexicalContext lexicalContext, 
 			Types types,
-			Evaluator<Tuple2<TypedExpression, Type>, TypedExpression> makeSureExpressionIsOfTypeEvaluator) {
+			Evaluator<Tuple2<Expression, Type>, Expression> makeSureExpressionIsOfTypeEvaluator) {
 		this.expressionCompiler = expressionCompiler;
 		this.lexicalContext = lexicalContext;
 		this.types = types;
@@ -45,7 +45,7 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
 		DOMExpression domExpression = input.getExpression();
-		Context<TypedExpression> expressionContext = expressionCompiler.compile(domExpression);
+		Context<Expression> expressionContext = expressionCompiler.compile(domExpression);
 		if(!expressionContext.isOk()) {
 			errors.add(new BadInitializerExpressionError(this, input));
 		}
@@ -61,8 +61,8 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 			errors.add(new VariableRedefinitionError(this, input));
 		}		
 		
-		Context<TypedExpression> castExpressionContext = makeSureExpressionIsOfTypeEvaluator.evaluate(
-				new Tuple2<TypedExpression, Type>(expressionContext.getValue(), variableType));
+		Context<Expression> castExpressionContext = makeSureExpressionIsOfTypeEvaluator.evaluate(
+				new Tuple2<Expression, Type>(expressionContext.getValue(), variableType));
 		if(!castExpressionContext.isOk()) {
 			errors.add(castExpressionContext.getError());
 		}
@@ -72,7 +72,7 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 		}
 		
 		Instance instance = variableType.makeInstance();
-		TypedExpression expression = castExpressionContext.getValue();
+		Expression expression = castExpressionContext.getValue();
 		
 		lexicalContext.addVariable(variableName, instance);
 				

@@ -4,8 +4,8 @@ package com.loki2302.jsick.compiler.backend.jvm;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import com.loki2302.jsick.expressions.TypedExpression;
-import com.loki2302.jsick.expressions.TypedExpressionVisitor;
+import com.loki2302.jsick.expressions.Expression;
+import com.loki2302.jsick.expressions.ExpressionVisitor;
 import com.loki2302.jsick.statements.ExpressionStatement;
 import com.loki2302.jsick.statements.PrintStatement;
 import com.loki2302.jsick.statements.StatementVisitor;
@@ -18,13 +18,13 @@ class CodeGeneratingStatementCompilerVisitor implements StatementVisitor<Object>
 	
 	private final Types types;
 	private final MethodVisitor methodVisitor;
-	private final TypedExpressionVisitor<Object> expressionVisitor;
+	private final ExpressionVisitor<Object> expressionVisitor;
 	private final LocalsContext localsContext;
 	
 	public CodeGeneratingStatementCompilerVisitor(
 			Types types,
 			MethodVisitor methodVisitor, 
-			TypedExpressionVisitor<Object> expressionVisitor,
+			ExpressionVisitor<Object> expressionVisitor,
 			LocalsContext localsContext) {
 		this.types = types;
 		this.methodVisitor = methodVisitor; 
@@ -34,7 +34,7 @@ class CodeGeneratingStatementCompilerVisitor implements StatementVisitor<Object>
 
 	@Override
 	public Object visitExpressionStatement(ExpressionStatement statement) {
-		TypedExpression expression = statement.getExpression();
+		Expression expression = statement.getExpression();
 		expression.accept(expressionVisitor);
 		methodVisitor.visitInsn(Opcodes.POP);
 		return null;
@@ -44,7 +44,7 @@ class CodeGeneratingStatementCompilerVisitor implements StatementVisitor<Object>
 	public Object visitPrintStatement(PrintStatement statement) {					
 		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
 	    
-		TypedExpression expression = statement.getExpression();
+		Expression expression = statement.getExpression();
 		expression.accept(expressionVisitor);
 	    
 	    if(expression.getType().equals(types.IntType)) {
@@ -62,7 +62,7 @@ class CodeGeneratingStatementCompilerVisitor implements StatementVisitor<Object>
 	public Object visitVariableDefinitionStatement(VariableDefinitionStatement statement) {
 		Instance instance = statement.getInstance();
 		Type instanceType = instance.getType();
-		TypedExpression expression = statement.getExpression();
+		Expression expression = statement.getExpression();
 		
 		localsContext.addLocal(instance);
 		int location = localsContext.getLocalIndex(instance);

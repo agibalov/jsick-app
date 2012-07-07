@@ -5,7 +5,7 @@ import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.dom.statements.DOMExpressionStatement;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.statements.ExpressionStatement;
 import com.loki2302.jsick.statements.Statement;
 
@@ -20,7 +20,7 @@ public class DOMExpressionStatementToStatementConverterEvaluator extends Evaluat
 	@Override
 	public Context<Statement> evaluate(DOMExpressionStatement input) {		
 		DOMExpression domExpression = input.getExpression();
-		Context<TypedExpression> expressionContext = expressionCompiler.compile(domExpression);
+		Context<Expression> expressionContext = expressionCompiler.compile(domExpression);
 		if(!expressionContext.isOk()) {
 			return fail(expressionContext.getError());
 		}

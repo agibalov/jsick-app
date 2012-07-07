@@ -2,7 +2,7 @@ package com.loki2302.jsick.expressions;
 
 import com.loki2302.jsick.types.Type;
 
-public class IntConstExpression implements TypedExpression {
+public class IntConstExpression implements Expression {
 	private final Type intType;
 	private final int value;
 	
@@ -21,7 +21,7 @@ public class IntConstExpression implements TypedExpression {
 	}    	
 	
 	@Override
-	public <T> T accept(TypedExpressionVisitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitIntConstExpression(this);
 	}
 	

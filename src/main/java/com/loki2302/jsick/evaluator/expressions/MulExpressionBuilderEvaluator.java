@@ -4,12 +4,12 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.Tuple3;
 import com.loki2302.jsick.expressions.MulExpression;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public class MulTypedExpressionBuilderEvaluator extends Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> {
+public class MulExpressionBuilderEvaluator extends Evaluator<Tuple3<Expression, Expression, Type>, Expression> {
 	@Override
-	public Context<TypedExpression> evaluate(Tuple3<TypedExpression, TypedExpression, Type> input) {				
+	public Context<Expression> evaluate(Tuple3<Expression, Expression, Type> input) {				
 		return ok(
 				new MulExpression(
 						input.first.getValue(),

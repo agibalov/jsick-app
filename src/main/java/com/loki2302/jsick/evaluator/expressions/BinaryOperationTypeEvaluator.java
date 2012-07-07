@@ -5,20 +5,20 @@ import com.loki2302.jsick.evaluator.GetSecondEvaluator;
 import com.loki2302.jsick.evaluator.LazyEvaluator;
 import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.Tuple3;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public abstract class BinaryOperationTypeEvaluator 
-extends LazyEvaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> {
-	protected GetFirstEvaluator<TypedExpression, Tuple2<TypedExpression, TypedExpression>> first() {
-		return new GetFirstEvaluator<TypedExpression, Tuple2<TypedExpression, TypedExpression>>();
+public abstract class BinaryOperationTypeEvaluator<TLeft, TRight> 
+extends LazyEvaluator<Tuple2<Expression, Expression>, Tuple3<TLeft, TRight, Type>> {
+	protected GetFirstEvaluator<Expression, Tuple2<Expression, Expression>> first() {
+		return new GetFirstEvaluator<Expression, Tuple2<Expression, Expression>>();
 	}    	
 	
-	protected GetSecondEvaluator<TypedExpression, Tuple2<TypedExpression, TypedExpression>> second() {
-		return new GetSecondEvaluator<TypedExpression, Tuple2<TypedExpression, TypedExpression>>();
+	protected GetSecondEvaluator<Expression, Tuple2<Expression, Expression>> second() {
+		return new GetSecondEvaluator<Expression, Tuple2<Expression, Expression>>();
 	}
 	
-	protected FixedTypeEvaluator<Tuple2<TypedExpression, TypedExpression>> type(Type type) {
-		return new FixedTypeEvaluator<Tuple2<TypedExpression, TypedExpression>>(type);
+	protected FixedTypeEvaluator<Tuple2<Expression, Expression>> type(Type type) {
+		return new FixedTypeEvaluator<Tuple2<Expression, Expression>>(type);
 	}
 }

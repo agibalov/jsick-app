@@ -15,30 +15,30 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.errors.BadContextError;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 
-public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Context<TypedExpression>> {
+public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Context<Expression>> {
 	
-	private final Evaluator<DOMIntConstExpression, TypedExpression> intConstExpressionEvaluator;
-	private final Evaluator<DOMDoubleConstExpression, TypedExpression> doubleConstExpressionEvaluator;
-	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> addExpressionEvaluator;
-	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> subExpressionEvaluator;
-	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> mulExpressionEvaluator;
-	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> divExpressionEvaluator;
-	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> remExpressionEvaluator;
-	private final Evaluator<DOMVariableReferenceExpression, TypedExpression> variableReferenceExpressionEvaluator;
-	private final Evaluator<DOMAssignmentExpression, TypedExpression> variableAssignmentExpressionEvaluator;
+	private final Evaluator<DOMIntConstExpression, Expression> intConstExpressionEvaluator;
+	private final Evaluator<DOMDoubleConstExpression, Expression> doubleConstExpressionEvaluator;
+	private final Evaluator<Tuple2<Expression, Expression>, Expression> addExpressionEvaluator;
+	private final Evaluator<Tuple2<Expression, Expression>, Expression> subExpressionEvaluator;
+	private final Evaluator<Tuple2<Expression, Expression>, Expression> mulExpressionEvaluator;
+	private final Evaluator<Tuple2<Expression, Expression>, Expression> divExpressionEvaluator;
+	private final Evaluator<Tuple2<Expression, Expression>, Expression> remExpressionEvaluator;
+	private final Evaluator<DOMVariableReferenceExpression, Expression> variableReferenceExpressionEvaluator;
+	Evaluator<Tuple2<Expression, Expression>, Expression> variableAssignmentExpressionEvaluator;
 	
 	public CompilingDOMExpressionVisitor(
-			Evaluator<DOMIntConstExpression, TypedExpression> intConstExpressionEvaluator,
-			Evaluator<DOMDoubleConstExpression, TypedExpression> doubleConstExpressionEvaluator,
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> addExpressionEvaluator,
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> subExpressionEvaluator,
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> mulExpressionEvaluator,
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> divExpressionEvaluator,
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> remExpressionEvaluator,
-			Evaluator<DOMVariableReferenceExpression, TypedExpression> variableReferenceExpressionEvaluator,
-			Evaluator<DOMAssignmentExpression, TypedExpression> variableAssignmentExpressionEvaluator) {
+			Evaluator<DOMIntConstExpression, Expression> intConstExpressionEvaluator,
+			Evaluator<DOMDoubleConstExpression, Expression> doubleConstExpressionEvaluator,
+			Evaluator<Tuple2<Expression, Expression>, Expression> addExpressionEvaluator,
+			Evaluator<Tuple2<Expression, Expression>, Expression> subExpressionEvaluator,
+			Evaluator<Tuple2<Expression, Expression>, Expression> mulExpressionEvaluator,
+			Evaluator<Tuple2<Expression, Expression>, Expression> divExpressionEvaluator,
+			Evaluator<Tuple2<Expression, Expression>, Expression> remExpressionEvaluator,
+			Evaluator<DOMVariableReferenceExpression, Expression> variableReferenceExpressionEvaluator,
+			Evaluator<Tuple2<Expression, Expression>, Expression> variableAssignmentExpressionEvaluator) {
 		this.intConstExpressionEvaluator = intConstExpressionEvaluator;
 		this.doubleConstExpressionEvaluator = doubleConstExpressionEvaluator;
 		this.addExpressionEvaluator = addExpressionEvaluator;
@@ -51,66 +51,66 @@ public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Conte
 	}
 	
 	@Override
-	public Context<TypedExpression> visitIntConstExpression(DOMIntConstExpression expression) {
+	public Context<Expression> visitIntConstExpression(DOMIntConstExpression expression) {
 		return intConstExpressionEvaluator.evaluate(expression);
 	}
 
 	@Override
-	public Context<TypedExpression> visitDoubleConstExpression(DOMDoubleConstExpression expression) {
+	public Context<Expression> visitDoubleConstExpression(DOMDoubleConstExpression expression) {
 		return doubleConstExpressionEvaluator.evaluate(expression);
 	}
 
 	@Override
-	public Context<TypedExpression> visitAddExpression(DOMAddExpression expression) {
+	public Context<Expression> visitAddExpression(DOMAddExpression expression) {
 		return processBinaryExpression(expression, addExpressionEvaluator);
 	}
 
 	@Override
-	public Context<TypedExpression> visitSubExpression(DOMSubExpression expression) {
+	public Context<Expression> visitSubExpression(DOMSubExpression expression) {
 		return processBinaryExpression(expression, subExpressionEvaluator);
 	}
 
 	@Override
-	public Context<TypedExpression> visitMulExpression(DOMMulExpression expression) {
+	public Context<Expression> visitMulExpression(DOMMulExpression expression) {
 		return processBinaryExpression(expression, mulExpressionEvaluator);
 	}
 
 	@Override
-	public Context<TypedExpression> visitDivExpression(DOMDivExpression expression) {
+	public Context<Expression> visitDivExpression(DOMDivExpression expression) {
 		return processBinaryExpression(expression, divExpressionEvaluator);
 	}
 
 	@Override
-	public Context<TypedExpression> visitRemExpression(DOMRemExpression expression) {
+	public Context<Expression> visitRemExpression(DOMRemExpression expression) {
 		return processBinaryExpression(expression, remExpressionEvaluator);
 	}
 
 	@Override
-	public Context<TypedExpression> visitVariableReferenceExpression(DOMVariableReferenceExpression expression) {
+	public Context<Expression> visitVariableReferenceExpression(DOMVariableReferenceExpression expression) {
 		return variableReferenceExpressionEvaluator.evaluate(expression);
 	}		
 	
 	@Override
-	public Context<TypedExpression> visitAssignmentExpression(DOMAssignmentExpression expression) {			
-		return variableAssignmentExpressionEvaluator.evaluate(expression);
+	public Context<Expression> visitAssignmentExpression(DOMAssignmentExpression expression) {
+		return processBinaryExpression(expression, variableAssignmentExpressionEvaluator);
 	}
 	
-	private Context<TypedExpression> processBinaryExpression(
+	private Context<Expression> processBinaryExpression(
 			DOMBinaryExpression expression,
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> evaluator) {
+			Evaluator<Tuple2<Expression, Expression>, Expression> evaluator) {
 
-		Context<TypedExpression> leftContext = expression.getLeft().accept(this);
+		Context<Expression> leftContext = expression.getLeft().accept(this);
 		if (!leftContext.isOk()) {
-			return Context.<TypedExpression>fail(new BadContextError(evaluator, leftContext));
+			return Context.<Expression>fail(new BadContextError(evaluator, leftContext));
 		}
 
-		Context<TypedExpression> rightContext = expression.getRight().accept(this);
+		Context<Expression> rightContext = expression.getRight().accept(this);
 		if (!rightContext.isOk()) {
-			return Context.<TypedExpression>fail(new BadContextError(evaluator, rightContext));
+			return Context.<Expression>fail(new BadContextError(evaluator, rightContext));
 		}
 
 		return evaluator.evaluate(
-				new Tuple2<TypedExpression, TypedExpression>(
+				new Tuple2<Expression, Expression>(
 						leftContext.getValue(), 
 						rightContext.getValue()));
 	}		

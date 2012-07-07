@@ -1,6 +1,6 @@
 package com.loki2302.jsick.expressions;
 
-public interface TypedExpressionVisitor<T> {
+public interface ExpressionVisitor<T> {
 	T visitIntConstExpression(IntConstExpression expression);
 	T visitDoubleConstExpression(DoubleConstExpression expression);
 	T visitCastExpression(CastExpression expression);
@@ -9,6 +9,6 @@ public interface TypedExpressionVisitor<T> {
 	T visitMulExpression(MulExpression expression);
 	T visitDivExpression(DivExpression expression);
 	T visitRemExpression(RemExpression expression);
-	T visitGetVariableValueExpression(GetVariableValueExpression expression);
+	T visitVariableReferenceExpression(VariableReferenceExpression expression);
 	T visitSetVariableValueExpression(SetVariableValueExpression expression);
 }

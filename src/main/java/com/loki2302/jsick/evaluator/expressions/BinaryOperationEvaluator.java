@@ -5,25 +5,25 @@ import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.Tuple3;
 import com.loki2302.jsick.evaluator.expressions.errors.CannotDeduceOperationTypeError;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public class BinaryOperationEvaluator 
-extends Evaluator<Tuple2<TypedExpression, TypedExpression>, TypedExpression> {
+public class BinaryOperationEvaluator<T1, T2>
+extends Evaluator<Tuple2<Expression, Expression>, Expression> {
 	
-	private final Evaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> operationTypeEvaluator;
-	private final Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> typedExpressionBuilderEvaluator;
+	private final Evaluator<Tuple2<Expression, Expression>, Tuple3<T1, T2, Type>> operationTypeEvaluator;
+	private final Evaluator<Tuple3<T1, T2, Type>, Expression> typedExpressionBuilderEvaluator;
 	
 	public BinaryOperationEvaluator(
-			Evaluator<Tuple2<TypedExpression, TypedExpression>, Tuple3<TypedExpression, TypedExpression, Type>> operationTypeEvaluator,
-			Evaluator<Tuple3<TypedExpression, TypedExpression, Type>, TypedExpression> typedExpressionBuilderEvaluator) {
+			Evaluator<Tuple2<Expression, Expression>, Tuple3<T1, T2, Type>> operationTypeEvaluator,
+			Evaluator<Tuple3<T1, T2, Type>, Expression> typedExpressionBuilderEvaluator) {
 		this.operationTypeEvaluator = operationTypeEvaluator;
 		this.typedExpressionBuilderEvaluator = typedExpressionBuilderEvaluator;
 	}
 
 	@Override
-	public Context<TypedExpression> evaluate(Tuple2<TypedExpression, TypedExpression> input) {		
-		Context<Tuple3<TypedExpression, TypedExpression, Type>> operationTypeContext = operationTypeEvaluator.evaluate(input);
+	public Context<Expression> evaluate(Tuple2<Expression, Expression> input) {		
+		Context<Tuple3<T1, T2, Type>> operationTypeContext = operationTypeEvaluator.evaluate(input);
 		if(!operationTypeContext.isOk()) {
 			return fail(new CannotDeduceOperationTypeError(this, input));
 		}

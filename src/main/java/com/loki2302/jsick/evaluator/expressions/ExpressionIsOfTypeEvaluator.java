@@ -8,26 +8,26 @@ import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.evaluator.expressions.errors.TypesAreDifferentError;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public class ExpressionIsOfTypeEvaluator<TInput> extends Evaluator<TInput, TypedExpression> {
+public class ExpressionIsOfTypeEvaluator<TInput> extends Evaluator<TInput, Expression> {
 	
-	private final Evaluator<TInput, TypedExpression> expressionEvaluator; 
+	private final Evaluator<TInput, Expression> expressionEvaluator; 
 	private final Evaluator<TInput, Type> typeEvaluator;
 	
 	public ExpressionIsOfTypeEvaluator(
-			Evaluator<TInput, TypedExpression> expressionEvaluator, 
+			Evaluator<TInput, Expression> expressionEvaluator, 
 			Evaluator<TInput, Type> typeEvaluator) {
 		this.expressionEvaluator = expressionEvaluator;
 		this.typeEvaluator = typeEvaluator;
 	}
 
 	@Override
-	public Context<TypedExpression> evaluate(TInput input) {		
+	public Context<Expression> evaluate(TInput input) {		
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		
-		Context<TypedExpression> expressionContext = expressionEvaluator.evaluate(input);
+		Context<Expression> expressionContext = expressionEvaluator.evaluate(input);
 		if(!expressionContext.isOk()) {
 			errors.add(expressionContext.getError());
 		}
@@ -41,7 +41,7 @@ public class ExpressionIsOfTypeEvaluator<TInput> extends Evaluator<TInput, Typed
 			return fail(new CompositeError(this, input, errors));
 		}
 		
-		Context<TypedExpression> expression = expressionContext;
+		Context<Expression> expression = expressionContext;
 		Context<Type> type = typeContext;
 		
 		if(!expression.getValue().getType().equals(type.getValue())) {

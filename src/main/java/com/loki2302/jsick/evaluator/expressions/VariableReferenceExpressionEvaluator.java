@@ -5,11 +5,11 @@ import com.loki2302.jsick.dom.expressions.DOMVariableReferenceExpression;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.expressions.errors.UndefinedVariableError;
-import com.loki2302.jsick.expressions.GetVariableValueExpression;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
+import com.loki2302.jsick.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.Instance;
 
-public class VariableReferenceExpressionEvaluator extends Evaluator<DOMVariableReferenceExpression, TypedExpression> {
+public class VariableReferenceExpressionEvaluator extends Evaluator<DOMVariableReferenceExpression, Expression> {
 	
 	private final LexicalContext lexicalContext;
 	
@@ -18,14 +18,14 @@ public class VariableReferenceExpressionEvaluator extends Evaluator<DOMVariableR
 	}
 
 	@Override
-	public Context<TypedExpression> evaluate(DOMVariableReferenceExpression input) {		
+	public Context<Expression> evaluate(DOMVariableReferenceExpression input) {		
 		String variableName = input.getVariableName();
 		if(!lexicalContext.variableExists(variableName)) {
-			return Context.<TypedExpression>fail(new UndefinedVariableError(this, input));
+			return Context.<Expression>fail(new UndefinedVariableError(this, input));
 		}			
 		
 		Instance instance = lexicalContext.getVariable(variableName);
 		
-		return ok(new GetVariableValueExpression(instance));
+		return ok(new VariableReferenceExpression(instance));
 	}
 }

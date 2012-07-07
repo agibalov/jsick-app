@@ -2,16 +2,16 @@ package com.loki2302.jsick.expressions;
 
 import com.loki2302.jsick.types.Type;
 
-public class CastExpression implements TypedExpression {
-	private TypedExpression expression;
+public class CastExpression implements Expression {
+	private Expression expression;
 	private Type targetType;
 	
-	public CastExpression(TypedExpression expression, Type targetType) {
+	public CastExpression(Expression expression, Type targetType) {
 		this.expression = expression;
 		this.targetType = targetType;
 	}
 	
-	public TypedExpression getExpression() {
+	public Expression getExpression() {
 		return expression;
 	}
 	
@@ -25,7 +25,7 @@ public class CastExpression implements TypedExpression {
 	}    	
 	
 	@Override
-	public <T> T accept(TypedExpressionVisitor<T> visitor) {
+	public <T> T accept(ExpressionVisitor<T> visitor) {
 		return visitor.visitCastExpression(this);
 	}
 	

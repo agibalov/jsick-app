@@ -1,16 +1,16 @@
 package com.loki2302.jsick.statements;
 
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 
 public class PrintStatement extends Statement {
 	
-	private final TypedExpression expression;
+	private final Expression expression;
 	
-	public PrintStatement(TypedExpression expression) {
+	public PrintStatement(Expression expression) {
 		this.expression = expression;
 	}
 	
-	public TypedExpression getExpression() {
+	public Expression getExpression() {
 		return expression;
 	}
 

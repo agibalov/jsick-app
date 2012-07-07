@@ -3,17 +3,17 @@ package com.loki2302.jsick.compiler;
 import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.expressions.TypedExpression;
+import com.loki2302.jsick.expressions.Expression;
 
 public class ExpressionCompiler {
 	
-	private final Evaluator<DOMExpression, TypedExpression> compilingExpressionEvaluator;
+	private final Evaluator<DOMExpression, Expression> compilingExpressionEvaluator;
 	
-	public ExpressionCompiler(Evaluator<DOMExpression, TypedExpression> compilingExpressionEvaluator) {
+	public ExpressionCompiler(Evaluator<DOMExpression, Expression> compilingExpressionEvaluator) {
 		this.compilingExpressionEvaluator = compilingExpressionEvaluator; 
 	}
 	
-	public Context<TypedExpression> compile(DOMExpression domExpression) {
+	public Context<Expression> compile(DOMExpression domExpression) {
 		return compilingExpressionEvaluator.evaluate(domExpression);
 	}
 	
