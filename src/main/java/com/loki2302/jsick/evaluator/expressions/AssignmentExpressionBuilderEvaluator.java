@@ -2,15 +2,13 @@ package com.loki2302.jsick.evaluator.expressions;
 
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.Tuple3;
-import com.loki2302.jsick.expressions.LvalueExpression;
 import com.loki2302.jsick.expressions.Expression;
-import com.loki2302.jsick.types.Type;
+import com.loki2302.jsick.expressions.LvalueExpression;
 
 public class AssignmentExpressionBuilderEvaluator 
-extends Evaluator<Tuple3<LvalueExpression, Expression, Type>, Expression> {
+extends Evaluator<TwoExpressionsAndType, Expression> {
 	@Override
-	public Context<Expression> evaluate(Tuple3<LvalueExpression, Expression, Type> input) {		
-		return ok(input.first.asSetter(input.second)); 
+	public Context<Expression> evaluate(TwoExpressionsAndType input) {		
+		return ok(((LvalueExpression)input.getLeft()).asSetter(input.getRight())); 
 	}		
 }

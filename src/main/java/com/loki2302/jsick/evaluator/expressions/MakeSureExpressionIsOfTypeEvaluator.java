@@ -2,19 +2,18 @@ package com.loki2302.jsick.evaluator.expressions;
 
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.expressions.errors.CannotCastImplicitlyError;
 import com.loki2302.jsick.expressions.CastExpression;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public class MakeSureExpressionIsOfTypeEvaluator extends Evaluator<Tuple2<Expression, Type>, Expression> {
+public class MakeSureExpressionIsOfTypeEvaluator extends Evaluator<ExpressionAndType, Expression> {
 
 	@Override
-	public Context<Expression> evaluate(Tuple2<Expression, Type> input) {
-		Expression expression = input.first;
+	public Context<Expression> evaluate(ExpressionAndType input) {
+		Expression expression = input.getExpression();
 		Type expressionType = expression.getType();
-		Type targetType = input.second;
+		Type targetType = input.getType();
 		
 		if(expressionType.equals(targetType)) {
 			return ok(expression);

@@ -9,9 +9,9 @@ import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.dom.statements.DOMVariableDefinitionStatement;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
+import com.loki2302.jsick.evaluator.expressions.ExpressionAndType;
 import com.loki2302.jsick.evaluator.statements.errors.UnknownTypeError;
 import com.loki2302.jsick.evaluator.statements.errors.VariableRedefinitionError;
 import com.loki2302.jsick.expressions.Expression;
@@ -21,18 +21,18 @@ import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.types.Types;
 
-public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends Evaluator<DOMVariableDefinitionStatement, Statement> {
+public class VariableDefinitionStatementEvaluator extends Evaluator<DOMVariableDefinitionStatement, Statement> {
 	
 	private final Types types;
 	private final ExpressionCompiler expressionCompiler;
 	private final LexicalContext lexicalContext;
-	private final Evaluator<Tuple2<Expression, Type>, Expression> makeSureExpressionIsOfTypeEvaluator;
+	private final Evaluator<ExpressionAndType, Expression> makeSureExpressionIsOfTypeEvaluator;
 	
-	public DOMVariableDefinitionStatementToStatementConverterEvaluator(
+	public VariableDefinitionStatementEvaluator(
 			ExpressionCompiler expressionCompiler, 
 			LexicalContext lexicalContext, 
 			Types types,
-			Evaluator<Tuple2<Expression, Type>, Expression> makeSureExpressionIsOfTypeEvaluator) {
+			Evaluator<ExpressionAndType, Expression> makeSureExpressionIsOfTypeEvaluator) {
 		this.expressionCompiler = expressionCompiler;
 		this.lexicalContext = lexicalContext;
 		this.types = types;
@@ -61,7 +61,7 @@ public class DOMVariableDefinitionStatementToStatementConverterEvaluator extends
 		}		
 		
 		Context<Expression> castExpressionContext = makeSureExpressionIsOfTypeEvaluator.evaluate(
-				new Tuple2<Expression, Type>(expressionContext.getValue(), variableType));
+				new ExpressionAndType(expressionContext.getValue(), variableType));
 		if(!castExpressionContext.isOk()) {
 			errors.add(castExpressionContext.getError());
 		}

@@ -16,7 +16,6 @@ import com.loki2302.jsick.dom.expressions.DOMSubExpression;
 import com.loki2302.jsick.dom.expressions.DOMVariableReferenceExpression;
 import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.Tuple2;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.expressions.Expression;
@@ -25,24 +24,24 @@ public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Conte
 	
 	private final Evaluator<DOMIntConstExpression, Expression> intConstExpressionEvaluator;
 	private final Evaluator<DOMDoubleConstExpression, Expression> doubleConstExpressionEvaluator;
-	private final Evaluator<Tuple2<Expression, Expression>, Expression> addExpressionEvaluator;
-	private final Evaluator<Tuple2<Expression, Expression>, Expression> subExpressionEvaluator;
-	private final Evaluator<Tuple2<Expression, Expression>, Expression> mulExpressionEvaluator;
-	private final Evaluator<Tuple2<Expression, Expression>, Expression> divExpressionEvaluator;
-	private final Evaluator<Tuple2<Expression, Expression>, Expression> remExpressionEvaluator;
+	private final Evaluator<TwoExpressions, Expression> addExpressionEvaluator;
+	private final Evaluator<TwoExpressions, Expression> subExpressionEvaluator;
+	private final Evaluator<TwoExpressions, Expression> mulExpressionEvaluator;
+	private final Evaluator<TwoExpressions, Expression> divExpressionEvaluator;
+	private final Evaluator<TwoExpressions, Expression> remExpressionEvaluator;
 	private final Evaluator<DOMVariableReferenceExpression, Expression> variableReferenceExpressionEvaluator;
-	Evaluator<Tuple2<Expression, Expression>, Expression> variableAssignmentExpressionEvaluator;
+	private final Evaluator<TwoExpressions, Expression> variableAssignmentExpressionEvaluator;
 	
 	public CompilingDOMExpressionVisitor(
 			Evaluator<DOMIntConstExpression, Expression> intConstExpressionEvaluator,
 			Evaluator<DOMDoubleConstExpression, Expression> doubleConstExpressionEvaluator,
-			Evaluator<Tuple2<Expression, Expression>, Expression> addExpressionEvaluator,
-			Evaluator<Tuple2<Expression, Expression>, Expression> subExpressionEvaluator,
-			Evaluator<Tuple2<Expression, Expression>, Expression> mulExpressionEvaluator,
-			Evaluator<Tuple2<Expression, Expression>, Expression> divExpressionEvaluator,
-			Evaluator<Tuple2<Expression, Expression>, Expression> remExpressionEvaluator,
+			Evaluator<TwoExpressions, Expression> addExpressionEvaluator,
+			Evaluator<TwoExpressions, Expression> subExpressionEvaluator,
+			Evaluator<TwoExpressions, Expression> mulExpressionEvaluator,
+			Evaluator<TwoExpressions, Expression> divExpressionEvaluator,
+			Evaluator<TwoExpressions, Expression> remExpressionEvaluator,
 			Evaluator<DOMVariableReferenceExpression, Expression> variableReferenceExpressionEvaluator,
-			Evaluator<Tuple2<Expression, Expression>, Expression> variableAssignmentExpressionEvaluator) {
+			Evaluator<TwoExpressions, Expression> variableAssignmentExpressionEvaluator) {
 		this.intConstExpressionEvaluator = intConstExpressionEvaluator;
 		this.doubleConstExpressionEvaluator = doubleConstExpressionEvaluator;
 		this.addExpressionEvaluator = addExpressionEvaluator;
@@ -101,7 +100,7 @@ public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Conte
 	
 	private Context<Expression> processBinaryExpression(
 			DOMBinaryExpression expression,
-			Evaluator<Tuple2<Expression, Expression>, Expression> evaluator) {
+			Evaluator<TwoExpressions, Expression> evaluator) {
 
 		List<AbstractError> errors = new ArrayList<AbstractError>();
 		Context<Expression> leftContext = expression.getLeft().accept(this);
@@ -119,8 +118,8 @@ public class CompilingDOMExpressionVisitor implements DOMExpressionVisitor<Conte
 		}
 
 		return evaluator.evaluate(
-				new Tuple2<Expression, Expression>(
-						leftContext.getValue(), 
+				new TwoExpressions(
+						leftContext.getValue(),
 						rightContext.getValue()));
 	}		
 }

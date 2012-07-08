@@ -5,15 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.loki2302.jsick.evaluator.Context;
-import com.loki2302.jsick.evaluator.Tuple2;
-import com.loki2302.jsick.evaluator.Tuple3;
 import com.loki2302.jsick.expressions.DoubleConstExpression;
-import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.expressions.IntConstExpression;
-import com.loki2302.jsick.expressions.LvalueExpression;
 import com.loki2302.jsick.expressions.VariableReferenceExpression;
 import com.loki2302.jsick.types.Instance;
-import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.types.Types;
 
 public class AssignmentSemanticsTest {
@@ -27,13 +22,13 @@ public class AssignmentSemanticsTest {
 		IntConstExpression intConstExpression = new IntConstExpression(types.IntType, 1);
 		
 		AssignmentSemanticsEvaluator evaluator = new AssignmentSemanticsEvaluator();
-		Context<Tuple3<LvalueExpression, Expression, Type>> resultContext = evaluator.evaluate(
-				new Tuple2<Expression, Expression>(variableReferenceExpression, intConstExpression));
+		Context<TwoExpressionsAndType> resultContext = evaluator.evaluate(
+				new TwoExpressions(variableReferenceExpression, intConstExpression));
 		
 		assertTrue(resultContext.isOk());
-		assertEquals(variableReferenceExpression, resultContext.getValue().first);
-		assertEquals(intConstExpression, resultContext.getValue().second);
-		assertEquals(types.IntType, resultContext.getValue().third);
+		assertEquals(variableReferenceExpression, resultContext.getValue().getLeft());
+		assertEquals(intConstExpression, resultContext.getValue().getRight());
+		assertEquals(types.IntType, resultContext.getValue().getType());
 	}
 	
 	@Test
@@ -45,8 +40,8 @@ public class AssignmentSemanticsTest {
 		DoubleConstExpression doubleConstExpression = new DoubleConstExpression(types.DoubleType, 1);
 		
 		AssignmentSemanticsEvaluator evaluator = new AssignmentSemanticsEvaluator();
-		Context<Tuple3<LvalueExpression, Expression, Type>> resultContext = evaluator.evaluate(
-				new Tuple2<Expression, Expression>(variableReferenceExpression, doubleConstExpression));
+		Context<TwoExpressionsAndType> resultContext = evaluator.evaluate(
+				new TwoExpressions(variableReferenceExpression, doubleConstExpression));
 		
 		assertFalse(resultContext.isOk());
 	}

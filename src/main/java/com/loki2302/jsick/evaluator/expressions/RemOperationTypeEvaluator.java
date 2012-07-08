@@ -1,16 +1,12 @@
 package com.loki2302.jsick.evaluator.expressions;
 
-import static com.loki2302.jsick.evaluator.Fluency.tuple3;
 import static com.loki2302.jsick.evaluator.expressions.Fluency.expressionIsOfType;
 
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.Tuple2;
-import com.loki2302.jsick.evaluator.Tuple3;
 import com.loki2302.jsick.expressions.Expression;
-import com.loki2302.jsick.types.Type;
 import com.loki2302.jsick.types.Types;
 
-public class RemOperationTypeEvaluator extends BinaryOperationTypeEvaluator<Expression, Expression> {
+public class RemOperationTypeEvaluator extends BinaryOperationTypeEvaluator {
 	
 	private final Types types;
 	
@@ -19,13 +15,13 @@ public class RemOperationTypeEvaluator extends BinaryOperationTypeEvaluator<Expr
 	}
 	
 	@Override
-	protected Evaluator<Tuple2<Expression, Expression>, Tuple3<Expression, Expression, Type>> makeEvaluator() {
-		Evaluator<Tuple2<Expression, Expression>, Expression> first =
+	protected Evaluator<TwoExpressions, TwoExpressionsAndType> makeEvaluator() {
+		Evaluator<TwoExpressions, Expression> first =
 						expressionIsOfType(first(), type(types.IntType));
 		
-		Evaluator<Tuple2<Expression, Expression>, Expression> second =
+		Evaluator<TwoExpressions, Expression> second =
 						expressionIsOfType(second(), type(types.IntType));
 		
-		return tuple3(first, second, type(types.IntType));
+		return twoExpressionsAndType(first, second, type(types.IntType));
 	}		
 }

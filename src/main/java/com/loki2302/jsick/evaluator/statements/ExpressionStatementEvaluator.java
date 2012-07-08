@@ -9,11 +9,11 @@ import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.statements.ExpressionStatement;
 import com.loki2302.jsick.statements.Statement;
 
-public class DOMExpressionStatementToStatementConverterEvaluator extends Evaluator<DOMExpressionStatement, Statement> {
+public class ExpressionStatementEvaluator extends Evaluator<DOMExpressionStatement, Statement> {
 	
 	private final ExpressionCompiler expressionCompiler;
 	
-	public DOMExpressionStatementToStatementConverterEvaluator(ExpressionCompiler expressionCompiler) {
+	public ExpressionStatementEvaluator(ExpressionCompiler expressionCompiler) {
 		this.expressionCompiler = expressionCompiler;
 	}
 	

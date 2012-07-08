@@ -1,24 +1,31 @@
 package com.loki2302.jsick.evaluator.expressions;
 
-import com.loki2302.jsick.evaluator.GetFirstEvaluator;
-import com.loki2302.jsick.evaluator.GetSecondEvaluator;
+import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.LazyEvaluator;
-import com.loki2302.jsick.evaluator.Tuple2;
-import com.loki2302.jsick.evaluator.Tuple3;
+import com.loki2302.jsick.evaluator.expressions.TwoExpressions.GetLeftExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.TwoExpressions.GetRightExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.TwoExpressionsAndType.MakeTwoExpressionsAndTypeEvaluator;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Type;
 
-public abstract class BinaryOperationTypeEvaluator<TLeft, TRight> 
-extends LazyEvaluator<Tuple2<Expression, Expression>, Tuple3<TLeft, TRight, Type>> {
-	protected GetFirstEvaluator<Expression, Tuple2<Expression, Expression>> first() {
-		return new GetFirstEvaluator<Expression, Tuple2<Expression, Expression>>();
+public abstract class BinaryOperationTypeEvaluator 
+extends LazyEvaluator<TwoExpressions, TwoExpressionsAndType> {
+	protected GetLeftExpressionEvaluator<TwoExpressions> first() {
+		return new GetLeftExpressionEvaluator<TwoExpressions>();
 	}    	
 	
-	protected GetSecondEvaluator<Expression, Tuple2<Expression, Expression>> second() {
-		return new GetSecondEvaluator<Expression, Tuple2<Expression, Expression>>();
+	protected GetRightExpressionEvaluator<TwoExpressions> second() {
+		return new GetRightExpressionEvaluator<TwoExpressions>();
 	}
 	
-	protected FixedTypeEvaluator<Tuple2<Expression, Expression>> type(Type type) {
-		return new FixedTypeEvaluator<Tuple2<Expression, Expression>>(type);
+	protected FixedTypeEvaluator<TwoExpressions> type(Type type) {
+		return new FixedTypeEvaluator<TwoExpressions>(type);
+	}	
+	
+	protected static <TInput> MakeTwoExpressionsAndTypeEvaluator<TInput> twoExpressionsAndType(
+			Evaluator<TInput, ? extends Expression> leftExpressionEvaluator,
+			Evaluator<TInput, ? extends Expression> rightExpressionEvaluator,
+			Evaluator<TInput, Type> typeEvaluator) {
+		return new MakeTwoExpressionsAndTypeEvaluator<TInput>(leftExpressionEvaluator, rightExpressionEvaluator, typeEvaluator);
 	}
 }

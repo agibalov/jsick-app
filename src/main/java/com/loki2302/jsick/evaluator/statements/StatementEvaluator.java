@@ -9,13 +9,13 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.statements.Statement;
 
-public class DOMStatementToStatementConverterEvaluator extends Evaluator<DOMStatement, Statement> {	
+public class StatementEvaluator extends Evaluator<DOMStatement, Statement> {	
 	
 	private final Evaluator<DOMExpressionStatement, Statement> expressionStatementEvaluator;
 	private final Evaluator<DOMPrintStatement, Statement> printStatementEvaluator;
 	private final Evaluator<DOMVariableDefinitionStatement, Statement> variableDefinitionStatementEvaluator;
 	
-	public DOMStatementToStatementConverterEvaluator(
+	public StatementEvaluator(
 			Evaluator<DOMExpressionStatement, Statement> expressionStatementEvaluator,
 			Evaluator<DOMPrintStatement, Statement> printStatementEvaluator,
 			Evaluator<DOMVariableDefinitionStatement, Statement> variableDefinitionStatementEvaluator) {
