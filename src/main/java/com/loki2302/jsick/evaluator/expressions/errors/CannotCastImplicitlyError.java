@@ -15,6 +15,14 @@ public class CannotCastImplicitlyError extends AbstractError {
 		this.type = type;
 	}
 	
+	public Expression getExpression() {
+		return expression;
+	}
+	
+	public Type getType() {
+		return type;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("CannotCast{%s->%s}", expression.getType(), type);

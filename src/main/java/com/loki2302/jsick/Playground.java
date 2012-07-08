@@ -1,20 +1,29 @@
 package com.loki2302.jsick;
 
 import java.io.BufferedOutputStream;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.parboiled.support.IndexRange;
+
 import com.loki2302.jsick.compiler.ProgramCompiler;
 import com.loki2302.jsick.compiler.backend.interpreter.ProgramInterpreter;
 import com.loki2302.jsick.compiler.backend.jvm.JVMCodeGenerator;
+import com.loki2302.jsick.dom.expressions.DOMExpression;
+import com.loki2302.jsick.dom.parser.CodePositionInfo;
 import com.loki2302.jsick.dom.parser.ParseResult;
 import com.loki2302.jsick.dom.parser.Parser;
 import com.loki2302.jsick.evaluator.Context;
+import com.loki2302.jsick.evaluator.errors.AbstractError;
+import com.loki2302.jsick.evaluator.errors.CompositeError;
 import com.loki2302.jsick.statements.Program;
 import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Types;
+import com.loki2302.jsick.evaluator.expressions.errors.CannotCastImplicitlyError;
+import com.loki2302.jsick.expressions.Expression;
 
 // TODO: add parser error handling
 // TODO: add compiler error handling
@@ -22,12 +31,46 @@ import com.loki2302.jsick.types.Types;
 
 public class Playground {	
 	
+	public static void dumpError(ParseResult parseResult, AbstractError error) {
+		
+		if(error instanceof CompositeError) {
+			for(AbstractError e : ((CompositeError)error).getEvaluatorErrors()) {
+				dumpError(parseResult, e);
+			}
+			return;
+		} else if(error instanceof CannotCastImplicitlyError) {
+			CannotCastImplicitlyError e = (CannotCastImplicitlyError)error;
+			Expression expression = e.getExpression();
+			DOMExpression domExpression = expression.getSourceDOMExpression();
+			IndexRange matchRange = domExpression.getMatchRange();
+			CodePositionInfo codePositionInfo = parseResult.getCodePositionInfo(matchRange);
+			System.out.printf("[Line %d, Column %d]\n", 
+					codePositionInfo.getLine(), 
+					codePositionInfo.getColumn());
+			System.out.println(codePositionInfo.getLineString());
+			
+			for(int i = 1; i < codePositionInfo.getColumn(); ++i) {
+				System.out.print(" ");
+			}
+			
+			for(int i = 0; i < matchRange.length(); ++i) {
+				System.out.print("^");
+			}
+			
+			System.out.println();
+			
+			System.out.printf("Cannot cast expression of type %s to type %s\n", 
+					e.getExpression().getType().getName(), 
+					e.getType().getName());			
+		} else {	
+			System.out.println(error);
+		}
+		System.out.println("----------------");
+	}
+	
 	public static void main(String[] args) throws IOException {		
 		String code =
-				"int x = 0;\n" + 
-				"int y = 0;\n" + 
-				"int z = (x = 1) + (y = 2);" + 
-				"?x;?y;?z;"; 
+				"int x = 3.0;int y = 1 + 2.0;";
 		
 		Parser parser = new Parser();
 		ParseResult parseResult = parser.parse(code);
@@ -40,7 +83,7 @@ public class Playground {
 		ProgramCompiler programCompiler = ProgramCompiler.makeDefaultCompiler(types);
 		Context<Program> programContext = programCompiler.compile(parseResult.getProgram());
 		if(!programContext.isOk()) {
-			System.out.println("SEMANTIC ERRORS");
+			dumpError(parseResult, programContext.getError());
 			return;
 		}
 		

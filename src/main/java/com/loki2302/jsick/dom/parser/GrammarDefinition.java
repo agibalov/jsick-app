@@ -2,6 +2,7 @@ package com.loki2302.jsick.dom.parser;
 
 import org.parboiled.BaseParser;
 import org.parboiled.Rule;
+import org.parboiled.support.IndexRange;
 import org.parboiled.support.Var;
 
 import com.loki2302.jsick.dom.DOMNode;
@@ -124,47 +125,53 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 	}
 	
 	Rule assignmentExpression() {
+		Var<IndexRange> opMatchRange = new Var<IndexRange>();
 		return Sequence(
 				variableReferenceExpression(),
 				optGap(),
 				"=",
+				opMatchRange.set(getContext().getMatchRange()),
 				optGap(),
 				expression(),
 				push(new DOMAssignmentExpression(
 						(DOMVariableReferenceExpression)pop(1), 
 						(DOMExpression)pop(), 
-						getContext().getMatchRange())));
+						opMatchRange.get())));
 	}
 		
 	Rule multiplicativeExpression() {
 		Var<Character> op = new Var<Character>();
+		Var<IndexRange> opMatchRange = new Var<IndexRange>();
 		return Sequence(
 				factorExpression(),
 				ZeroOrMore(
 					FirstOf("*", "/", "%"),
 					op.set(matchedChar()),
+					opMatchRange.set(getContext().getMatchRange()),
 					factorExpression(),
 					push(DOMBinaryExpression.expressionFromChar(
 							op.get(),
 							(DOMExpression)pop(1), 
 							(DOMExpression)pop(), 
-							getContext().getMatchRange())))							
+							opMatchRange.get())))							
 				);		
 	}
 	
 	Rule additiveExpression() {
 		Var<Character> op = new Var<Character>();
+		Var<IndexRange> opMatchRange = new Var<IndexRange>(); 
 		return Sequence(
 				multiplicativeExpression(),
 				ZeroOrMore(
 					FirstOf("+", "-"),
 					op.set(matchedChar()),
+					opMatchRange.set(getContext().getMatchRange()),
 					multiplicativeExpression(),
 					push(DOMBinaryExpression.expressionFromChar(
 							op.get(),
 							(DOMExpression)pop(1), 
 							(DOMExpression)pop(), 
-							getContext().getMatchRange())))
+							opMatchRange.get())))
 				);
 	}
 	
