@@ -1,10 +1,11 @@
 package com.loki2302.jsick.expressions;
 
+import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.types.Type;
 
 public class SubExpression extends BinaryExpression {	
-	public SubExpression(Expression left, Expression right, Type resultType) {
-		super(left, right, resultType);
+	public SubExpression(DOMExpression sourceDOMExpression, Expression left, Expression right, Type resultType) {
+		super(sourceDOMExpression, left, right, resultType);
 	}
 	
 	@Override

@@ -1,12 +1,14 @@
 package com.loki2302.jsick.expressions;
 
+import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.types.Type;
 
-public class CastExpression implements Expression {
+public class CastExpression extends Expression {
 	private Expression expression;
 	private Type targetType;
 	
-	public CastExpression(Expression expression, Type targetType) {
+	public CastExpression(DOMExpression sourceDOMExpression, Expression expression, Type targetType) {
+		super(sourceDOMExpression);
 		this.expression = expression;
 		this.targetType = targetType;
 	}

@@ -17,6 +17,6 @@ public class IntConstExpressionEvaluator extends Evaluator<DOMIntConstExpression
 	
 	@Override
 	public Context<Expression> evaluate(DOMIntConstExpression input) {
-		return ok(new IntConstExpression(intType, input.getValue()));
+		return ok(new IntConstExpression(input, intType, input.getValue()));
 	}		
 }

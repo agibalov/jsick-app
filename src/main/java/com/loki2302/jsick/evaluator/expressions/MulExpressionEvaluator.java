@@ -18,8 +18,8 @@ public class MulExpressionEvaluator extends AbstractArithmeticExpressionEvaluato
 	}
 
 	@Override
-	protected Expression makeExpression(Expression leftExpression, Expression rightExpression, Type operationType) {
-		return new MulExpression(leftExpression, rightExpression, operationType);
+	protected Expression makeExpression(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression, Type operationType) {
+		return new MulExpression(sourceDOMExpression, leftExpression, rightExpression, operationType);
 	}	
 	
 }

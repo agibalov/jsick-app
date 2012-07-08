@@ -1,13 +1,15 @@
 package com.loki2302.jsick.expressions;
 
+import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.types.Instance;
 import com.loki2302.jsick.types.Type;
 
-public class VariableReferenceExpression implements LvalueExpression {
+public class VariableReferenceExpression extends LvalueExpression {
 	
 	private final Instance instance;
 	
-	public VariableReferenceExpression(Instance instance) {
+	public VariableReferenceExpression(DOMExpression sourceDOMExpression, Instance instance) {
+		super(sourceDOMExpression);
 		this.instance = instance;
 	}
 
@@ -16,8 +18,8 @@ public class VariableReferenceExpression implements LvalueExpression {
 	}
 		
 	@Override
-	public Expression asSetter(Expression expression) {
-		return new SetVariableValueExpression(instance, expression);
+	public Expression asSetter(DOMExpression sourceDOMExpression, Expression expression) {
+		return new SetVariableValueExpression(sourceDOMExpression, instance, expression);
 	}
 	
 	@Override

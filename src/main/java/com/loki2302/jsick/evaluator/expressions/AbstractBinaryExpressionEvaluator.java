@@ -40,8 +40,8 @@ extends Evaluator<TExpression, Expression> {
 			return fail(new CompositeError(this, input, errors));
 		}
 		
-		return processExpressions(leftExpressionContext.getValue(), rightExpressionContext.getValue());
+		return processExpressions(input, leftExpressionContext.getValue(), rightExpressionContext.getValue());
 	}
 	
-	protected abstract Context<Expression> processExpressions(Expression leftExpression, Expression rightExpression);	
+	protected abstract Context<Expression> processExpressions(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression);	
 }

@@ -18,8 +18,8 @@ public class DivExpressionEvaluator extends AbstractArithmeticExpressionEvaluato
 	}
 
 	@Override
-	protected Expression makeExpression(Expression leftExpression, Expression rightExpression, Type operationType) {
-		return new DivExpression(leftExpression, rightExpression, operationType);
+	protected Expression makeExpression(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression, Type operationType) {
+		return new DivExpression(sourceDOMExpression, leftExpression, rightExpression, operationType);
 	}	
 	
 }

@@ -18,8 +18,8 @@ public class SubExpressionEvaluator extends AbstractArithmeticExpressionEvaluato
 	}
 
 	@Override
-	protected Expression makeExpression(Expression leftExpression, Expression rightExpression, Type operationType) {
-		return new SubExpression(leftExpression, rightExpression, operationType);
+	protected Expression makeExpression(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression, Type operationType) {
+		return new SubExpression(sourceDOMExpression, leftExpression, rightExpression, operationType);
 	}	
 	
 }

@@ -18,8 +18,8 @@ public class RemExpressionEvaluator extends AbstractArithmeticExpressionEvaluato
 	}
 
 	@Override
-	protected Expression makeExpression(Expression leftExpression, Expression rightExpression, Type operationType) {
-		return new RemExpression(leftExpression, rightExpression, operationType);
+	protected Expression makeExpression(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression, Type operationType) {
+		return new RemExpression(sourceDOMExpression, leftExpression, rightExpression, operationType);
 	}	
 	
 }

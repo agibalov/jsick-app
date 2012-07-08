@@ -1,13 +1,15 @@
 package com.loki2302.jsick.expressions;
 
+import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.types.Type;
 
-public abstract class BinaryExpression implements Expression {
+public abstract class BinaryExpression extends Expression {
 	private final Expression left;
 	private final Expression right;
 	private final Type resultType;
 	
-	protected BinaryExpression(Expression left, Expression right, Type resultType) {
+	protected BinaryExpression(DOMExpression sourceDOMExpression, Expression left, Expression right, Type resultType) {
+		super(sourceDOMExpression);
 		this.left = left;
 		this.right = right;
 		this.resultType = resultType;

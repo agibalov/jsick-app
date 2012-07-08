@@ -49,7 +49,10 @@ public class CastExpressionToTypeEvaluator<TInput> extends Evaluator<TInput, Exp
 			return fail(new CannotCastImplicitlyError(this, input, expression, targetType));
 		}
 		
-		Expression castExpression = new CastExpression(expressionContext.getValue(), typeContext.getValue()); 
+		Expression castExpression = new CastExpression(
+				expressionContext.getValue().getSourceDOMExpression(), 
+				expressionContext.getValue(), 
+				typeContext.getValue()); 
 		
 		return ok(castExpression);
 	}

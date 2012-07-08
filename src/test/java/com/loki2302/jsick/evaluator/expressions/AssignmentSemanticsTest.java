@@ -21,8 +21,8 @@ public class AssignmentSemanticsTest {
 		Types types = new Types();
 		Instance intInstance = types.IntType.makeInstance("x");
 		
-		VariableReferenceExpression variableReferenceExpression = new VariableReferenceExpression(intInstance);
-		IntConstExpression intConstExpression = new IntConstExpression(types.IntType, 1);
+		VariableReferenceExpression variableReferenceExpression = new VariableReferenceExpression(null, intInstance);
+		IntConstExpression intConstExpression = new IntConstExpression(null, types.IntType, 1);
 		
 		AssignmentSemanticsEvaluator evaluator = new AssignmentSemanticsEvaluator();
 		Context<TwoExpressionsAndType> resultContext = evaluator.evaluate(
@@ -39,8 +39,8 @@ public class AssignmentSemanticsTest {
 		Types types = new Types();
 		Instance intInstance = types.IntType.makeInstance("x");
 		
-		VariableReferenceExpression variableReferenceExpression = new VariableReferenceExpression(intInstance);
-		DoubleConstExpression doubleConstExpression = new DoubleConstExpression(types.DoubleType, 1);
+		VariableReferenceExpression variableReferenceExpression = new VariableReferenceExpression(null, intInstance);
+		DoubleConstExpression doubleConstExpression = new DoubleConstExpression(null, types.DoubleType, 1);
 		
 		AssignmentSemanticsEvaluator evaluator = new AssignmentSemanticsEvaluator();
 		Context<TwoExpressionsAndType> resultContext = evaluator.evaluate(

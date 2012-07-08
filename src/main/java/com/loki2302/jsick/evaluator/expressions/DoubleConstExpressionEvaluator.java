@@ -17,6 +17,6 @@ public class DoubleConstExpressionEvaluator extends Evaluator<DOMDoubleConstExpr
 	
 	@Override
 	public Context<Expression> evaluate(DOMDoubleConstExpression input) {
-		return ok(new DoubleConstExpression(doubleType, input.getValue()));
+		return ok(new DoubleConstExpression(input, doubleType, input.getValue()));
 	}		
 }

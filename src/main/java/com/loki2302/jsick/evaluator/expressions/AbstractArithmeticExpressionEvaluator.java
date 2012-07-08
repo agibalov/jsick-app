@@ -22,7 +22,7 @@ extends AbstractBinaryExpressionEvaluator<TExpression> {
 	}
 	
 	@Override
-	protected Context<Expression> processExpressions(Expression leftExpression, Expression rightExpression) {
+	protected Context<Expression> processExpressions(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression) {
 		Context<TwoExpressionsAndType> typingContext = operationTypeEvaluator.evaluate(
 				new TwoExpressions(leftExpression, rightExpression));
 		if(!typingContext.isOk()) {
@@ -31,8 +31,8 @@ extends AbstractBinaryExpressionEvaluator<TExpression> {
 		
 		TwoExpressionsAndType type = typingContext.getValue();
 		
-		return ok(makeExpression(type.getLeft(), type.getRight(), type.getType()));
+		return ok(makeExpression(sourceDOMExpression, type.getLeft(), type.getRight(), type.getType()));
 	}
 	
-	protected abstract Expression makeExpression(Expression leftExpression, Expression rightExpression, Type operationType);	
+	protected abstract Expression makeExpression(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression, Type operationType);	
 }

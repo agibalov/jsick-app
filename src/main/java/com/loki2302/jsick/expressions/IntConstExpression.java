@@ -1,12 +1,14 @@
 package com.loki2302.jsick.expressions;
 
+import com.loki2302.jsick.dom.expressions.DOMExpression;
 import com.loki2302.jsick.types.Type;
 
-public class IntConstExpression implements Expression {
+public class IntConstExpression extends Expression {
 	private final Type intType;
 	private final int value;
 	
-	public IntConstExpression(Type intType, int value) {
+	public IntConstExpression(DOMExpression sourceDOMExpression, Type intType, int value) {
+		super(sourceDOMExpression);
 		this.intType = intType;
 		this.value = value;
 	}

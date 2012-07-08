@@ -22,14 +22,14 @@ public class AssignmentExpressionEvaluator extends AbstractBinaryExpressionEvalu
 	}
 
 	@Override
-	protected Context<Expression> processExpressions(Expression leftExpression, Expression rightExpression) {
+	protected Context<Expression> processExpressions(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression) {
 		Context<TwoExpressionsAndType> resultContext = assignmentSemanticsEvaluator.evaluate(
 				new TwoExpressions(leftExpression, rightExpression));
 		if(!resultContext.isOk()) {
 			return fail(resultContext.getError());
 		}
 		
-		return ok(((LvalueExpression)resultContext.getValue().getLeft()).asSetter(resultContext.getValue().getRight()));
+		return ok(((LvalueExpression)resultContext.getValue().getLeft()).asSetter(sourceDOMExpression, resultContext.getValue().getRight()));
 	}
 
 }

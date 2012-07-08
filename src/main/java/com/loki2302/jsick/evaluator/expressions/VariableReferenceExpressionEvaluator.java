@@ -26,6 +26,6 @@ public class VariableReferenceExpressionEvaluator extends Evaluator<DOMVariableR
 		
 		Instance instance = lexicalContext.getVariable(variableName);
 		
-		return ok(new VariableReferenceExpression(instance));
+		return ok(new VariableReferenceExpression(input, instance));
 	}
 }

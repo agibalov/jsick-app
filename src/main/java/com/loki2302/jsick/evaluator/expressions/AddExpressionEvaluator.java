@@ -18,8 +18,8 @@ public class AddExpressionEvaluator extends AbstractArithmeticExpressionEvaluato
 	}
 
 	@Override
-	protected Expression makeExpression(Expression leftExpression, Expression rightExpression, Type operationType) {
-		return new AddExpression(leftExpression, rightExpression, operationType);
+	protected Expression makeExpression(DOMExpression sourceDOMExpression, Expression leftExpression, Expression rightExpression, Type operationType) {
+		return new AddExpression(sourceDOMExpression, leftExpression, rightExpression, operationType);
 	}	
 	
 }

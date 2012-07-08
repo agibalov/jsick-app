@@ -20,7 +20,7 @@ public class MakeSureExpressionIsOfTypeEvaluator extends Evaluator<ExpressionAnd
 		}
 		
 		if(expressionType.canImplicitlyCastTo(targetType)) {
-			return ok(new CastExpression(expression, targetType));
+			return ok(new CastExpression(expression.getSourceDOMExpression(), expression, targetType));
 		}
 		
 		return fail(new CannotCastImplicitlyError(this, input, expression, targetType));
