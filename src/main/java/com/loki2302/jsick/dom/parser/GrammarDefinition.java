@@ -82,7 +82,7 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 	}
 	
 	Rule parensExpression() {
-		return Sequence("(", additiveExpression(), ")");
+		return Sequence("(", expression(), ")");
 	}
 	
 	Rule literalExpression() {
@@ -119,7 +119,8 @@ public class GrammarDefinition extends BaseParser<DOMNode> {
 	Rule expression() {
 		return FirstOf(				
 				assignmentExpression(),
-				additiveExpression());
+				additiveExpression(),
+				parensExpression());
 	}
 	
 	Rule assignmentExpression() {

@@ -142,12 +142,34 @@ public class AppTest {
 	}
 	
 	@Test
-	public void canUseInlineAssignments() {
+	public void canUseSimpleInlineAssignments() {
 		Variables variables = execute(
 				"int x = 1;\n" + 
 				"int y = x = 2;"
 				);
 		assertEquals(2, variables.getIntValue("x"));
 		assertEquals(2, variables.getIntValue("y"));
+	}
+	
+	@Test
+	public void canUseExpressionInlineAssignments() {
+		Variables variables = execute(
+				"int x = 1;\n" + 
+				"int y = (x = 2) + 1;"
+				);
+		assertEquals(2, variables.getIntValue("x"));
+		assertEquals(3, variables.getIntValue("y"));
+	}
+	
+	@Test
+	public void canUseDoubleInlineAssignments() {
+		Variables variables = execute(
+				"int x = 0;\n" + 
+				"int y = 0;\n" +
+				"int z = (x = 1) + (y = 2);\n"
+				);
+		assertEquals(1, variables.getIntValue("x"));
+		assertEquals(2, variables.getIntValue("y"));
+		assertEquals(3, variables.getIntValue("z"));
 	}
 }
