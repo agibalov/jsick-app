@@ -8,10 +8,6 @@ import com.loki2302.jsick.expressions.Expression;
 public class DivExpressionBuilderEvaluator extends Evaluator<TwoExpressionsAndType, Expression> {
 	@Override
 	public Context<Expression> evaluate(TwoExpressionsAndType input) {				
-		return ok(
-				new DivExpression(
-						input.getLeft(),
-						input.getRight(),
-						input.getType())); 
+		return ok(new DivExpression(input.getLeft(), input.getRight(), input.getType())); 
 	}		
 }

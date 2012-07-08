@@ -8,10 +8,6 @@ import com.loki2302.jsick.expressions.Expression;
 public class MulExpressionBuilderEvaluator extends Evaluator<TwoExpressionsAndType, Expression> {
 	@Override
 	public Context<Expression> evaluate(TwoExpressionsAndType input) {				
-		return ok(
-				new MulExpression(
-						input.getLeft(),
-						input.getRight(),
-						input.getType())); 
+		return ok(new MulExpression(input.getLeft(), input.getRight(), input.getType())); 
 	}		
 }

@@ -1,6 +1,5 @@
 package com.loki2302.jsick.evaluator;
 
-
 public class InitLaterEvaluator<TInput, TOutput> extends Evaluator<TInput, TOutput> {
 	
 	private Evaluator<TInput, TOutput> evaluator;

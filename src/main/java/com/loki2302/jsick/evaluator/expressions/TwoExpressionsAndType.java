@@ -35,12 +35,12 @@ public class TwoExpressionsAndType {
 	
 	public static class MakeTwoExpressionsAndTypeEvaluator<TInput> extends Evaluator<TInput, TwoExpressionsAndType> {
 		private final Evaluator<TInput, ? extends Expression> leftExpressionEvaluator;
-		private final Evaluator<TInput, ? extends Expression> rightExpressionEvaluator;
+		private final Evaluator<TInput, Expression> rightExpressionEvaluator;
 		private final Evaluator<TInput, Type> typeEvaluator;
 		
 		public MakeTwoExpressionsAndTypeEvaluator(
 				Evaluator<TInput, ? extends Expression> leftExpressionEvaluator,
-				Evaluator<TInput, ? extends Expression> rightExpressionEvaluator,
+				Evaluator<TInput, Expression> rightExpressionEvaluator,
 				Evaluator<TInput, Type> typeEvaluator) {
 			this.leftExpressionEvaluator = leftExpressionEvaluator;
 			this.rightExpressionEvaluator = rightExpressionEvaluator;
@@ -56,7 +56,7 @@ public class TwoExpressionsAndType {
 				errors.add(leftExpressionContext.getError());
 			}
 			
-			Context<? extends Expression> rightExpressionContext = rightExpressionEvaluator.evaluate(input);
+			Context<Expression> rightExpressionContext = rightExpressionEvaluator.evaluate(input);
 			if(!rightExpressionContext.isOk()) {
 				errors.add(rightExpressionContext.getError());
 			}

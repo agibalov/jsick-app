@@ -24,7 +24,7 @@ extends LazyEvaluator<TwoExpressions, TwoExpressionsAndType> {
 	
 	protected static <TInput> MakeTwoExpressionsAndTypeEvaluator<TInput> twoExpressionsAndType(
 			Evaluator<TInput, ? extends Expression> leftExpressionEvaluator,
-			Evaluator<TInput, ? extends Expression> rightExpressionEvaluator,
+			Evaluator<TInput, Expression> rightExpressionEvaluator,
 			Evaluator<TInput, Type> typeEvaluator) {
 		return new MakeTwoExpressionsAndTypeEvaluator<TInput>(leftExpressionEvaluator, rightExpressionEvaluator, typeEvaluator);
 	}
