@@ -1,4 +1,4 @@
-package com.loki2302.jsick.evaluator.expressions;
+package com.loki2302.jsick.evaluator.expressions.semantics;
 
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.expressions.Expression;

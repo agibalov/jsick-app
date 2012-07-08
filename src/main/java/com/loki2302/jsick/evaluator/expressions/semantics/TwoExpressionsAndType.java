@@ -1,4 +1,4 @@
-package com.loki2302.jsick.evaluator.expressions;
+package com.loki2302.jsick.evaluator.expressions.semantics;
 
 import java.util.ArrayList;
 import java.util.List;

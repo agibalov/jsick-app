@@ -10,22 +10,21 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.InitLaterEvaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
-import com.loki2302.jsick.evaluator.expressions.AddSubMulDivOperationTypeEvaluator;
-import com.loki2302.jsick.evaluator.expressions.AddExpressionBuilderEvaluator;
-import com.loki2302.jsick.evaluator.expressions.AssignmentSemanticsEvaluator;
-import com.loki2302.jsick.evaluator.expressions.AssignmentExpressionBuilderEvaluator;
-import com.loki2302.jsick.evaluator.expressions.BinaryOperationEvaluator;
+import com.loki2302.jsick.evaluator.expressions.AssignmentExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.CompilingDOMExpressionVisitor;
 import com.loki2302.jsick.evaluator.expressions.DOMExpressionToExpressionConverterEvaluator;
-import com.loki2302.jsick.evaluator.expressions.MakeSureExpressionIsOfTypeEvaluator;
 import com.loki2302.jsick.evaluator.expressions.VariableReferenceExpressionEvaluator;
-import com.loki2302.jsick.evaluator.expressions.DivExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DoubleConstExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.IntConstExpressionEvaluator;
-import com.loki2302.jsick.evaluator.expressions.MulExpressionBuilderEvaluator;
 import com.loki2302.jsick.evaluator.expressions.RemOperationTypeEvaluator;
-import com.loki2302.jsick.evaluator.expressions.RemExpressionBuilderEvaluator;
-import com.loki2302.jsick.evaluator.expressions.SubExpressionBuilderEvaluator;
+import com.loki2302.jsick.evaluator.expressions.AddExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.DivExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.MulExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.RemExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.SubExpressionEvaluator;
+import com.loki2302.jsick.evaluator.expressions.semantics.AddSubMulDivOperationTypeEvaluator;
+import com.loki2302.jsick.evaluator.expressions.semantics.AssignmentSemanticsEvaluator;
+import com.loki2302.jsick.evaluator.expressions.semantics.MakeSureExpressionIsOfTypeEvaluator;
 import com.loki2302.jsick.evaluator.statements.ExpressionStatementEvaluator;
 import com.loki2302.jsick.evaluator.statements.PrintStatementEvaluator;
 import com.loki2302.jsick.evaluator.statements.StatementEvaluator;
@@ -81,25 +80,25 @@ public class ProgramCompiler {
     					new CompilingDOMExpressionVisitor(
     							new IntConstExpressionEvaluator(types.IntType),
     							new DoubleConstExpressionEvaluator(types.DoubleType),
-    							new BinaryOperationEvaluator(
-    									addSubMulDivOperationTypeEvaluator,
-    									new AddExpressionBuilderEvaluator()),
-    							new BinaryOperationEvaluator(
-    									addSubMulDivOperationTypeEvaluator,
-    									new SubExpressionBuilderEvaluator()),
-    							new BinaryOperationEvaluator(
-    									addSubMulDivOperationTypeEvaluator, 
-    									new MulExpressionBuilderEvaluator()),
-    							new BinaryOperationEvaluator(
-    									addSubMulDivOperationTypeEvaluator,  
-    									new DivExpressionBuilderEvaluator()),
-    							new BinaryOperationEvaluator(
-    									new RemOperationTypeEvaluator(types), 
-    									new RemExpressionBuilderEvaluator()),
+    							new AddExpressionEvaluator(
+    									compilingExpressionEvaluator,
+    									addSubMulDivOperationTypeEvaluator),    							
+    							new SubExpressionEvaluator(
+    	    							compilingExpressionEvaluator,
+    	    							addSubMulDivOperationTypeEvaluator),
+    	    					new MulExpressionEvaluator(
+    	    							compilingExpressionEvaluator,
+    	    							addSubMulDivOperationTypeEvaluator),
+    	    					new DivExpressionEvaluator(
+    	    							compilingExpressionEvaluator,
+    	    							addSubMulDivOperationTypeEvaluator),
+    	    					new RemExpressionEvaluator(
+    	    							compilingExpressionEvaluator,
+    	    							new RemOperationTypeEvaluator(types)),
     							new VariableReferenceExpressionEvaluator(lexicalContext),
-    							new BinaryOperationEvaluator(
-    									new AssignmentSemanticsEvaluator(),
-    									new AssignmentExpressionBuilderEvaluator()))));
+    							new AssignmentExpressionEvaluator(
+    									compilingExpressionEvaluator,
+    									new AssignmentSemanticsEvaluator()))));
 		
 		ExpressionCompiler expressionCompiler = new ExpressionCompiler(compilingExpressionEvaluator);
 		

@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.loki2302.jsick.evaluator.Context;
+import com.loki2302.jsick.evaluator.expressions.semantics.AssignmentSemanticsEvaluator;
+import com.loki2302.jsick.evaluator.expressions.semantics.TwoExpressions;
+import com.loki2302.jsick.evaluator.expressions.semantics.TwoExpressionsAndType;
 import com.loki2302.jsick.expressions.DoubleConstExpression;
 import com.loki2302.jsick.expressions.IntConstExpression;
 import com.loki2302.jsick.expressions.VariableReferenceExpression;

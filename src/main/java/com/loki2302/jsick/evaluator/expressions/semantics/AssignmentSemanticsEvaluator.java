@@ -1,9 +1,9 @@
-package com.loki2302.jsick.evaluator.expressions;
+package com.loki2302.jsick.evaluator.expressions.semantics;
 
 import static com.loki2302.jsick.evaluator.Fluency.or;
-import static com.loki2302.jsick.evaluator.expressions.Fluency.castExpressionToType;
-import static com.loki2302.jsick.evaluator.expressions.Fluency.expressionIsOfType;
-import static com.loki2302.jsick.evaluator.expressions.Fluency.typeOf;
+import static com.loki2302.jsick.evaluator.expressions.semantics.Fluency.castExpressionToType;
+import static com.loki2302.jsick.evaluator.expressions.semantics.Fluency.expressionIsOfType;
+import static com.loki2302.jsick.evaluator.expressions.semantics.Fluency.typeOf;
 
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.expressions.LvalueExpression;

@@ -11,7 +11,7 @@ import com.loki2302.jsick.evaluator.Context;
 import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.evaluator.errors.AbstractError;
 import com.loki2302.jsick.evaluator.errors.CompositeError;
-import com.loki2302.jsick.evaluator.expressions.ExpressionAndType;
+import com.loki2302.jsick.evaluator.expressions.semantics.ExpressionAndType;
 import com.loki2302.jsick.evaluator.statements.errors.UnknownTypeError;
 import com.loki2302.jsick.evaluator.statements.errors.VariableRedefinitionError;
 import com.loki2302.jsick.expressions.Expression;
