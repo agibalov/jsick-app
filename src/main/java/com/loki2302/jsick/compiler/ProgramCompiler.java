@@ -16,15 +16,15 @@ import com.loki2302.jsick.evaluator.expressions.DOMExpressionToExpressionConvert
 import com.loki2302.jsick.evaluator.expressions.VariableReferenceExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DoubleConstExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.IntConstExpressionEvaluator;
-import com.loki2302.jsick.evaluator.expressions.RemOperationTypeEvaluator;
 import com.loki2302.jsick.evaluator.expressions.AddExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.DivExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.MulExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.RemExpressionEvaluator;
 import com.loki2302.jsick.evaluator.expressions.SubExpressionEvaluator;
-import com.loki2302.jsick.evaluator.expressions.semantics.AddSubMulDivOperationTypeEvaluator;
+import com.loki2302.jsick.evaluator.expressions.semantics.ArithmeticOperationTypeEvaluator;
 import com.loki2302.jsick.evaluator.expressions.semantics.AssignmentSemanticsEvaluator;
 import com.loki2302.jsick.evaluator.expressions.semantics.MakeSureExpressionIsOfTypeEvaluator;
+import com.loki2302.jsick.evaluator.expressions.semantics.RemOperationTypeEvaluator;
 import com.loki2302.jsick.evaluator.statements.ExpressionStatementEvaluator;
 import com.loki2302.jsick.evaluator.statements.PrintStatementEvaluator;
 import com.loki2302.jsick.evaluator.statements.StatementEvaluator;
@@ -67,8 +67,8 @@ public class ProgramCompiler {
 	public static ProgramCompiler makeDefaultCompiler(Types types) {
 		LexicalContext lexicalContext = new LexicalContext();
 		
-		AddSubMulDivOperationTypeEvaluator addSubMulDivOperationTypeEvaluator = 
-				new AddSubMulDivOperationTypeEvaluator(types);		
+		ArithmeticOperationTypeEvaluator addSubMulDivOperationTypeEvaluator = 
+				new ArithmeticOperationTypeEvaluator(types);		
 		
 		MakeSureExpressionIsOfTypeEvaluator castEvaluator = new MakeSureExpressionIsOfTypeEvaluator(); 
 		

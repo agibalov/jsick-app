@@ -9,11 +9,11 @@ import com.loki2302.jsick.evaluator.Evaluator;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Types;
 
-public class AddSubMulDivOperationTypeEvaluator extends BinaryOperationTypeEvaluator {
+public class ArithmeticOperationTypeEvaluator extends BinaryOperationTypeEvaluator {
 	
 	private final Types types;
 	
-	public AddSubMulDivOperationTypeEvaluator(Types types) {
+	public ArithmeticOperationTypeEvaluator(Types types) {
 		this.types = types;
 	}
 	

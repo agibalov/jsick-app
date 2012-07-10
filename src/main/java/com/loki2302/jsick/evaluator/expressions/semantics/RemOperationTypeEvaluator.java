@@ -1,11 +1,8 @@
-package com.loki2302.jsick.evaluator.expressions;
+package com.loki2302.jsick.evaluator.expressions.semantics;
 
 import static com.loki2302.jsick.evaluator.expressions.semantics.Fluency.expressionIsOfType;
 
 import com.loki2302.jsick.evaluator.Evaluator;
-import com.loki2302.jsick.evaluator.expressions.semantics.BinaryOperationTypeEvaluator;
-import com.loki2302.jsick.evaluator.expressions.semantics.TwoExpressions;
-import com.loki2302.jsick.evaluator.expressions.semantics.TwoExpressionsAndType;
 import com.loki2302.jsick.expressions.Expression;
 import com.loki2302.jsick.types.Types;
 
